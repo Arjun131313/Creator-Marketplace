@@ -6,6 +6,58 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// ─── Domain types ────────────────────────────────────────────────────────────
+
+export type PlatformHandle = {
+  followers: number | null
+  username: string | null
+}
+
+/** New shape: each platform is an object with followers + username. */
+export type PlatformStats = {
+  instagram: PlatformHandle | null
+  tiktok: PlatformHandle | null
+  snapchat: PlatformHandle | null
+}
+
+export type CreatorPackage = {
+  name: string
+  description: string
+  price: number
+}
+
+export type ContentUrl = {
+  platform: "tiktok" | "instagram"
+  url: string
+}
+
+// ─── Helpers for backward-compat with the old platform_stats shape ───────────
+// Old shape: { instagram: number, tiktok: number, youtube: number }
+// New shape: { instagram: { followers, username }, ... }
+
+export function getPlatformFollowers(
+  stats: PlatformStats | null | undefined,
+  platform: keyof PlatformStats,
+): number | null {
+  if (!stats) return null
+  const val = stats[platform] as PlatformHandle | number | null | undefined
+  if (typeof val === "number") return val          // legacy
+  if (val && typeof val === "object") return val.followers ?? null
+  return null
+}
+
+export function getPlatformUsername(
+  stats: PlatformStats | null | undefined,
+  platform: keyof PlatformStats,
+): string | null {
+  if (!stats) return null
+  const val = stats[platform] as PlatformHandle | number | null | undefined
+  if (val && typeof val === "object") return val.username ?? null
+  return null
+}
+
+// ─── Database schema ─────────────────────────────────────────────────────────
+
 export type Database = {
   public: {
     Tables: {
@@ -17,6 +69,12 @@ export type Database = {
           bio: string | null
           avatar_url: string | null
           stripe_account_id: string | null
+          niche: string | null
+          platform_stats: PlatformStats | null
+          packages: CreatorPackage[] | null
+          content_urls: ContentUrl[] | null
+          content_types: string[] | null
+          available: boolean
           created_at: string
         }
         Insert: {
@@ -26,6 +84,12 @@ export type Database = {
           bio?: string | null
           avatar_url?: string | null
           stripe_account_id?: string | null
+          niche?: string | null
+          platform_stats?: PlatformStats | null
+          packages?: CreatorPackage[] | null
+          content_urls?: ContentUrl[] | null
+          content_types?: string[] | null
+          available?: boolean
           created_at?: string
         }
         Update: {
@@ -35,8 +99,15 @@ export type Database = {
           bio?: string | null
           avatar_url?: string | null
           stripe_account_id?: string | null
+          niche?: string | null
+          platform_stats?: PlatformStats | null
+          packages?: CreatorPackage[] | null
+          content_urls?: ContentUrl[] | null
+          content_types?: string[] | null
+          available?: boolean
           created_at?: string
         }
+        Relationships: []
       }
       jobs: {
         Row: {
@@ -46,7 +117,7 @@ export type Database = {
           description: string
           budget: number
           currency: string
-          status: 'open' | 'in_progress' | 'completed' | 'cancelled'
+          status: "open" | "in_progress" | "completed" | "cancelled"
           deadline: string | null
           created_at: string
           updated_at: string
@@ -58,7 +129,7 @@ export type Database = {
           description: string
           budget: number
           currency?: string
-          status?: 'open' | 'in_progress' | 'completed' | 'cancelled'
+          status?: "open" | "in_progress" | "completed" | "cancelled"
           deadline?: string | null
           created_at?: string
           updated_at?: string
@@ -70,18 +141,19 @@ export type Database = {
           description?: string
           budget?: number
           currency?: string
-          status?: 'open' | 'in_progress' | 'completed' | 'cancelled'
+          status?: "open" | "in_progress" | "completed" | "cancelled"
           deadline?: string | null
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       applications: {
         Row: {
           id: string
           job_id: string
           creator_id: string
-          status: 'pending' | 'accepted' | 'rejected' | 'withdrawn'
+          status: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch: string
           proposed_rate: number | null
           created_at: string
@@ -91,7 +163,7 @@ export type Database = {
           id?: string
           job_id: string
           creator_id: string
-          status?: 'pending' | 'accepted' | 'rejected' | 'withdrawn'
+          status?: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch: string
           proposed_rate?: number | null
           created_at?: string
@@ -101,12 +173,13 @@ export type Database = {
           id?: string
           job_id?: string
           creator_id?: string
-          status?: 'pending' | 'accepted' | 'rejected' | 'withdrawn'
+          status?: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch?: string
           proposed_rate?: number | null
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       payments: {
         Row: {
@@ -118,7 +191,7 @@ export type Database = {
           stripe_payment_intent_id: string | null
           amount: number
           currency: string
-          status: 'pending' | 'held' | 'released' | 'refunded' | 'disputed'
+          status: "pending" | "held" | "released" | "refunded" | "disputed"
           platform_fee: number | null
           created_at: string
           updated_at: string
@@ -132,7 +205,7 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           amount: number
           currency?: string
-          status?: 'pending' | 'held' | 'released' | 'refunded' | 'disputed'
+          status?: "pending" | "held" | "released" | "refunded" | "disputed"
           platform_fee?: number | null
           created_at?: string
           updated_at?: string
@@ -146,11 +219,12 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           amount?: number
           currency?: string
-          status?: 'pending' | 'held' | 'released' | 'refunded' | 'disputed'
+          status?: "pending" | "held" | "released" | "refunded" | "disputed"
           platform_fee?: number | null
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       submissions: {
         Row: {
@@ -160,7 +234,7 @@ export type Database = {
           creator_id: string
           content_url: string
           notes: string | null
-          status: 'pending' | 'approved' | 'rejected' | 'revision_requested'
+          status: "pending" | "approved" | "rejected" | "revision_requested"
           reviewer_notes: string | null
           created_at: string
           updated_at: string
@@ -172,7 +246,7 @@ export type Database = {
           creator_id: string
           content_url: string
           notes?: string | null
-          status?: 'pending' | 'approved' | 'rejected' | 'revision_requested'
+          status?: "pending" | "approved" | "rejected" | "revision_requested"
           reviewer_notes?: string | null
           created_at?: string
           updated_at?: string
@@ -184,11 +258,12 @@ export type Database = {
           creator_id?: string
           content_url?: string
           notes?: string | null
-          status?: 'pending' | 'approved' | 'rejected' | 'revision_requested'
+          status?: "pending" | "approved" | "rejected" | "revision_requested"
           reviewer_notes?: string | null
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       disputes: {
         Row: {
@@ -197,7 +272,7 @@ export type Database = {
           payment_id: string | null
           raised_by: string
           reason: string
-          status: 'open' | 'under_review' | 'resolved' | 'closed'
+          status: "open" | "under_review" | "resolved" | "closed"
           resolution: string | null
           resolved_by: string | null
           created_at: string
@@ -209,7 +284,7 @@ export type Database = {
           payment_id?: string | null
           raised_by: string
           reason: string
-          status?: 'open' | 'under_review' | 'resolved' | 'closed'
+          status?: "open" | "under_review" | "resolved" | "closed"
           resolution?: string | null
           resolved_by?: string | null
           created_at?: string
@@ -221,16 +296,99 @@ export type Database = {
           payment_id?: string | null
           raised_by?: string
           reason?: string
-          status?: 'open' | 'under_review' | 'resolved' | 'closed'
+          status?: "open" | "under_review" | "resolved" | "closed"
           resolution?: string | null
           resolved_by?: string | null
           created_at?: string
           resolved_at?: string | null
         }
+        Relationships: []
+      }
+      conversations: {
+        Row: {
+          id: string
+          participant_a: string
+          participant_b: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          participant_a: string
+          participant_b: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          participant_a?: string
+          participant_b?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          id: string
+          conversation_id: string
+          sender_id: string
+          recipient_id: string
+          content: string
+          read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          conversation_id: string
+          sender_id: string
+          recipient_id: string
+          content: string
+          read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          conversation_id?: string
+          sender_id?: string
+          recipient_id?: string
+          content?: string
+          read?: boolean
+          created_at?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          id: string
+          creator_id: string
+          brand_id: string
+          job_id: string
+          rating: number
+          comment: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          creator_id: string
+          brand_id: string
+          job_id: string
+          rating: number
+          comment: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          creator_id?: string
+          brand_id?: string
+          job_id?: string
+          rating?: number
+          comment?: string
+          created_at?: string
+        }
+        Relationships: []
       }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
     Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }

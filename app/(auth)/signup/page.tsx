@@ -51,7 +51,7 @@ export default function SignupPage() {
       return
     }
 
-    router.push(role === "brand" ? "/brand/dashboard" : "/creator/dashboard")
+    router.push(role === "brand" ? "/brand/dashboard" : "/creator/profile/setup")
   }
 
   return (

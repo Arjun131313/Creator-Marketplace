@@ -257,7 +257,46 @@ CREATE POLICY "users_create_disputes" ON disputes
   WITH CHECK (auth.uid() = raised_by);
 
 -- ============================================================================
--- Migration 6: Profiles row-level security policies
+-- Migration 6: Create messages table
+-- ============================================================================
+
+CREATE TABLE messages (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  conversation_id uuid NOT NULL,
+  sender_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  recipient_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  content text NOT NULL,
+  read boolean NOT NULL DEFAULT false,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_messages_conversation_id ON messages(conversation_id);
+CREATE INDEX idx_messages_sender_id ON messages(sender_id);
+CREATE INDEX idx_messages_recipient_id ON messages(recipient_id);
+CREATE INDEX idx_messages_created_at ON messages(created_at);
+
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "participants_manage_their_messages" ON messages
+  FOR ALL
+  USING (auth.uid() = sender_id OR auth.uid() = recipient_id)
+  WITH CHECK (auth.uid() = sender_id OR auth.uid() = recipient_id);
+
+CREATE POLICY "participants_select_messages" ON messages
+  FOR SELECT
+  USING (auth.uid() = sender_id OR auth.uid() = recipient_id);
+
+CREATE POLICY "participants_insert_messages" ON messages
+  FOR INSERT
+  WITH CHECK (auth.uid() = sender_id);
+
+CREATE POLICY "participants_update_messages" ON messages
+  FOR UPDATE
+  USING (auth.uid() = sender_id OR auth.uid() = recipient_id)
+  WITH CHECK (auth.uid() = sender_id OR auth.uid() = recipient_id);
+
+-- ============================================================================
+-- Migration 7: Profiles row-level security policies
 -- ============================================================================
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
@@ -275,3 +314,212 @@ CREATE POLICY IF NOT EXISTS "users_update_own_profile" ON profiles
   FOR UPDATE
   USING (auth.uid() = id)
   WITH CHECK (auth.uid() = id);
+
+-- ============================================================================
+-- CATCH-UP BLOCK (added 2026-07-12)
+-- Everything below was previously only in individual files under
+-- supabase/migrations/ and was never added here. If you only ever ran this
+-- combined file, your database is very likely missing the "conversations"
+-- table entirely, which would make messaging fail completely. Every
+-- statement below is written to be safe to re-run even if some of it was
+-- already applied by hand.
+-- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- Migration 8: Create conversations table
+-- ----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS conversations (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  participant_a uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  participant_b uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (participant_a < participant_b),
+  UNIQUE (participant_a, participant_b)
+);
+
+CREATE INDEX IF NOT EXISTS idx_conversations_participant_a ON conversations(participant_a);
+CREATE INDEX IF NOT EXISTS idx_conversations_participant_b ON conversations(participant_b);
+
+ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
+
+-- ----------------------------------------------------------------------------
+-- Migration 9: Enforce message <-> conversation participant matching
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "participants_manage_their_messages" ON messages;
+DROP POLICY IF EXISTS "participants_insert_messages" ON messages;
+DROP POLICY IF EXISTS "participants_update_messages" ON messages;
+
+CREATE POLICY "participants_insert_messages" ON messages
+  FOR INSERT
+  WITH CHECK (
+    auth.uid() = sender_id
+    AND EXISTS (
+      SELECT 1
+      FROM conversations
+      WHERE id = conversation_id
+        AND ((participant_a = sender_id AND participant_b = recipient_id)
+          OR (participant_a = recipient_id AND participant_b = sender_id))
+    )
+  );
+
+CREATE POLICY "participants_update_messages" ON messages
+  FOR UPDATE
+  USING (auth.uid() = sender_id OR auth.uid() = recipient_id)
+  WITH CHECK (auth.uid() = sender_id OR auth.uid() = recipient_id);
+
+-- ----------------------------------------------------------------------------
+-- Migration 10: Canonicalize conversation participant order + policies
+-- ----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION public.ensure_conversation_participants_order()
+RETURNS trigger AS $$
+DECLARE
+  tmp uuid;
+BEGIN
+  IF NEW.participant_a IS NULL OR NEW.participant_b IS NULL THEN
+    RETURN NEW;
+  END IF;
+
+  IF NEW.participant_a = NEW.participant_b THEN
+    RAISE EXCEPTION 'conversation participants must be distinct';
+  END IF;
+
+  IF NEW.participant_a > NEW.participant_b THEN
+    tmp := NEW.participant_a;
+    NEW.participant_a := NEW.participant_b;
+    NEW.participant_b := tmp;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS conversations_participants_order ON conversations;
+CREATE TRIGGER conversations_participants_order
+  BEFORE INSERT OR UPDATE ON conversations
+  FOR EACH ROW
+  EXECUTE FUNCTION public.ensure_conversation_participants_order();
+
+DROP POLICY IF EXISTS "participants_select_conversations" ON conversations;
+DROP POLICY IF EXISTS "participants_insert_conversations" ON conversations;
+DROP POLICY IF EXISTS "participants_update_conversations" ON conversations;
+
+CREATE POLICY "participants_select_conversations" ON conversations
+  FOR SELECT
+  USING (auth.uid() = participant_a OR auth.uid() = participant_b);
+
+CREATE POLICY "participants_insert_conversations" ON conversations
+  FOR INSERT
+  WITH CHECK (auth.uid() = participant_a OR auth.uid() = participant_b);
+
+CREATE POLICY "participants_update_conversations" ON conversations
+  FOR UPDATE
+  USING (auth.uid() = participant_a OR auth.uid() = participant_b)
+  WITH CHECK (auth.uid() = participant_a OR auth.uid() = participant_b);
+
+-- ----------------------------------------------------------------------------
+-- Migration 11: Legacy profile metadata columns (niche/location/price/platforms)
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE profiles
+  ADD COLUMN IF NOT EXISTS niche text,
+  ADD COLUMN IF NOT EXISTS location text,
+  ADD COLUMN IF NOT EXISTS price text,
+  ADD COLUMN IF NOT EXISTS platforms text[];
+
+-- ----------------------------------------------------------------------------
+-- Migration 12: Public creator profile visibility
+-- ----------------------------------------------------------------------------
+
+DROP POLICY IF EXISTS "public_select_creator_profiles" ON profiles;
+CREATE POLICY "public_select_creator_profiles" ON profiles
+  FOR SELECT
+  USING (role = 'creator');
+
+-- ----------------------------------------------------------------------------
+-- Migration 13: Conversation participants can see each other's profile
+-- (Fixes: creators viewing a conversation with a brand got a hard error,
+-- because brands had no SELECT policy on profiles at all.)
+-- ----------------------------------------------------------------------------
+
+DROP POLICY IF EXISTS "conversation_participants_select_profiles" ON profiles;
+CREATE POLICY "conversation_participants_select_profiles" ON profiles
+  FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM conversations
+      WHERE (participant_a = auth.uid() AND participant_b = profiles.id)
+         OR (participant_b = auth.uid() AND participant_a = profiles.id)
+    )
+  );
+
+-- ----------------------------------------------------------------------------
+-- Additional profile fields (creator packages/content/availability)
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE profiles
+  ADD COLUMN IF NOT EXISTS platform_stats jsonb,
+  ADD COLUMN IF NOT EXISTS packages       jsonb,
+  ADD COLUMN IF NOT EXISTS content_urls   jsonb,
+  ADD COLUMN IF NOT EXISTS content_types  text[],
+  ADD COLUMN IF NOT EXISTS available      boolean NOT NULL DEFAULT true;
+
+-- ----------------------------------------------------------------------------
+-- Reviews table
+-- ----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id         uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+  creator_id uuid        NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  brand_id   uuid        NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  job_id     uuid        NOT NULL REFERENCES jobs(id)     ON DELETE CASCADE,
+  rating     integer     NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  comment    text        NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (brand_id, job_id)
+);
+
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anyone can read reviews" ON reviews;
+CREATE POLICY "Anyone can read reviews"
+  ON reviews FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Brands can insert their own reviews" ON reviews;
+CREATE POLICY "Brands can insert their own reviews"
+  ON reviews FOR INSERT
+  WITH CHECK (auth.uid() = brand_id);
+
+-- ----------------------------------------------------------------------------
+-- Avatar storage bucket
+-- ----------------------------------------------------------------------------
+
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('avatars', 'avatars', true)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Anyone can read avatars" ON storage.objects;
+CREATE POLICY "Anyone can read avatars"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'avatars');
+
+DROP POLICY IF EXISTS "Users upload own avatar" ON storage.objects;
+CREATE POLICY "Users upload own avatar"
+  ON storage.objects FOR INSERT
+  WITH CHECK (
+    bucket_id = 'avatars'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+DROP POLICY IF EXISTS "Users update own avatar" ON storage.objects;
+CREATE POLICY "Users update own avatar"
+  ON storage.objects FOR UPDATE
+  USING (
+    bucket_id = 'avatars'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );

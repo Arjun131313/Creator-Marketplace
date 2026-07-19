@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 
@@ -15,7 +15,7 @@ type JobDetail = {
 }
 
 export default function CreatorJobDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
-  const { id } = (React as any).use(params) as { id: string }
+  const { id } = params instanceof Promise ? use(params) : params
   const router = useRouter()
   const [job, setJob] = useState<JobDetail | null>(null)
   const [pitch, setPitch] = useState("")

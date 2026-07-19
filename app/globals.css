@@ -1,26 +1,156 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Material Symbols baseline ─────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  user-select: none;
+  vertical-align: middle;
 }
 
+/* ── Tailwind v4 design system ─────────────────────────────────────────────── */
+@theme {
+  /* Background / page (warm paper) */
+  --color-background:                #f5f1e8;
+  --color-on-background:             #18140f;
+
+  /* Surface layers (paper tones) */
+  --color-surface:                   #f5f1e8;
+  --color-on-surface:                #18140f;
+  --color-on-surface-variant:        #6b6153;
+  --color-surface-container-lowest:  #fbf9f4;
+  --color-surface-container-low:     #efe9db;
+  --color-surface-container:         #e9e1d0;
+  --color-surface-container-high:    #e1d7c1;
+  --color-surface-container-highest: #d8cbb0;
+
+  /* Ink (dark contrast sections) */
+  --color-ink:                       #18140f;
+  --color-ink-soft:                  #2a241d;
+  --color-on-ink:                    #f5f1e8;
+  --color-on-ink-variant:            #b8afa0;
+
+  /* Outline */
+  --color-outline:                   rgba(24, 20, 15, 0.16);
+  --color-outline-variant:           rgba(24, 20, 15, 0.1);
+  --color-inverse-surface:           #18140f;
+  --color-inverse-on-surface:        #f5f1e8;
+
+  /* Primary — terracotta */
+  --color-primary:                   #c1440e;
+  --color-on-primary:                #fef8f2;
+  --color-primary-container:         #c1440e;
+  --color-on-primary-container:      #fde3d0;
+  --color-on-primary-fixed:          #ffffff;
+  --color-primary-fixed-dim:         #e8a37c;
+  --color-inverse-primary:           #e8a37c;
+
+  /* Secondary — ochre gold */
+  --color-secondary:                 #b08d2a;
+  --color-on-secondary:              #fef8f2;
+  --color-secondary-container:       #b08d2a;
+  --color-on-secondary-container:    #fdf3d8;
+
+  /* Tertiary — deep green (availability) */
+  --color-tertiary:                  #2f5233;
+  --color-on-tertiary:               #ffffff;
+  --color-tertiary-container:        #2f5233;
+  --color-on-tertiary-container:     #cdeccf;
+  --color-tertiary-fixed:            #cdeccf;
+
+  /* Error */
+  --color-error:                     #ba1a1a;
+  --color-on-error:                  #ffffff;
+  --color-error-container:           #ffdad6;
+
+  /* ── Custom spacing ─────────────────────────────────────────────────── */
+  /* NOTE: Only define names not already in Tailwind's spacing scale.
+     sm/md/lg/xl/xs conflict with max-w-*, gap-* utilities — use px/py-{n} instead. */
+  --spacing-gutter: 24px;
+
+  /* ── Font families ────────────────────────────────────────────────────── */
+  --font-display-lg:        var(--font-fraunces), "Fraunces", serif;
+  --font-display:           var(--font-fraunces), "Fraunces", serif;
+  --font-headline-lg:       var(--font-fraunces), "Fraunces", serif;
+  --font-headline-lg-mobile:var(--font-fraunces), "Fraunces", serif;
+  --font-headline-md:       var(--font-fraunces), "Fraunces", serif;
+  --font-headline:          var(--font-fraunces), "Fraunces", serif;
+  --font-body-lg:           var(--font-inter),  "Inter", sans-serif;
+  --font-body-md:           var(--font-inter),  "Inter", sans-serif;
+  --font-body:              var(--font-inter),  "Inter", sans-serif;
+  --font-label-md:          var(--font-inter),  sans-serif;
+  --font-label-sm:          var(--font-inter),  sans-serif;
+  --font-label:             var(--font-inter),  sans-serif;
+
+  /* ── Font sizes ───────────────────────────────────────────────────────── */
+  --text-display-lg:        3rem;    /* 48px */
+  --text-headline-lg:       2rem;    /* 32px */
+  --text-headline-lg-mobile:1.5rem;  /* 24px */
+  --text-headline-md:       1.5rem;  /* 24px */
+  --text-body-lg:           1.125rem;/* 18px */
+  --text-body-md:           1rem;    /* 16px */
+  --text-label-md:          0.875rem;/* 14px */
+  --text-label-sm:          0.75rem; /* 12px */
+}
+
+/* ── Font family via next/font CSS vars ────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display-lg:         var(--font-fraunces), serif;
+  --font-headline-md:        var(--font-fraunces), serif;
+  --font-headline-lg:        var(--font-fraunces), serif;
+  --font-body-md:            var(--font-inter),  "Inter", sans-serif;
+  --font-body-lg:            var(--font-inter),  "Inter", sans-serif;
+  --font-label-md:           var(--font-inter),  sans-serif;
+  --font-label-sm:           var(--font-inter),  sans-serif;
+  --font-sans:               var(--font-inter),  sans-serif;
+  --font-serif:              var(--font-fraunces), serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Utility classes ───────────────────────────────────────────────────────── */
+/* Flat, bordered card — no blur, no glow. Editorial rather than "glass". */
+.paper-card {
+  background: #fbf9f4;
+  border: 1px solid rgba(24, 20, 15, 0.12);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.paper-card:hover {
+  border-color: rgba(193, 68, 14, 0.4);
 }
 
+.ink-card {
+  background: #2a241d;
+  border: 1px solid rgba(245, 241, 232, 0.1);
+  transition: border-color 0.2s ease;
+}
+.ink-card:hover {
+  border-color: rgba(232, 163, 124, 0.35);
+}
+
+.text-accent-serif {
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  color: #c1440e;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: #efe9db; }
+::-webkit-scrollbar-thumb  { background: #d8cbb0; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #c1440e; }
+
+/* ── Body defaults ─────────────────────────────────────────────────────────── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f1e8;
+  color: #18140f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
