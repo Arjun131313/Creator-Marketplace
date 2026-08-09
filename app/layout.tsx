@@ -17,8 +17,8 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: "CreatorHub — Creator Marketplace",
-  description: "Connecting the world's most talented creators with elite brands.",
+  title: "RealReach Agency — Connecting Microinfluencers with Brands",
+  description: "RealReach Agency connects everyday microinfluencers with brands — no agencies, no subscriptions, just real people your customers already follow.",
 }
 
 export default function RootLayout({

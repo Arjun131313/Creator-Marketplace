@@ -23,7 +23,7 @@ const SECTIONS = [
     title: "Payments & pricing",
     items: [
       {
-        q: "Is CreatorHub free to use?",
+        q: "Is RealReach Agency free to use?",
         a: "Browsing and messaging creators is free. A platform fee applies only when a job is successfully completed. There's no monthly subscription.",
       },
       {
@@ -62,7 +62,7 @@ const SECTIONS = [
       },
       {
         q: "How do I report a problem with another user?",
-        a: "Email us at hello@creatorhub.com with the other user's profile link and a description of the issue. For active disputes over a specific job, use the dispute option on that job instead so it's tied to the right records.",
+        a: "Email us at hello@realreachagency.com with the other user's profile link and a description of the issue. For active disputes over a specific job, use the dispute option on that job instead so it's tied to the right records.",
       },
     ],
   },
@@ -105,10 +105,10 @@ export default function HelpPage() {
             Email us and we&apos;ll get back to you as soon as we can.
           </p>
           <a
-            href="mailto:hello@creatorhub.com"
+            href="mailto:hello@realreachagency.com"
             className="mt-6 inline-block rounded-[2px] bg-[#c1440e] px-6 py-3 text-sm font-semibold text-[#fef8f2] transition-colors hover:bg-[#a23a0c]"
           >
-            hello@creatorhub.com
+            hello@realreachagency.com
           </a>
         </div>
 
@@ -122,7 +122,7 @@ export default function HelpPage() {
       <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
           <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <Link href="/terms" className="transition hover:text-[#18140f]">Terms</Link>

@@ -23,9 +23,9 @@ export default function PrivacyPage() {
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">1. Who this policy covers</h2>
             <p>
-              This Privacy Policy explains how CreatorHub (&ldquo;we&rdquo;, &ldquo;us&rdquo;) collects, uses, and
-              protects information about Brands and Creators (&ldquo;you&rdquo;) who use the CreatorHub platform.
-              CreatorHub is currently operated by [YOUR FULL NAME], a sole trader based in the United
+              This Privacy Policy explains how RealReach Agency (&ldquo;we&rdquo;, &ldquo;us&rdquo;) collects, uses, and
+              protects information about Brands and Creators (&ldquo;you&rdquo;) who use the RealReach Agency platform.
+              RealReach Agency is currently operated by [YOUR FULL NAME], a sole trader based in the United
               Kingdom — this section will be updated with company registration details once one is
               formed.
             </p>
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
               <li><strong>Other users:</strong> your public profile (Creators) or job briefs (Brands) are visible to the other side of the marketplace as needed to facilitate a job.</li>
               <li><strong>Service providers:</strong> our database host (Supabase), payment processor (Stripe), and hosting provider, solely to operate the platform on our behalf.</li>
               <li><strong>Advertising platforms:</strong> if you arrive via an ad (e.g. Meta/Facebook), we may share limited conversion data with that platform to measure ad performance, subject to your cookie/consent choices.</li>
-              <li><strong>Legal and safety:</strong> when required by law, or to protect the rights, property, or safety of CreatorHub, our users, or the public.</li>
+              <li><strong>Legal and safety:</strong> when required by law, or to protect the rights, property, or safety of RealReach Agency, our users, or the public.</li>
             </ul>
             <p className="mt-2">We do not sell your personal information.</p>
           </section>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
               Under UK GDPR (and equivalent laws if you&apos;re based elsewhere), you have the right to
               access, correct, export, or delete your personal information, and to object to or
               restrict certain processing. To exercise any of these rights, contact us at
-              hello@creatorhub.com. You also have the right to lodge a complaint with the UK
+              hello@realreachagency.com. You also have the right to lodge a complaint with the UK
               Information Commissioner&apos;s Office (ico.org.uk), or your local data protection authority
               if you&apos;re outside the UK.
             </p>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">10. Children</h2>
-            <p>CreatorHub is not intended for anyone under 18, and we don&apos;t knowingly collect data from them.</p>
+            <p>RealReach Agency is not intended for anyone under 18, and we don&apos;t knowingly collect data from them.</p>
           </section>
 
           <section>
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">12. Contact</h2>
-            <p>Questions about this policy or your data? Email hello@creatorhub.com.</p>
+            <p>Questions about this policy or your data? Email hello@realreachagency.com.</p>
           </section>
         </div>
 
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
       <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
           <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <Link href="/help" className="transition hover:text-[#18140f]">Help Center</Link>

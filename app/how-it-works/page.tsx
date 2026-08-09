@@ -90,7 +90,7 @@ const faqs = [
     a: "Creators set their own packages starting from Basic, Standard, and Premium tiers. You can also negotiate custom rates directly in the app.",
   },
   {
-    q: "Is CreatorHub free to use?",
+    q: "Is RealReach Agency free to use?",
     a: "Browsing and messaging creators is free. A platform fee applies only when a job is successfully completed. No monthly subscription needed.",
   },
   {
@@ -111,10 +111,10 @@ export default function HowItWorksPage() {
             Simple. Transparent. Effective.
           </p>
           <h1 className="mt-4 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
-            How CreatorHub <em className="not-italic italic">works</em>
+            How RealReach Agency <em className="not-italic italic">works</em>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#b8afa0]">
-            From posting a brief to approving content — we handle everything in between. Here&apos;s exactly how brands and creators work together on CreatorHub.
+            From posting a brief to approving content — we handle everything in between. Here&apos;s exactly how brands and microinfluencers work together on RealReach Agency.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -206,7 +206,7 @@ export default function HowItWorksPage() {
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-serif text-3xl font-medium sm:text-4xl">Ready to get started?</h2>
           <p className="mx-auto mt-4 max-w-lg text-[#b8afa0]">
-            Join brands who use CreatorHub to find and work with the best creators.
+            Join brands who use RealReach Agency to find and work with the best microinfluencers.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -228,7 +228,7 @@ export default function HowItWorksPage() {
       <footer className="border-t border-[#3a332a] bg-[#18140f] px-6 py-10 text-[#8b8578]">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-6">
           <Link href="/" className="font-serif text-lg text-[#f5f1e8] transition hover:text-[#e8a37c]">
-            Creator<em className="not-italic italic text-[#e8a37c]">Hub</em>
+            Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <Link href="/creators" className="transition hover:text-[#f5f1e8]">Browse Creators</Link>

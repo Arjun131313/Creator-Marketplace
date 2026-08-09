@@ -94,6 +94,17 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
       return
     }
 
+    if (session.access_token) {
+      fetch("/api/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ type: "application", jobId: id }),
+      }).catch((err) => console.error("Failed to send application notification:", err))
+    }
+
     router.push("/creator/applications")
   }
 

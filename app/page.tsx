@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { supabase } from "@/lib/supabase"
@@ -47,29 +48,24 @@ const STEPS = [
 ]
 
 const STATS = [
-  { value: "500+", label: "Verified creators" },
-  { value: "1,200+", label: "Campaigns launched" },
-  { value: "98%", label: "Satisfaction rate" },
-  { value: "£2M+", label: "Paid to creators" },
+  { value: "£0", label: "Cost to browse & message" },
+  { value: "100%", label: "Payments held in escrow" },
+  { value: "0%", label: "Subscription fees" },
+  { value: "UK", label: "Built for UK brands" },
 ]
 
-// Placeholder quotes — swap for real brand testimonials before launch.
-const LEAD_TESTIMONIAL = {
-  quote: "We had our first three creator briefs live within a day. Escrow payments meant we could try new creators without the usual back-and-forth risk.",
-  name: "Rae Holloway",
-  role: "Founder, Bloom & Wick",
-}
-
-const SUPPORTING_TESTIMONIALS = [
+const WHY_BRANDS_JOIN = [
   {
-    quote: "Every piece of content gets approved before it goes live. Revisions are built in — no more chasing people over email.",
-    name: "Priya Anand",
-    role: "Marketing Lead, Fettle Nutrition",
+    title: "Escrow-protected payments",
+    body: "Funds sit with our payment processor until you approve the delivered content — never pay upfront on trust alone.",
   },
   {
-    quote: "We found creators who actually understood our product on the first search. It saved us weeks of outreach.",
-    name: "Callum Reid",
-    role: "Growth, Northbound Outdoor",
+    title: "Vetted before they're listed",
+    body: "Every microinfluencer profile is reviewed for authenticity and audience quality before it goes live on the platform.",
+  },
+  {
+    title: "No subscriptions, ever",
+    body: "Browsing, messaging, and posting a brief costs nothing. We only take a fee when a job is successfully completed.",
   },
 ]
 
@@ -93,7 +89,7 @@ const PRICING_POINTS = [
 
 const FAQ_PREVIEW = [
   {
-    q: "Is CreatorHub free to use?",
+    q: "Is RealReach Agency free to use?",
     a: "Browsing and messaging creators is free. A platform fee applies only when a job is successfully completed. No monthly subscription needed.",
   },
   {
@@ -142,21 +138,37 @@ function ArrowIcon({ className }: { className?: string }) {
 }
 
 export default function Home() {
+  const router = useRouter()
   const [creators, setCreators] = useState<Creator[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
+  const [heroSearch, setHeroSearch] = useState("")
+  const [creatorCount, setCreatorCount] = useState<number | null>(null)
+
+  function handleHeroSearch(e: React.FormEvent) {
+    e.preventDefault()
+    const term = heroSearch.trim()
+    router.push(term ? `/creators?search=${encodeURIComponent(term)}` : "/creators")
+  }
 
   useEffect(() => {
     let mounted = true
     ;(async () => {
       try {
-        const { data: profiles, error: profilesError } = await supabase
-          .from("profiles")
-          .select("id,display_name,niche,avatar_url,platform_stats,packages")
-          .eq("role", "creator")
-          .limit(50)
+        const [{ data: profiles, error: profilesError }, { count }] = await Promise.all([
+          supabase
+            .from("profiles")
+            .select("id,display_name,niche,avatar_url,platform_stats,packages")
+            .eq("role", "creator")
+            .limit(50),
+          supabase
+            .from("profiles")
+            .select("id", { count: "exact", head: true })
+            .eq("role", "creator"),
+        ])
 
         if (profilesError) throw profilesError
+        if (mounted) setCreatorCount(count ?? 0)
 
         const rawProfiles = (profiles ?? []) as Array<{
           id: string
@@ -241,25 +253,30 @@ export default function Home() {
               </h1>
 
               <p className="max-w-lg text-lg leading-8 text-[#b8afa0]">
-                CreatorHub connects you with vetted Instagram, TikTok, and Snapchat creators — no subscriptions, no agency retainers, no guesswork. Post a brief, review real portfolios, pay only when the work is done.
+                RealReach Agency connects brands with everyday microinfluencers on Instagram, TikTok, and Snapchat — real people your customers already follow. No subscriptions, no agency retainers, no guesswork.
               </p>
 
               {/* Search */}
-              <div className="rounded-sm border border-[#3a332a] bg-[#f5f1e8] p-1.5">
+              <form
+                onSubmit={handleHeroSearch}
+                className="rounded-sm border border-[#3a332a] bg-[#f5f1e8] p-1.5"
+              >
                 <div className="flex flex-col gap-2 sm:flex-row">
                   <input
                     className="w-full bg-transparent px-4 py-3.5 text-sm text-[#18140f] placeholder:text-[#6b6153] focus:outline-none"
                     placeholder="e.g. TikTok fitness, product photography, UGC…"
                     type="search"
+                    value={heroSearch}
+                    onChange={(e) => setHeroSearch(e.target.value)}
                   />
-                  <Link
-                    href="/creators"
+                  <button
+                    type="submit"
                     className="flex-shrink-0 rounded-[2px] bg-[#c1440e] px-6 py-3.5 text-center text-sm font-semibold text-[#fef8f2] transition-colors hover:bg-[#a23a0c]"
                   >
                     Browse creators
-                  </Link>
+                  </button>
                 </div>
-              </div>
+              </form>
 
               {/* Category chips */}
               <div className="flex flex-wrap gap-2">
@@ -313,12 +330,12 @@ export default function Home() {
 
               {/* Floating stat card, breaking the frame */}
               <div className="paper-card absolute -left-8 -top-8 rotate-[-3deg] p-5 shadow-xl">
-                <p className="font-serif text-3xl text-[#18140f]">500+</p>
-                <p className="text-xs text-[#6b6153]">Verified creators</p>
+                <p className="font-serif text-3xl text-[#18140f]">{creatorCount !== null ? creatorCount : "–"}</p>
+                <p className="text-xs text-[#6b6153]">Creators on the platform</p>
               </div>
               <div className="paper-card absolute -bottom-6 -right-6 rotate-[2deg] p-4 shadow-xl">
                 <p className="flex items-center gap-1 text-sm font-semibold text-[#18140f]">
-                  <span className="text-[#c1440e]">★</span> 4.9 average
+                  <span className="text-[#c1440e]">●</span> Escrow protected
                 </p>
               </div>
             </div>
@@ -329,14 +346,9 @@ export default function Home() {
       {/* ── TRUST BAR (paper) ────────────────────────────────────────────── */}
       <div className="border-b border-[#18140f]/10 py-10">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <p className="mb-7 text-center text-xs font-semibold uppercase tracking-[0.3em] text-[#6b6153]">
-            Trusted by innovative brands
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-[#6b6153]">
+            Newly launched — now onboarding founding brands across the UK
           </p>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 opacity-60">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-6 w-24 rounded-[2px] bg-[#18140f]/10" />
-            ))}
-          </div>
         </div>
       </div>
 
@@ -399,7 +411,7 @@ export default function Home() {
                 href="/creators"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-[#18140f]"
               >
-                Browse all 500+ creators
+                Browse all creators
                 <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -451,33 +463,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS (paper, pull-quote) ─────────────────────────────── */}
+      {/* ── WHY BRANDS JOIN (paper) ──────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-28 md:px-8">
         <div className="mb-16 max-w-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Trusted by brands</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Now onboarding</p>
           <h2 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
-            What brands are <em className="not-italic italic">saying</em>
+            Why brands are <em className="not-italic italic">joining early</em>
           </h2>
+          <p className="mt-4 text-lg leading-8 text-[#6b6153]">
+            We&apos;re a newly launched platform building our founding cohort of brands and microinfluencers — here&apos;s what you get from day one.
+          </p>
         </div>
 
-        <blockquote className="max-w-3xl border-l-2 border-[#c1440e] pl-8">
-          <p className="font-serif text-3xl italic leading-tight text-[#18140f] sm:text-4xl">
-            &ldquo;{LEAD_TESTIMONIAL.quote}&rdquo;
-          </p>
-          <footer className="mt-6 text-sm">
-            <span className="font-semibold text-[#18140f]">{LEAD_TESTIMONIAL.name}</span>
-            <span className="text-[#6b6153]"> — {LEAD_TESTIMONIAL.role}</span>
-          </footer>
-        </blockquote>
-
-        <div className="mt-16 grid gap-10 border-t border-[#18140f]/10 pt-10 md:grid-cols-2">
-          {SUPPORTING_TESTIMONIALS.map((t) => (
-            <div key={t.name}>
-              <p className="leading-7 text-[#6b6153]">&ldquo;{t.quote}&rdquo;</p>
-              <p className="mt-4 text-sm">
-                <span className="font-semibold text-[#18140f]">{t.name}</span>
-                <span className="text-[#6b6153]"> — {t.role}</span>
-              </p>
+        <div className="grid gap-10 border-t border-[#18140f]/10 pt-10 md:grid-cols-3">
+          {WHY_BRANDS_JOIN.map((item) => (
+            <div key={item.title}>
+              <h3 className="font-serif text-xl text-[#18140f]">{item.title}</h3>
+              <p className="mt-3 leading-7 text-[#6b6153]">{item.body}</p>
             </div>
           ))}
         </div>
@@ -542,7 +544,7 @@ export default function Home() {
             Ready to find your <em className="not-italic italic">perfect creator?</em>
           </h2>
           <p className="mx-auto mt-6 max-w-md text-lg text-[#b8afa0]">
-            Join brands who trust CreatorHub to run their creator campaigns — from brief to results.
+            Join brands who trust RealReach Agency to run their microinfluencer campaigns — from brief to results.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
@@ -566,12 +568,12 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="space-y-4">
             <span className="font-serif text-lg text-[#f5f1e8]">
-              Creator<em className="not-italic italic text-[#e8a37c]">Hub</em>
+              Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
             </span>
             <p className="max-w-xs text-sm leading-6">
-              Built for brands that want premium creator connections and measurable campaign results.
+              Connecting everyday microinfluencers with brands for authentic partnerships and measurable campaign results.
             </p>
-            <p className="text-xs">© 2026 CreatorHub. All rights reserved.</p>
+            <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
           </div>
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
             <div>
@@ -580,6 +582,7 @@ export default function Home() {
                 <li><Link href="/creators" className="transition hover:text-[#f5f1e8]">Browse Creators</Link></li>
                 <li><Link href="/how-it-works" className="transition hover:text-[#f5f1e8]">How it Works</Link></li>
                 <li><Link href="/signup" className="transition hover:text-[#f5f1e8]">Sign Up</Link></li>
+                <li><Link href="/waitlist" className="transition hover:text-[#f5f1e8]">Creator Waitlist</Link></li>
               </ul>
             </div>
             <div>
@@ -593,7 +596,7 @@ export default function Home() {
             <div>
               <p className="mb-5 text-sm font-semibold text-[#f5f1e8]">Contact</p>
               <ul className="space-y-3 text-sm">
-                <li>hello@creatorhub.com</li>
+                <li>hello@realreachagency.com</li>
                 <li>+44 20 7946 0958</li>
               </ul>
             </div>

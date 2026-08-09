@@ -44,7 +44,7 @@ export default function PublicNav() {
     <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-[#18140f]/10 bg-[#f5f1e8]/90 px-gutter py-4 backdrop-blur-md">
       <Link href="/" className="flex items-center gap-2">
         <span className="font-serif text-xl tracking-tight text-[#18140f]">
-          Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+          Real<em className="not-italic italic text-[#c1440e]">Reach</em>
         </span>
       </Link>
 

@@ -1,4 +1,4 @@
-# Deploying CreatorHub
+# Deploying RealReach Agency
 
 The app is verified to build cleanly (`npm run build`) and is pushed to
 `github.com/Arjun131313/Creator-Marketplace`. What's left needs your own
@@ -25,9 +25,12 @@ Variables** screen (see `.env.example` for the full list with comments):
 | `STRIPE_SECRET_KEY` | Stripe dashboard → Developers → API keys (once you have an account) |
 | `STRIPE_WEBHOOK_SECRET` | Set up in step 4 below |
 | `NEXT_PUBLIC_APP_URL` | Your Vercel deployment URL, e.g. `https://creator-marketplace.vercel.app` |
+| `RESEND_API_KEY` | [resend.com/api-keys](https://resend.com/api-keys) (once you have an account) — powers email notifications for new messages and applications |
+| `EMAIL_FROM` | e.g. `RealReach Agency <hello@realreachagency.com>` — must be a verified sender/domain in Resend |
 
-The app works without the Stripe variables — payment routes just return a
-clear error instead of crashing. Supabase variables are required for
+The app works without the Stripe and Resend variables — payment routes return
+a clear error instead of crashing, and email notifications are silently
+skipped (logged to the server console). Supabase variables are required for
 anything to load at all.
 
 ## 3. Deploy

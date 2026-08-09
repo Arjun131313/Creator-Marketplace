@@ -355,6 +355,39 @@ export type Database = {
         }
         Relationships: []
       }
+      creator_waitlist: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          platform: string
+          handle: string | null
+          followers: string | null
+          niche: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          email: string
+          platform: string
+          handle?: string | null
+          followers?: string | null
+          niche?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          platform?: string
+          handle?: string | null
+          followers?: string | null
+          niche?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           id: string

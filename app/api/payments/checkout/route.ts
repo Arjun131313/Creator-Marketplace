@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
         {
           price_data: {
             currency: "gbp",
-            product_data: { name: `CreatorHub job: ${job.title}` },
+            product_data: { name: `RealReach Agency job: ${job.title}` },
             unit_amount: amountMinorUnits,
           },
           quantity: 1,

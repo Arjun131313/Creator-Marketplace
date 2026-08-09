@@ -247,6 +247,20 @@ export default function MessageConversationPage({
     } else if (data) {
       setMessages((prev) => [...prev, data])
       setNewMessage("")
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      if (session?.access_token) {
+        fetch("/api/notify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ type: "message", conversationId }),
+        }).catch((err) => console.error("Failed to send message notification:", err))
+      }
     }
     setSending(false)
   }
@@ -264,7 +278,7 @@ export default function MessageConversationPage({
       <header className="shrink-0 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
         <div className="flex items-center justify-between gap-4 px-4 py-3">
           <Link href="/" className="font-serif text-base text-[#18140f] transition hover:text-[#c1440e]">
-            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
           </Link>
           <Link
             href="/messages"

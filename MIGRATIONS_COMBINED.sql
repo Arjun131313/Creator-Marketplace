@@ -534,3 +534,22 @@ ALTER TABLE payments ALTER COLUMN currency SET DEFAULT 'gbp';
 
 UPDATE jobs SET currency = 'gbp' WHERE currency = 'usd';
 UPDATE payments SET currency = 'gbp' WHERE currency = 'usd';
+
+-- ----------------------------------------------------------------------------
+-- Creator waitlist (pre-launch lead capture, shared as a standalone link).
+-- No RLS policies on purpose — only the server-side service role can read or
+-- write this table.
+-- ----------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS creator_waitlist (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  full_name text NOT NULL,
+  email text NOT NULL UNIQUE,
+  platform text NOT NULL,
+  handle text,
+  followers text,
+  niche text,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE creator_waitlist ENABLE ROW LEVEL SECURITY;

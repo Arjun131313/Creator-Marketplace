@@ -157,7 +157,7 @@ export default function MessagesPage() {
       <header className="sticky top-0 z-40 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-4">
           <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
           </Link>
           <Link
             href="/creators"

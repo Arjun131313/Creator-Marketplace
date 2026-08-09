@@ -10,7 +10,7 @@ export default function TermsPage() {
         <div className="mb-10 rounded-sm border border-[#c1440e]/30 bg-[#c1440e]/5 p-5 text-sm leading-6 text-[#6b6153]">
           <strong className="text-[#18140f]">Draft — not legal advice.</strong> This is placeholder
           content generated to unblock development and ad-platform requirements. Replace the
-          bracketed details, confirm it matches how CreatorHub actually operates, and have it
+          bracketed details, confirm it matches how RealReach Agency actually operates, and have it
           reviewed by a qualified lawyer in your jurisdiction before publishing it as final.
         </div>
 
@@ -22,19 +22,19 @@ export default function TermsPage() {
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">1. Who we are</h2>
             <p>
-              CreatorHub (&ldquo;CreatorHub&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) operates a marketplace platform
-              that connects brands (&ldquo;Brands&rdquo;) seeking creator marketing content with independent
-              content creators (&ldquo;Creators&rdquo;). CreatorHub is currently operated by [YOUR FULL NAME], a
-              sole trader based in the United Kingdom. CreatorHub is not yet operated through a
+              RealReach Agency (&ldquo;RealReach Agency&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) operates a marketplace platform
+              that connects brands (&ldquo;Brands&rdquo;) seeking microinfluencer marketing content with independent
+              content creators (&ldquo;Creators&rdquo;). RealReach Agency is currently operated by [YOUR FULL NAME], a
+              sole trader based in the United Kingdom. RealReach Agency is not yet operated through a
               registered company — this section will be updated with company registration details
               once one is formed.
             </p>
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">2. What CreatorHub is (and isn&apos;t)</h2>
+            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">2. What RealReach Agency is (and isn&apos;t)</h2>
             <p>
-              CreatorHub provides the platform, tools, and payment infrastructure that let Brands and
+              RealReach Agency provides the platform, tools, and payment infrastructure that let Brands and
               Creators find each other, agree on a brief, and exchange payment for deliverables. We are
               not a party to the underlying agreement between a Brand and a Creator, and we do not
               employ Creators or act as an advertising agency on behalf of Brands. Brands and Creators
@@ -71,7 +71,7 @@ export default function TermsPage() {
               When a Brand hires a Creator, the agreed payment is held in escrow by our payment
               processor until the Brand approves the delivered content, or the applicable revision/
               dispute window closes. Funds are only released to the Creator on approval, expiry of the
-              review window, or resolution of a dispute in the Creator&apos;s favor. CreatorHub charges a
+              review window, or resolution of a dispute in the Creator&apos;s favor. RealReach Agency charges a
               platform fee on successfully completed jobs, disclosed before checkout. There is no
               subscription fee to browse, message, or post a brief.
             </p>
@@ -82,7 +82,7 @@ export default function TermsPage() {
             <p>
               Brands may request reasonable revisions consistent with the original brief before
               approving delivered content. If a Brand and Creator cannot agree on whether deliverables
-              meet the brief, either party may raise a dispute; CreatorHub will review the brief,
+              meet the brief, either party may raise a dispute; RealReach Agency will review the brief,
               deliverables, and correspondence and make a binding determination on release or refund of
               the held funds. We aim to resolve disputes within 10 business days.
             </p>
@@ -101,8 +101,8 @@ export default function TermsPage() {
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">8. Prohibited conduct</h2>
             <p>
-              You may not use CreatorHub to circumvent platform fees by arranging payment outside the
-              platform for a job originated on CreatorHub, post unlawful, deceptive, or infringing
+              You may not use RealReach Agency to circumvent platform fees by arranging payment outside the
+              platform for a job originated on RealReach Agency, post unlawful, deceptive, or infringing
               content, harass other users, or misrepresent your identity, audience, or business.
             </p>
           </section>
@@ -110,7 +110,7 @@ export default function TermsPage() {
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">9. Limitation of liability</h2>
             <p>
-              CreatorHub is provided &ldquo;as is.&rdquo; To the maximum extent permitted by law, CreatorHub is not
+              RealReach Agency is provided &ldquo;as is.&rdquo; To the maximum extent permitted by law, RealReach Agency is not
               liable for indirect, incidental, or consequential damages arising from your use of the
               platform, or from the acts or omissions of Brands or Creators. Our total liability for any
               claim is limited to the platform fees you paid in the 12 months before the claim arose.
@@ -121,7 +121,7 @@ export default function TermsPage() {
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">10. Changes to these Terms</h2>
             <p>
               We may update these Terms from time to time. We&apos;ll post the updated version here and
-              update the &ldquo;Last updated&rdquo; date above. Continued use of CreatorHub after changes take
+              update the &ldquo;Last updated&rdquo; date above. Continued use of RealReach Agency after changes take
               effect means you accept the revised Terms.
             </p>
           </section>
@@ -137,7 +137,7 @@ export default function TermsPage() {
           <section>
             <h2 className="mb-2 text-lg font-semibold text-[#18140f]">12. Contact</h2>
             <p>
-              Questions about these Terms? Email hello@creatorhub.com.
+              Questions about these Terms? Email hello@realreachagency.com.
             </p>
           </section>
         </div>
@@ -152,7 +152,7 @@ export default function TermsPage() {
       <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
           <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <Link href="/help" className="transition hover:text-[#18140f]">Help Center</Link>

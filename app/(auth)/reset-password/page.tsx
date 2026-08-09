@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#18140f] px-4 py-12">
       <div className="w-full max-w-md">
         <Link href="/" className="mb-8 flex justify-center font-serif text-2xl text-[#f5f1e8]">
-          Creator<em className="not-italic italic text-[#e8a37c]">Hub</em>
+          Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
         </Link>
 
         <div className="paper-card rounded-sm p-10">

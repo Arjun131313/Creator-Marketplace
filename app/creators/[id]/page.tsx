@@ -708,13 +708,13 @@ export default function CreatorProfilePage() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-[28px]">hub</span>
-              <span className="font-headline-lg font-bold text-primary">CreatorHub</span>
+              <span className="font-headline-lg font-bold text-primary">RealReach Agency</span>
             </div>
             <p className="text-on-surface-variant font-body-md text-body-md max-w-xs">
-              Connecting the world&apos;s most talented creators with elite brands.
+              Connecting everyday microinfluencers with brands.
             </p>
             <p className="font-body-md text-body-md text-on-surface-variant mt-4">
-              © 2024 CreatorHub. All rights reserved.
+              © 2026 RealReach Agency. All rights reserved.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 md:col-span-2">

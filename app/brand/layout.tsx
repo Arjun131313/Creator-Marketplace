@@ -11,7 +11,7 @@ export default function BrandLayout({ children }: { children: React.ReactNode })
               Brand Portal
             </p>
             <Link href="/brand/dashboard" className="font-serif text-xl text-[#18140f] transition hover:text-[#c1440e]">
-              Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
+              Real<em className="not-italic italic text-[#c1440e]">Reach</em>
             </Link>
           </div>
 
