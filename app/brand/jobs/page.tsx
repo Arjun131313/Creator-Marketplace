@@ -15,10 +15,10 @@ type JobRow = {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; style: string }> = {
-  open: { label: "Open", style: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" },
-  in_progress: { label: "In progress", style: "bg-violet-500/15 text-violet-300 border-violet-500/30" },
-  completed: { label: "Completed", style: "bg-sky-500/15 text-sky-300 border-sky-500/30" },
-  cancelled: { label: "Cancelled", style: "bg-rose-500/15 text-rose-300 border-rose-500/30" },
+  open: { label: "Open", style: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30" },
+  in_progress: { label: "In progress", style: "bg-[#c1440e]/10 text-[#c1440e] border-[#c1440e]/30" },
+  completed: { label: "Completed", style: "bg-sky-500/10 text-sky-700 border-sky-500/30" },
+  cancelled: { label: "Cancelled", style: "bg-rose-500/10 text-rose-700 border-rose-500/30" },
 }
 
 function CalendarIcon() {
@@ -88,7 +88,7 @@ export default function BrandJobsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-400">Loading jobs…</p>
+        <p className="text-[#6b6153]">Loading jobs…</p>
       </div>
     )
   }
@@ -96,20 +96,20 @@ export default function BrandJobsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-violet-400">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">
               Brand Portal
             </p>
-            <h1 className="mt-1 text-3xl font-bold text-white">Your jobs</h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">Your jobs</h1>
+            <p className="mt-1 text-sm text-[#6b6153]">
               {jobs.length} job{jobs.length !== 1 ? "s" : ""} posted
             </p>
           </div>
           <Link
             href="/brand/jobs/new"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-500"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -126,8 +126,8 @@ export default function BrandJobsPage() {
               onClick={() => setFilter(f.key)}
               className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
                 filter === f.key
-                  ? "bg-violet-600 text-white shadow-lg shadow-violet-600/20"
-                  : "border border-white/10 bg-white/5 text-slate-400 hover:text-slate-200"
+                  ? "bg-[#c1440e] text-[#fef8f2]"
+                  : "border border-[#18140f]/15 text-[#6b6153] hover:text-[#18140f]"
               }`}
             >
               {f.label}
@@ -144,21 +144,21 @@ export default function BrandJobsPage() {
       </section>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-400">
+        <div className="border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
           {error}
         </div>
       ) : null}
 
       {/* Job cards */}
       {filteredJobs.length === 0 ? (
-        <div className="rounded-[2rem] border border-dashed border-white/10 bg-slate-950/40 p-16 text-center">
-          <p className="text-slate-400">
+        <div className="border border-dashed border-[#18140f]/15 bg-[#fbf9f4]/40 p-16 text-center">
+          <p className="text-[#6b6153]">
             {filter === "all" ? "No jobs posted yet." : `No ${filter.replace("_", " ")} jobs.`}
           </p>
           {filter === "all" ? (
             <Link
               href="/brand/jobs/new"
-              className="mt-4 inline-block text-sm font-medium text-violet-400 hover:text-violet-300"
+              className="mt-4 inline-block text-sm font-medium text-[#c1440e] hover:underline"
             >
               Post your first job →
             </Link>
@@ -169,7 +169,7 @@ export default function BrandJobsPage() {
           {filteredJobs.map((job) => {
             const cfg = STATUS_CONFIG[job.status] ?? {
               label: job.status,
-              style: "bg-slate-500/15 text-slate-300 border-slate-500/30",
+              style: "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20",
             }
             const isOverdue =
               job.deadline && new Date(job.deadline) < new Date() && job.status === "open"
@@ -177,12 +177,12 @@ export default function BrandJobsPage() {
             return (
               <div
                 key={job.id}
-                className="group rounded-[2rem] border border-white/10 bg-slate-950/80 p-6 shadow-xl transition hover:border-violet-500/30"
+                className="group border border-[#18140f]/10 bg-[#fbf9f4] p-6 transition hover:border-[#c1440e]/30"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h2 className="text-lg font-semibold text-white group-hover:text-violet-200 transition">
+                      <h2 className="text-lg font-semibold text-[#18140f] transition group-hover:text-[#c1440e]">
                         {job.title}
                       </h2>
                       <span
@@ -191,39 +191,39 @@ export default function BrandJobsPage() {
                         {cfg.label}
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-[#6b6153]">
                       <span className="flex items-center gap-1.5">
                         <CalendarIcon />
-                        Posted {new Date(job.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        Posted {new Date(job.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
                       {job.deadline ? (
-                        <span className={`flex items-center gap-1.5 ${isOverdue ? "text-rose-400" : ""}`}>
+                        <span className={`flex items-center gap-1.5 ${isOverdue ? "text-rose-600" : ""}`}>
                           <CalendarIcon />
                           {isOverdue ? "Overdue · " : "Deadline · "}
-                          {new Date(job.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          {new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}
                         </span>
                       ) : (
-                        <span className="text-slate-600">No deadline</span>
+                        <span className="text-[#8b8578]">No deadline</span>
                       )}
                     </div>
                   </div>
 
                   <div className="flex shrink-0 flex-col items-end gap-2">
-                    <p className="text-2xl font-bold text-white">${job.budget.toLocaleString()}</p>
-                    <p className="text-xs text-slate-500">budget</p>
+                    <p className="font-serif text-2xl text-[#18140f]">£{job.budget.toLocaleString()}</p>
+                    <p className="text-xs text-[#8b8578]">budget</p>
                   </div>
                 </div>
 
-                <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+                <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[#18140f]/10 pt-5">
                   <Link
                     href={`/brand/jobs/${job.id}`}
-                    className="rounded-full bg-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-violet-600/20 transition hover:bg-violet-500"
+                    className="rounded-[2px] bg-[#c1440e] px-4 py-2 text-xs font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
                   >
                     Job detail
                   </Link>
                   <Link
                     href={`/brand/jobs/${job.id}/applications`}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
+                    className="rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-xs font-semibold text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
                   >
                     View applications
                   </Link>

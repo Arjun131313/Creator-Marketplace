@@ -22,10 +22,10 @@ type OpenJobRow = {
 }
 
 const APP_STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  accepted: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  rejected: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-  withdrawn: "bg-slate-500/15 text-slate-300 border-slate-500/30",
+  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+  accepted: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  rejected: "bg-rose-500/10 text-rose-700 border-rose-500/30",
+  withdrawn: "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20",
 }
 
 function SendIcon() {
@@ -57,29 +57,29 @@ function StatCard({
   label,
   value,
   sub,
-  color = "violet",
+  color = "accent",
 }: {
   icon: React.ReactNode
   label: string
   value: string | number
   sub?: string
-  color?: "violet" | "emerald" | "amber"
+  color?: "accent" | "emerald" | "amber"
 }) {
   const iconBg =
     color === "emerald"
-      ? "bg-emerald-500/15 text-emerald-400"
+      ? "bg-emerald-500/10 text-emerald-700"
       : color === "amber"
-        ? "bg-amber-500/15 text-amber-400"
-        : "bg-violet-500/15 text-violet-400"
+        ? "bg-amber-500/10 text-amber-700"
+        : "bg-[#c1440e]/10 text-[#c1440e]"
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/20">
-      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${iconBg}`}>
+    <div className="border border-[#18140f]/10 bg-[#fbf9f4] p-6 transition hover:border-[#18140f]/20">
+      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-[2px] ${iconBg}`}>
         {icon}
       </div>
-      <p className="mt-5 text-3xl font-bold text-white">{value}</p>
-      <p className="mt-1 text-sm font-medium text-slate-400">{label}</p>
-      {sub ? <p className="mt-0.5 text-xs text-slate-600">{sub}</p> : null}
+      <p className="mt-5 font-serif text-3xl text-[#18140f]">{value}</p>
+      <p className="mt-1 text-sm font-medium text-[#3a332a]">{label}</p>
+      {sub ? <p className="mt-0.5 text-xs text-[#6b6153]">{sub}</p> : null}
     </div>
   )
 }
@@ -170,7 +170,7 @@ export default function CreatorDashboardPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-400">Loading dashboard…</p>
+        <p className="text-[#6b6153]">Loading dashboard…</p>
       </div>
     )
   }
@@ -188,18 +188,18 @@ export default function CreatorDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Hero header */}
-      <section className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-900/30 via-slate-950/80 to-slate-950/80 p-8 shadow-xl">
+      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-medium text-violet-400">Creator Portal</p>
-            <h1 className="mt-1 text-3xl font-bold text-white">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Creator Portal</p>
+            <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">
               {greeting}{displayName ? `, ${displayName}` : ""}.
             </h1>
-            <p className="mt-2 text-slate-400">Here&apos;s your creator activity at a glance.</p>
+            <p className="mt-2 text-[#6b6153]">Here&apos;s your creator activity at a glance.</p>
           </div>
           <Link
             href="/creator/jobs"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-500"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -215,7 +215,7 @@ export default function CreatorDashboardPage() {
             label="Applications sent"
             value={applications.length}
             sub="total submitted"
-            color="violet"
+            color="accent"
           />
           <StatCard
             icon={<TrophyIcon />}
@@ -236,12 +236,12 @@ export default function CreatorDashboardPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         {/* Recent applications */}
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-white">Recent applications</h2>
+            <h2 className="font-serif text-xl text-[#18140f]">Recent applications</h2>
             <Link
               href="/creator/applications"
-              className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
+              className="text-sm font-medium text-[#c1440e] transition hover:underline"
             >
               View all →
             </Link>
@@ -249,11 +249,11 @@ export default function CreatorDashboardPage() {
 
           <div className="mt-6 space-y-3">
             {applications.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-8 text-center">
-                <p className="text-slate-400">No applications yet.</p>
+              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
+                <p className="text-[#6b6153]">No applications yet.</p>
                 <Link
                   href="/creator/jobs"
-                  className="mt-3 inline-block text-sm font-medium text-violet-400 hover:text-violet-300"
+                  className="mt-3 inline-block text-sm font-medium text-[#c1440e] hover:underline"
                 >
                   Browse open jobs →
                 </Link>
@@ -263,14 +263,14 @@ export default function CreatorDashboardPage() {
                 <Link
                   key={app.id}
                   href={`/creator/jobs/${app.job_id}`}
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-violet-500/40 hover:bg-violet-500/5"
+                  className="group flex items-center justify-between gap-4 border border-[#18140f]/10 p-4 transition hover:border-[#c1440e]/40 hover:bg-[#c1440e]/5"
                 >
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-white group-hover:text-violet-200 transition">
+                    <p className="truncate font-medium text-[#18140f] transition group-hover:text-[#c1440e]">
                       {app.jobTitle}
                     </p>
-                    <p className="mt-0.5 text-xs text-slate-500">
-                      {new Date(app.created_at).toLocaleDateString("en-US", {
+                    <p className="mt-0.5 text-xs text-[#8b8578]">
+                      {new Date(app.created_at).toLocaleDateString("en-GB", {
                         month: "short",
                         day: "numeric",
                       })}
@@ -278,7 +278,7 @@ export default function CreatorDashboardPage() {
                   </div>
                   <span
                     className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                      APP_STATUS_STYLE[app.status] ?? "bg-slate-500/15 text-slate-300 border-slate-500/30"
+                      APP_STATUS_STYLE[app.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
                     }`}
                   >
                     {app.status}
@@ -290,12 +290,12 @@ export default function CreatorDashboardPage() {
         </section>
 
         {/* Open jobs */}
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-white">Open jobs</h2>
+            <h2 className="font-serif text-xl text-[#18140f]">Open jobs</h2>
             <Link
               href="/creator/jobs"
-              className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
+              className="text-sm font-medium text-[#c1440e] transition hover:underline"
             >
               Browse all →
             </Link>
@@ -303,32 +303,32 @@ export default function CreatorDashboardPage() {
 
           <div className="mt-6 space-y-3">
             {openJobs.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-8 text-center">
-                <p className="text-slate-400">No open jobs right now.</p>
+              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
+                <p className="text-[#6b6153]">No open jobs right now.</p>
               </div>
             ) : (
               openJobs.map((job) => (
                 <Link
                   key={job.id}
                   href={`/creator/jobs/${job.id}`}
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-violet-500/40 hover:bg-violet-500/5"
+                  className="group flex items-center justify-between gap-4 border border-[#18140f]/10 p-4 transition hover:border-[#c1440e]/40 hover:bg-[#c1440e]/5"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-white group-hover:text-violet-200 transition">
+                    <p className="truncate font-medium text-[#18140f] transition group-hover:text-[#c1440e]">
                       {job.title}
                     </p>
                     {job.deadline ? (
-                      <p className="mt-0.5 text-xs text-slate-500">
+                      <p className="mt-0.5 text-xs text-[#8b8578]">
                         Deadline{" "}
-                        {new Date(job.deadline).toLocaleDateString("en-US", {
+                        {new Date(job.deadline).toLocaleDateString("en-GB", {
                           month: "short",
                           day: "numeric",
                         })}
                       </p>
                     ) : null}
                   </div>
-                  <p className="shrink-0 text-sm font-bold text-white">
-                    ${job.budget.toLocaleString()}
+                  <p className="shrink-0 font-serif text-lg text-[#18140f]">
+                    £{job.budget.toLocaleString()}
                   </p>
                 </Link>
               ))
@@ -338,7 +338,7 @@ export default function CreatorDashboardPage() {
           <div className="mt-6">
             <Link
               href="/creator/profile/setup"
-              className="flex items-center justify-center gap-2 rounded-2xl border border-violet-500/30 bg-violet-500/10 py-3 text-sm font-medium text-violet-300 transition hover:bg-violet-500/20"
+              className="flex items-center justify-center gap-2 border border-[#c1440e]/30 bg-[#c1440e]/5 py-3 text-sm font-medium text-[#c1440e] transition hover:bg-[#c1440e]/10"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
@@ -350,7 +350,7 @@ export default function CreatorDashboardPage() {
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-400">
+        <div className="border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
           {error}
         </div>
       ) : null}

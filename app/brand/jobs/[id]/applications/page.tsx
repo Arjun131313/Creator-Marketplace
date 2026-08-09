@@ -28,11 +28,11 @@ type ApplicationRow = {
 type PaymentStatus = "pending" | "held" | "released" | "refunded" | "disputed"
 
 const PAYMENT_BADGE: Record<PaymentStatus, string> = {
-  pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  held: "bg-sky-500/15 text-sky-300 border-sky-500/30",
-  released: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  refunded: "bg-slate-500/15 text-slate-300 border-slate-500/30",
-  disputed: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+  held: "bg-sky-500/10 text-sky-700 border-sky-500/30",
+  released: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  refunded: "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20",
+  disputed: "bg-rose-500/10 text-rose-700 border-rose-500/30",
 }
 
 const PAYMENT_LABEL: Record<PaymentStatus, string> = {
@@ -44,10 +44,10 @@ const PAYMENT_LABEL: Record<PaymentStatus, string> = {
 }
 
 const STATUS_BADGE: Record<string, string> = {
-  pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  accepted: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  rejected: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-  withdrawn: "bg-slate-500/15 text-slate-300 border-slate-500/30",
+  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+  accepted: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  rejected: "bg-rose-500/10 text-rose-700 border-rose-500/30",
+  withdrawn: "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20",
 }
 
 type SubmissionStatus = "pending" | "approved" | "rejected" | "revision_requested"
@@ -61,10 +61,10 @@ type Submission = {
 }
 
 const SUBMISSION_BADGE: Record<SubmissionStatus, string> = {
-  pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  approved: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  rejected: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-  revision_requested: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+  approved: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  rejected: "bg-rose-500/10 text-rose-700 border-rose-500/30",
+  revision_requested: "bg-sky-500/10 text-sky-700 border-sky-500/30",
 }
 
 const SUBMISSION_LABEL: Record<SubmissionStatus, string> = {
@@ -320,14 +320,14 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-400">Loading applications…</p>
+        <p className="text-[#6b6153]">Loading applications…</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-8 text-rose-400">
+      <div className="border border-rose-300 bg-rose-50 p-8 text-rose-700">
         {error}
       </div>
     )
@@ -336,34 +336,34 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
   return (
     <div className="space-y-8">
       {/* Job header */}
-      <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             <Link
               href="/brand/jobs"
-              className="text-sm font-medium text-violet-300 hover:text-violet-200 transition"
+              className="text-sm font-medium text-[#c1440e] transition hover:underline"
             >
               ← Back to jobs
             </Link>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#6b6153]">
               Applications
             </p>
-            <h1 className="text-3xl font-semibold text-white">{job?.title}</h1>
+            <h1 className="font-serif text-3xl font-medium text-[#18140f]">{job?.title}</h1>
           </div>
-          <div className="flex flex-col items-end gap-2 text-sm text-slate-400">
+          <div className="flex flex-col items-end gap-2 text-sm text-[#6b6153]">
             <p>
               Status:{" "}
-              <span className="font-semibold text-white">{job?.status?.replace("_", " ")}</span>
+              <span className="font-semibold text-[#18140f]">{job?.status?.replace("_", " ")}</span>
             </p>
             <p>
               Budget:{" "}
-              <span className="font-semibold text-white">${job?.budget.toLocaleString()}</span>
+              <span className="font-semibold text-[#18140f]">£{job?.budget.toLocaleString()}</span>
             </p>
             {job?.deadline ? (
               <p>
                 Deadline:{" "}
-                <span className="font-semibold text-white">
-                  {new Date(job.deadline).toLocaleDateString()}
+                <span className="font-semibold text-[#18140f]">
+                  {new Date(job.deadline).toLocaleDateString("en-GB")}
                 </span>
               </p>
             ) : null}
@@ -372,16 +372,16 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
         {/* Review CTA */}
         {hasAccepted ? (
-          <div className="mt-6 flex items-center gap-4 rounded-2xl border border-violet-500/30 bg-violet-500/10 px-5 py-4">
+          <div className="mt-6 flex items-center gap-4 border border-[#c1440e]/30 bg-[#c1440e]/5 px-5 py-4">
             <div className="flex-1">
-              <p className="text-sm font-semibold text-violet-200">Ready to leave a review?</p>
-              <p className="mt-0.5 text-xs text-slate-400">
+              <p className="text-sm font-semibold text-[#c1440e]">Ready to leave a review?</p>
+              <p className="mt-0.5 text-xs text-[#6b6153]">
                 You have accepted creators on this job. Share your experience to help the community.
               </p>
             </div>
             <Link
               href={`/brand/jobs/${jobId}`}
-              className="shrink-0 inline-flex items-center justify-center rounded-full bg-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-violet-600/20 transition hover:bg-violet-500"
+              className="inline-flex shrink-0 items-center justify-center rounded-[2px] bg-[#c1440e] px-4 py-2 text-xs font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
             >
               Leave a review
             </Link>
@@ -391,35 +391,35 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
       {/* Applications + summary */}
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-white">Applications</h2>
-            <p className="text-sm text-slate-400">{statusSummary.total} total</p>
+            <h2 className="font-serif text-xl text-[#18140f]">Applications</h2>
+            <p className="text-sm text-[#6b6153]">{statusSummary.total} total</p>
           </div>
 
           <div className="mt-6 space-y-4">
             {applications.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-8 text-center text-slate-400">
+              <div className="border border-dashed border-[#18140f]/15 p-8 text-center text-[#6b6153]">
                 No applications yet for this job.
               </div>
             ) : (
               applications.map((application) => (
                 <div
                   key={application.id}
-                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+                  className="border border-[#18140f]/10 bg-white/40 p-6"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-lg font-semibold text-white">
+                      <p className="text-lg font-semibold text-[#18140f]">
                         {application.creator_name || "Creator"}
                       </p>
-                      <p className="mt-1 text-sm text-slate-500">
-                        {new Date(application.created_at).toLocaleDateString()}
+                      <p className="mt-1 text-sm text-[#8b8578]">
+                        {new Date(application.created_at).toLocaleDateString("en-GB")}
                       </p>
                     </div>
                     <span
                       className={`inline-block rounded-full border px-3 py-1 text-xs font-semibold ${
-                        STATUS_BADGE[application.status] ?? "bg-slate-500/15 text-slate-300 border-slate-500/30"
+                        STATUS_BADGE[application.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
                       }`}
                     >
                       {application.status}
@@ -428,18 +428,18 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#8b8578]">
                         Pitch
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-300">{application.pitch}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#3a332a]">{application.pitch}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#8b8578]">
                         Proposed rate
                       </p>
-                      <p className="mt-2 text-sm text-slate-300">
+                      <p className="mt-2 text-sm text-[#3a332a]">
                         {application.proposed_rate
-                          ? `$${application.proposed_rate.toLocaleString()}`
+                          ? `£${application.proposed_rate.toLocaleString()}`
                           : "Not specified"}
                       </p>
                     </div>
@@ -450,14 +450,14 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                       <button
                         disabled={actionLoading === application.id}
                         onClick={() => handleApplicationAction(application.id, "accepted")}
-                        className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center justify-center rounded-[2px] bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         Accept
                       </button>
                       <button
                         disabled={actionLoading === application.id}
                         onClick={() => handleApplicationAction(application.id, "rejected")}
-                        className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center justify-center rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-sm font-semibold text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e] disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         Reject
                       </button>
@@ -478,7 +478,7 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                         <button
                           disabled={payingId === application.id}
                           onClick={() => handlePay(application.id)}
-                          className="inline-flex items-center justify-center rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60"
+                          className="inline-flex items-center justify-center rounded-[2px] bg-[#c1440e] px-4 py-2 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {payingId === application.id ? "Redirecting to payment…" : "Pay & hire"}
                         </button>
@@ -487,13 +487,13 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                   ) : null}
 
                   {application.status === "accepted" && submissionsByApplication[application.id] ? (
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <div className="mt-5 border border-[#18140f]/10 bg-[#f5f1e8] p-5">
                       {(() => {
                         const submission = submissionsByApplication[application.id]
                         return (
                           <>
                             <div className="flex flex-wrap items-center justify-between gap-3">
-                              <p className="text-sm font-semibold text-white">Submitted content</p>
+                              <p className="text-sm font-semibold text-[#18140f]">Submitted content</p>
                               <span
                                 className={`inline-block rounded-full border px-3 py-1 text-xs font-semibold ${SUBMISSION_BADGE[submission.status]}`}
                               >
@@ -504,13 +504,13 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                               href={submission.content_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="mt-2 inline-block text-sm text-violet-300 underline hover:text-violet-200"
+                              className="mt-2 inline-block text-sm text-[#c1440e] underline"
                             >
                               View submitted content
                             </a>
                             {submission.notes ? (
-                              <p className="mt-2 text-sm text-slate-400">
-                                <span className="font-medium text-slate-300">Creator notes: </span>
+                              <p className="mt-2 text-sm text-[#6b6153]">
+                                <span className="font-medium text-[#3a332a]">Creator notes: </span>
                                 {submission.notes}
                               </p>
                             ) : null}
@@ -524,35 +524,35 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                                   onChange={(event) =>
                                     setReviewNotes((prev) => ({ ...prev, [application.id]: event.target.value }))
                                   }
-                                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-violet-500"
+                                  className="w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-2.5 text-sm text-[#18140f] outline-none placeholder:text-[#8b8578] focus:border-[#c1440e]"
                                 />
                                 <div className="flex flex-wrap gap-3">
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "approved")}
-                                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center rounded-[2px] bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Approve &amp; release payment
                                   </button>
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "revision_requested")}
-                                    className="inline-flex items-center justify-center rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-2 text-sm font-semibold text-sky-300 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center rounded-[2px] border border-sky-500/40 bg-sky-500/10 px-4 py-2 text-sm font-semibold text-sky-700 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Request revision
                                   </button>
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "rejected")}
-                                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-sm font-semibold text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e] disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Reject
                                   </button>
                                 </div>
                               </div>
                             ) : submission.reviewer_notes ? (
-                              <p className="mt-3 text-sm text-slate-400">
-                                <span className="font-medium text-slate-300">Your feedback: </span>
+                              <p className="mt-3 text-sm text-[#6b6153]">
+                                <span className="font-medium text-[#3a332a]">Your feedback: </span>
                                 {submission.reviewer_notes}
                               </p>
                             ) : null}
@@ -567,8 +567,8 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
-          <h3 className="text-xl font-semibold text-white">Summary</h3>
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+          <h3 className="font-serif text-xl text-[#18140f]">Summary</h3>
           <div className="mt-6 space-y-3">
             {[
               { label: "Pending", value: statusSummary.pending },
@@ -577,18 +577,18 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
             ].map(({ label, value }) => (
               <div
                 key={label}
-                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4"
+                className="flex items-center justify-between border border-[#18140f]/10 px-5 py-4"
               >
-                <p className="text-sm text-slate-400">{label}</p>
-                <p className="font-semibold text-white">{value}</p>
+                <p className="text-sm text-[#6b6153]">{label}</p>
+                <p className="font-semibold text-[#18140f]">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 border-t border-white/10 pt-6">
+          <div className="mt-6 border-t border-[#18140f]/10 pt-6">
             <Link
               href={`/brand/jobs/${jobId}`}
-              className="block w-full rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-slate-200 transition hover:bg-white/10"
+              className="block w-full border border-[#18140f]/15 px-4 py-3 text-center text-sm font-semibold text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
             >
               View job detail
             </Link>

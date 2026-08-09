@@ -205,37 +205,35 @@ export default function CreatorApplicationsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center px-4 py-24">
-        <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-sm">
-          <p className="text-lg font-medium">Loading your applications…</p>
-        </div>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-[#6b6153]">Loading your applications…</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <div className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">My applications</h1>
-            <p className="mt-1 text-sm text-slate-600">Monitor your job applications and status updates.</p>
+            <h1 className="font-serif text-2xl font-medium text-[#18140f]">My applications</h1>
+            <p className="mt-1 text-sm text-[#6b6153]">Monitor your job applications and status updates.</p>
           </div>
-          <Link href="/creator/jobs" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+          <Link href="/creator/jobs" className="text-sm font-medium text-[#c1440e] hover:underline">
             Browse jobs
           </Link>
         </div>
       </div>
 
       {error ? (
-        <div className="rounded-3xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700">
+        <div className="border border-rose-300 bg-rose-50 p-5 text-sm text-rose-700">
           {error}
         </div>
       ) : null}
 
       <div className="space-y-4">
         {applications.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8 text-slate-600">
+          <div className="border border-dashed border-[#18140f]/15 p-8 text-[#6b6153]">
             You have not submitted any applications yet.
           </div>
         ) : (
@@ -246,29 +244,29 @@ export default function CreatorApplicationsPage() {
               (!submission || submission.status === "revision_requested")
 
             return (
-              <div key={application.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div key={application.id} className="border border-[#18140f]/10 bg-[#fbf9f4] p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-lg font-semibold text-slate-900">{application.job_title}</p>
-                    <p className="mt-1 text-sm text-slate-500">Submitted {new Date(application.created_at).toLocaleDateString()}</p>
+                    <p className="text-lg font-semibold text-[#18140f]">{application.job_title}</p>
+                    <p className="mt-1 text-sm text-[#8b8578]">Submitted {new Date(application.created_at).toLocaleDateString("en-GB")}</p>
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">{application.status}</span>
+                  <span className="rounded-full bg-[#18140f]/5 px-3 py-1 text-sm font-semibold text-[#3a332a]">{application.status}</span>
                 </div>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   <div>
-                    <p className="text-sm font-medium text-slate-700">Pitch</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{application.pitch}</p>
+                    <p className="text-sm font-medium text-[#3a332a]">Pitch</p>
+                    <p className="mt-2 text-sm leading-6 text-[#6b6153]">{application.pitch}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-700">Proposed rate</p>
-                    <p className="mt-2 text-sm text-slate-600">
-                      {application.proposed_rate ? `$${application.proposed_rate.toFixed(2)}` : "Not specified"}
+                    <p className="text-sm font-medium text-[#3a332a]">Proposed rate</p>
+                    <p className="mt-2 text-sm text-[#6b6153]">
+                      {application.proposed_rate ? `£${application.proposed_rate.toFixed(2)}` : "Not specified"}
                     </p>
                   </div>
                 </div>
 
                 {application.status === "accepted" ? (
-                  <div className="mt-5 border-t border-slate-100 pt-5">
+                  <div className="mt-5 border-t border-[#18140f]/10 pt-5">
                     {submission ? (
                       <div className="mb-4 flex flex-wrap items-center gap-2">
                         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${SUBMISSION_BADGE[submission.status]}`}>
@@ -279,7 +277,7 @@ export default function CreatorApplicationsPage() {
                             href={submission.content_url}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-xs font-medium text-slate-600 underline hover:text-slate-900"
+                            className="text-xs font-medium text-[#c1440e] underline"
                           >
                             View submitted content
                           </a>
@@ -288,8 +286,8 @@ export default function CreatorApplicationsPage() {
                     ) : null}
 
                     {submission?.reviewer_notes ? (
-                      <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-                        <p className="font-medium text-slate-900">Feedback from the brand</p>
+                      <div className="mb-4 border border-[#18140f]/10 bg-white/40 p-4 text-sm text-[#3a332a]">
+                        <p className="font-medium text-[#18140f]">Feedback from the brand</p>
                         <p className="mt-1">{submission.reviewer_notes}</p>
                       </div>
                     ) : null}
@@ -297,7 +295,7 @@ export default function CreatorApplicationsPage() {
                     {canSubmitWork ? (
                       <div className="space-y-3">
                         <label className="block">
-                          <span className="text-sm font-medium text-slate-700">Content link</span>
+                          <span className="text-sm font-medium text-[#3a332a]">Content link</span>
                           <input
                             type="url"
                             required
@@ -309,11 +307,11 @@ export default function CreatorApplicationsPage() {
                                 [application.id]: { ...prev[application.id], content_url: event.target.value, notes: prev[application.id]?.notes ?? "" },
                               }))
                             }
-                            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-slate-300 transition focus:border-slate-400 focus:ring-2"
+                            className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-2.5 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
                           />
                         </label>
                         <label className="block">
-                          <span className="text-sm font-medium text-slate-700">Notes for the brand (optional)</span>
+                          <span className="text-sm font-medium text-[#3a332a]">Notes for the brand (optional)</span>
                           <textarea
                             rows={2}
                             value={formState[application.id]?.notes ?? ""}
@@ -323,13 +321,13 @@ export default function CreatorApplicationsPage() {
                                 [application.id]: { ...prev[application.id], notes: event.target.value, content_url: prev[application.id]?.content_url ?? "" },
                               }))
                             }
-                            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-slate-300 transition focus:border-slate-400 focus:ring-2"
+                            className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-2.5 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
                           />
                         </label>
                         <button
                           disabled={submittingId === application.id}
                           onClick={() => handleSubmitWork(application)}
-                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                          className="inline-flex items-center justify-center rounded-[2px] bg-[#c1440e] px-5 py-2.5 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {submittingId === application.id
                             ? "Submitting…"

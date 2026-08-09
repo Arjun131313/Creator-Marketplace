@@ -24,16 +24,16 @@ type ApplicationRow = {
 }
 
 const JOB_STATUS_STYLE: Record<string, string> = {
-  open: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  in_progress: "bg-violet-500/15 text-violet-300 border-violet-500/30",
-  completed: "bg-sky-500/15 text-sky-300 border-sky-500/30",
-  cancelled: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  open: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  in_progress: "bg-[#c1440e]/10 text-[#c1440e] border-[#c1440e]/30",
+  completed: "bg-sky-500/10 text-sky-700 border-sky-500/30",
+  cancelled: "bg-rose-500/10 text-rose-700 border-rose-500/30",
 }
 
 const APP_STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  accepted: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  rejected: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+  accepted: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
+  rejected: "bg-rose-500/10 text-rose-700 border-rose-500/30",
 }
 
 function BriefcaseIcon() {
@@ -65,29 +65,29 @@ function StatCard({
   label,
   value,
   sub,
-  color = "violet",
+  color = "accent",
 }: {
   icon: React.ReactNode
   label: string
   value: string | number
   sub?: string
-  color?: "violet" | "emerald" | "amber"
+  color?: "accent" | "emerald" | "amber"
 }) {
   const iconBg =
     color === "emerald"
-      ? "bg-emerald-500/15 text-emerald-400"
+      ? "bg-emerald-500/10 text-emerald-700"
       : color === "amber"
-        ? "bg-amber-500/15 text-amber-400"
-        : "bg-violet-500/15 text-violet-400"
+        ? "bg-amber-500/10 text-amber-700"
+        : "bg-[#c1440e]/10 text-[#c1440e]"
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/20">
-      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${iconBg}`}>
+    <div className="border border-[#18140f]/10 bg-[#fbf9f4] p-6 transition hover:border-[#18140f]/20">
+      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-[2px] ${iconBg}`}>
         {icon}
       </div>
-      <p className="mt-5 text-3xl font-bold text-white">{value}</p>
-      <p className="mt-1 text-sm font-medium text-slate-400">{label}</p>
-      {sub ? <p className="mt-0.5 text-xs text-slate-600">{sub}</p> : null}
+      <p className="mt-5 font-serif text-3xl text-[#18140f]">{value}</p>
+      <p className="mt-1 text-sm font-medium text-[#3a332a]">{label}</p>
+      {sub ? <p className="mt-0.5 text-xs text-[#6b6153]">{sub}</p> : null}
     </div>
   )
 }
@@ -175,7 +175,7 @@ export default function BrandDashboardPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-400">Loading dashboard…</p>
+        <p className="text-[#6b6153]">Loading dashboard…</p>
       </div>
     )
   }
@@ -195,18 +195,18 @@ export default function BrandDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Hero header */}
-      <section className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-900/30 via-slate-950/80 to-slate-950/80 p-8 shadow-xl">
+      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-medium text-violet-400">Brand Portal</p>
-            <h1 className="mt-1 text-3xl font-bold text-white">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Brand Portal</p>
+            <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">
               {greeting}{displayName ? `, ${displayName}` : ""}.
             </h1>
-            <p className="mt-2 text-slate-400">Here&apos;s what&apos;s happening with your campaigns.</p>
+            <p className="mt-2 text-[#6b6153]">Here&apos;s what&apos;s happening with your campaigns.</p>
           </div>
           <Link
             href="/brand/jobs/new"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-500"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -222,7 +222,7 @@ export default function BrandDashboardPage() {
             label="Active jobs"
             value={activeJobs}
             sub={`${jobs.length} total posted`}
-            color="violet"
+            color="accent"
           />
           <StatCard
             icon={<UsersIcon />}
@@ -234,7 +234,7 @@ export default function BrandDashboardPage() {
           <StatCard
             icon={<CurrencyIcon />}
             label="Budget posted"
-            value={`$${budgetPosted.toLocaleString()}`}
+            value={`£${budgetPosted.toLocaleString()}`}
             sub="total across all jobs"
             color="amber"
           />
@@ -243,12 +243,12 @@ export default function BrandDashboardPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         {/* Recent jobs */}
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-white">Recent jobs</h2>
+            <h2 className="font-serif text-xl text-[#18140f]">Recent jobs</h2>
             <Link
               href="/brand/jobs"
-              className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
+              className="text-sm font-medium text-[#c1440e] transition hover:underline"
             >
               View all →
             </Link>
@@ -256,11 +256,11 @@ export default function BrandDashboardPage() {
 
           <div className="mt-6 space-y-3">
             {recentJobs.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-8 text-center">
-                <p className="text-slate-400">No jobs yet.</p>
+              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
+                <p className="text-[#6b6153]">No jobs yet.</p>
                 <Link
                   href="/brand/jobs/new"
-                  className="mt-3 inline-block text-sm font-medium text-violet-400 hover:text-violet-300"
+                  className="mt-3 inline-block text-sm font-medium text-[#c1440e] hover:underline"
                 >
                   Post your first job →
                 </Link>
@@ -270,29 +270,29 @@ export default function BrandDashboardPage() {
                 <Link
                   key={job.id}
                   href={`/brand/jobs/${job.id}`}
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-violet-500/40 hover:bg-violet-500/5"
+                  className="group flex items-center justify-between gap-4 border border-[#18140f]/10 p-4 transition hover:border-[#c1440e]/40 hover:bg-[#c1440e]/5"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-3">
-                      <p className="truncate font-medium text-white group-hover:text-violet-200 transition">
+                      <p className="truncate font-medium text-[#18140f] transition group-hover:text-[#c1440e]">
                         {job.title}
                       </p>
                       <span
                         className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                          JOB_STATUS_STYLE[job.status] ?? "bg-slate-500/15 text-slate-300 border-slate-500/30"
+                          JOB_STATUS_STYLE[job.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
                         }`}
                       >
                         {job.status.replace("_", " ")}
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs text-[#6b6153]">
                       {job.deadline
-                        ? `Deadline ${new Date(job.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+                        ? `Deadline ${new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}`
                         : "No deadline"}
                     </p>
                   </div>
-                  <p className="shrink-0 text-sm font-bold text-white">
-                    ${job.budget.toLocaleString()}
+                  <p className="shrink-0 font-serif text-lg text-[#18140f]">
+                    £{job.budget.toLocaleString()}
                   </p>
                 </Link>
               ))
@@ -301,13 +301,13 @@ export default function BrandDashboardPage() {
         </section>
 
         {/* Recent applications */}
-        <section className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-xl">
-          <h2 className="text-xl font-semibold text-white">Recent applications</h2>
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+          <h2 className="font-serif text-xl text-[#18140f]">Recent applications</h2>
 
           <div className="mt-6 space-y-3">
             {applications.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-8 text-center">
-                <p className="text-slate-400">No applications yet.</p>
+              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
+                <p className="text-[#6b6153]">No applications yet.</p>
               </div>
             ) : (
               applications.map((app) => {
@@ -315,24 +315,24 @@ export default function BrandDashboardPage() {
                 return (
                   <div
                     key={app.id}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+                    className="flex items-center justify-between gap-3 border border-[#18140f]/10 p-4"
                   >
                     <div className="min-w-0">
-                      <p className="truncate font-medium text-white">{app.creatorName ?? "Creator"}</p>
-                      <p className="mt-0.5 truncate text-xs text-slate-500">
+                      <p className="truncate font-medium text-[#18140f]">{app.creatorName ?? "Creator"}</p>
+                      <p className="mt-0.5 truncate text-xs text-[#6b6153]">
                         {matchingJob?.title ?? "Job"}
                       </p>
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1">
                       <span
                         className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                          APP_STATUS_STYLE[app.status] ?? "bg-slate-500/15 text-slate-300 border-slate-500/30"
+                          APP_STATUS_STYLE[app.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
                         }`}
                       >
                         {app.status}
                       </span>
-                      <p className="text-xs text-slate-600">
-                        {new Date(app.created_at).toLocaleDateString("en-US", {
+                      <p className="text-xs text-[#8b8578]">
+                        {new Date(app.created_at).toLocaleDateString("en-GB", {
                           month: "short",
                           day: "numeric",
                         })}
@@ -347,7 +347,7 @@ export default function BrandDashboardPage() {
           {applications.length > 0 ? (
             <Link
               href="/brand/jobs"
-              className="mt-6 flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] py-3 text-sm font-medium text-slate-400 transition hover:bg-white/[0.06] hover:text-slate-200"
+              className="mt-6 flex items-center justify-center border border-[#18140f]/10 py-3 text-sm font-medium text-[#3a332a] transition hover:border-[#c1440e]/40 hover:text-[#c1440e]"
             >
               Manage all jobs
             </Link>
@@ -356,7 +356,7 @@ export default function BrandDashboardPage() {
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-400">
+        <div className="border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
           {error}
         </div>
       ) : null}

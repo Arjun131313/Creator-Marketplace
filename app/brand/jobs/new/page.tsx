@@ -58,6 +58,7 @@ export default function NewJobPage() {
       title,
       description,
       budget: budgetValue,
+      currency: "gbp",
       deadline: deadline ? new Date(deadline).toISOString() : null,
       brand_id: session.user.id,
     })
@@ -72,60 +73,63 @@ export default function NewJobPage() {
   }
 
   return (
-    <div className="max-w-3xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-      <h1 className="text-2xl font-semibold text-slate-900">Post a new job</h1>
-      <p className="mt-2 text-sm text-slate-600">Create a job brief for creators to apply.</p>
+    <div className="max-w-3xl border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+      <h1 className="font-serif text-2xl font-medium text-[#18140f]">Post a new job</h1>
+      <p className="mt-2 text-sm text-[#6b6153]">Create a job brief for creators to apply.</p>
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-6">
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Job title</span>
+            <span className="text-sm font-medium text-[#3a332a]">Job title</span>
             <input
               type="text"
               required
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              className="mt-2 w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200"
+              className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
             />
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Description</span>
+            <span className="text-sm font-medium text-[#3a332a]">Description</span>
             <textarea
               required
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              className="mt-2 min-h-[160px] w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200"
+              className="mt-2 min-h-[160px] w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
             />
           </label>
 
           <div className="grid gap-6 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">Budget</span>
-              <input
-                required
-                type="number"
-                min="0"
-                step="0.01"
-                value={budget}
-                onChange={(event) => setBudget(event.target.value)}
-                className="mt-2 w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200"
-              />
+              <span className="text-sm font-medium text-[#3a332a]">Budget (GBP)</span>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#6b6153]">£</span>
+                <input
+                  required
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={budget}
+                  onChange={(event) => setBudget(event.target.value)}
+                  className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white py-3 pl-8 pr-4 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                />
+              </div>
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">Deadline</span>
+              <span className="text-sm font-medium text-[#3a332a]">Deadline</span>
               <input
                 type="date"
                 value={deadline}
                 onChange={(event) => setDeadline(event.target.value)}
-                className="mt-2 w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200"
+                className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
               />
             </label>
           </div>
         </div>
 
         {error ? (
-          <div className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
             {error}
           </div>
         ) : null}
@@ -133,7 +137,7 @@ export default function NewJobPage() {
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-[2px] bg-[#c1440e] px-6 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Publishing job…" : "Publish job"}
         </button>

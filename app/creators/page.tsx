@@ -183,7 +183,7 @@ export default function BrowseCreatorsPage() {
   if (priceRange)
     activeFilters.push({
       key: "price",
-      label: priceRange === "under100" ? "Under $100" : priceRange === "100to500" ? "$100–$500" : "Over $500",
+      label: priceRange === "under100" ? "Under £100" : priceRange === "100to500" ? "£100–£500" : "Over £500",
       clear: () => setPriceRange(""),
     })
   if (minRating > 0)
@@ -321,9 +321,9 @@ export default function BrowseCreatorsPage() {
               >
                 {[
                   { value: "", label: "Any price" },
-                  { value: "under100", label: "Under $100" },
-                  { value: "100to500", label: "$100 – $500" },
-                  { value: "over500", label: "Over $500" },
+                  { value: "under100", label: "Under £100" },
+                  { value: "100to500", label: "£100 – £500" },
+                  { value: "over500", label: "Over £500" },
                 ].map((opt) => (
                   <button
                     key={opt.value}
@@ -581,7 +581,7 @@ function CreatorCard({ creator }: { creator: Creator }) {
             </span>
             <span className="font-bold text-primary text-lg">
               {creator.startingPrice != null
-                ? `From $${creator.startingPrice.toLocaleString()}`
+                ? `From £${creator.startingPrice.toLocaleString()}`
                 : "Contact"}
             </span>
           </div>

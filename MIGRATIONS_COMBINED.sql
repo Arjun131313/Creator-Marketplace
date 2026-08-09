@@ -523,3 +523,14 @@ CREATE POLICY "Users update own avatar"
     bucket_id = 'avatars'
     AND auth.uid()::text = (storage.foldername(name))[1]
   );
+
+-- ----------------------------------------------------------------------------
+-- Default currency to GBP (CreatorHub is UK-only; jobs/payments defaulted to
+-- 'usd' even though every price shown in the app is in GBP)
+-- ----------------------------------------------------------------------------
+
+ALTER TABLE jobs ALTER COLUMN currency SET DEFAULT 'gbp';
+ALTER TABLE payments ALTER COLUMN currency SET DEFAULT 'gbp';
+
+UPDATE jobs SET currency = 'gbp' WHERE currency = 'usd';
+UPDATE payments SET currency = 'gbp' WHERE currency = 'usd';

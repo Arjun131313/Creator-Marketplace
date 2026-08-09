@@ -28,9 +28,9 @@ const DEFAULT_PACKAGES: [PackageForm, PackageForm, PackageForm] = [
 ]
 
 const PACKAGE_STYLES = [
-  { border: "border-slate-500/40", badge: "bg-slate-500/15 text-slate-300" },
-  { border: "border-violet-500/40", badge: "bg-violet-500/15 text-violet-300" },
-  { border: "border-amber-500/40", badge: "bg-amber-500/15 text-amber-300" },
+  { border: "border-[#18140f]/15", badge: "bg-[#18140f]/5 text-[#3a332a]" },
+  { border: "border-[#c1440e]/40", badge: "bg-[#c1440e]/10 text-[#c1440e]" },
+  { border: "border-amber-500/40", badge: "bg-amber-500/10 text-amber-700" },
 ]
 
 const PLATFORMS = [
@@ -40,8 +40,8 @@ const PLATFORMS = [
 ]
 
 const inputClass =
-  "w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
-const labelClass = "block text-sm font-medium text-slate-300 mb-2"
+  "w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] placeholder:text-[#8b8578] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+const labelClass = "block text-sm font-medium text-[#3a332a] mb-2"
 
 export default function CreatorProfileSetupPage() {
   const router = useRouter()
@@ -165,7 +165,7 @@ export default function CreatorProfileSetupPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-slate-400">Loading your profile…</p>
+        <p className="text-[#6b6153]">Loading your profile…</p>
       </div>
     )
   }
@@ -173,18 +173,18 @@ export default function CreatorProfileSetupPage() {
   return (
     <div className="py-4">
       <div className="mb-10">
-        <p className="text-xs font-semibold uppercase tracking-widest text-violet-400">Creator onboarding</p>
-        <h1 className="mt-2 text-3xl font-semibold text-white">Complete your profile</h1>
-        <p className="mt-2 text-slate-400">
+        <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Creator onboarding</p>
+        <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">Complete your profile</h1>
+        <p className="mt-2 text-[#6b6153]">
           Help brands discover you by filling in your profile details.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Identity */}
-        <section className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8">
-          <h2 className="text-lg font-semibold text-white">Your identity</h2>
-          <p className="mt-1 text-sm text-slate-400">How you appear to brands on CreatorHub.</p>
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+          <h2 className="font-serif text-lg text-[#18140f]">Your identity</h2>
+          <p className="mt-1 text-sm text-[#6b6153]">How you appear to brands on CreatorHub.</p>
 
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
@@ -217,7 +217,7 @@ export default function CreatorProfileSetupPage() {
                 required
                 value={form.niche}
                 onChange={(e) => setForm((p) => ({ ...p, niche: e.target.value }))}
-                className={inputClass + " bg-slate-900 cursor-pointer"}
+                className={inputClass + " cursor-pointer"}
               >
                 <option value="" disabled>
                   Select your niche
@@ -233,9 +233,9 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Platform stats */}
-        <section className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8">
-          <h2 className="text-lg font-semibold text-white">Platform stats</h2>
-          <p className="mt-1 text-sm text-slate-400">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+          <h2 className="font-serif text-lg text-[#18140f]">Platform stats</h2>
+          <p className="mt-1 text-sm text-[#6b6153]">
             Add your follower counts so brands can evaluate your reach.
           </p>
 
@@ -257,9 +257,9 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Packages */}
-        <section className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8">
-          <h2 className="text-lg font-semibold text-white">Your packages</h2>
-          <p className="mt-1 text-sm text-slate-400">
+        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+          <h2 className="font-serif text-lg text-[#18140f]">Your packages</h2>
+          <p className="mt-1 text-sm text-[#6b6153]">
             Define what brands can purchase from you at each tier.
           </p>
 
@@ -269,7 +269,7 @@ export default function CreatorProfileSetupPage() {
               return (
                 <div
                   key={index}
-                  className={`rounded-2xl border ${style.border} bg-white/[0.03] p-5 space-y-4`}
+                  className={`space-y-4 border ${style.border} bg-white/40 p-5`}
                 >
                   <span
                     className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${style.badge}`}
@@ -301,10 +301,10 @@ export default function CreatorProfileSetupPage() {
                   </div>
 
                   <div>
-                    <label className={labelClass}>Price (USD) *</label>
+                    <label className={labelClass}>Price (GBP) *</label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400">
-                        $
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#6b6153]">
+                        £
                       </span>
                       <input
                         type="number"
@@ -325,7 +325,7 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {error ? (
-          <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 px-5 py-4 text-sm text-rose-400">
+          <div className="border border-rose-300 bg-rose-50 px-5 py-4 text-sm text-rose-700">
             {error}
           </div>
         ) : null}
@@ -334,14 +334,14 @@ export default function CreatorProfileSetupPage() {
           <button
             type="button"
             onClick={() => router.push("/creator/dashboard")}
-            className="text-sm text-slate-400 hover:text-slate-300 transition"
+            className="text-sm text-[#6b6153] transition hover:text-[#18140f]"
           >
             Skip for now
           </button>
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center rounded-full bg-violet-600 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-[2px] bg-[#c1440e] px-8 py-4 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "Saving your profile…" : "Save and continue"}
           </button>

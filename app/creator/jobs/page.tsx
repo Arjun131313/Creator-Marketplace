@@ -63,37 +63,35 @@ export default function CreatorJobsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center px-4 py-24">
-        <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-sm">
-          <p className="text-lg font-medium">Loading open jobs…</p>
-        </div>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-[#6b6153]">Loading open jobs…</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <div className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">Browse open jobs</h1>
-            <p className="mt-1 text-sm text-slate-600">Apply to high-quality briefs from brands.</p>
+            <h1 className="font-serif text-2xl font-medium text-[#18140f]">Browse open jobs</h1>
+            <p className="mt-1 text-sm text-[#6b6153]">Apply to high-quality briefs from brands.</p>
           </div>
-          <Link href="/creator/applications" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+          <Link href="/creator/applications" className="text-sm font-medium text-[#c1440e] hover:underline">
             View my applications
           </Link>
         </div>
       </div>
 
       {error ? (
-        <div className="rounded-3xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700">
+        <div className="border border-rose-300 bg-rose-50 p-5 text-sm text-rose-700">
           {error}
         </div>
       ) : null}
 
       <div className="grid gap-4">
         {jobs.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8 text-slate-600">
+          <div className="border border-dashed border-[#18140f]/15 p-8 text-[#6b6153]">
             No open jobs are available right now. Check back later.
           </div>
         ) : (
@@ -101,21 +99,21 @@ export default function CreatorJobsPage() {
             <Link
               key={job.id}
               href={`/creator/jobs/${job.id}`}
-              className="block rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-slate-300"
+              className="block border border-[#18140f]/10 bg-[#fbf9f4] p-6 transition hover:border-[#c1440e]/40"
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">{job.title}</h2>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{job.description}</p>
+                  <h2 className="text-lg font-semibold text-[#18140f]">{job.title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-[#6b6153]">{job.description}</p>
                 </div>
-                <div className="text-right text-sm text-slate-500">
-                  <p className="font-semibold text-slate-900">${job.budget.toFixed(2)}</p>
-                  <p>{job.deadline ? new Date(job.deadline).toLocaleDateString() : "No deadline"}</p>
+                <div className="text-right text-sm text-[#8b8578]">
+                  <p className="font-serif text-lg text-[#18140f]">£{job.budget.toFixed(2)}</p>
+                  <p>{job.deadline ? new Date(job.deadline).toLocaleDateString("en-GB") : "No deadline"}</p>
                 </div>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+              <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-[#8b8578]">
                 <span>{job.status}</span>
-                <span>{new Date(job.created_at).toLocaleDateString()}</span>
+                <span>{new Date(job.created_at).toLocaleDateString("en-GB")}</span>
               </div>
             </Link>
           ))

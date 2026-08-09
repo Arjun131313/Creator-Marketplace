@@ -41,7 +41,7 @@ function timeAgo(iso: string): string {
   if (mins < 60) return `${mins}m`
   const hrs = Math.floor(mins / 60)
   if (hrs < 24) return `${hrs}h`
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" })
+  return new Date(iso).toLocaleDateString("en-GB", { month: "short", day: "numeric" })
 }
 
 export default function MessageConversationPage({
@@ -259,19 +259,16 @@ export default function MessageConversationPage({
   }
 
   return (
-    <div className="flex h-screen flex-col bg-[#0a0f1e] text-slate-100">
+    <div className="flex h-screen flex-col bg-[#f5f1e8] text-[#18140f]">
       {/* Top nav */}
-      <header className="shrink-0 border-b border-white/10 bg-[#0a0f1e]/95 backdrop-blur-xl">
+      <header className="shrink-0 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
         <div className="flex items-center justify-between gap-4 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-500/20 text-xs font-bold text-violet-300 ring-1 ring-violet-500/30">
-              CH
-            </div>
-            <span className="text-base font-semibold tracking-tight text-white">CreatorHub</span>
+          <Link href="/" className="font-serif text-base text-[#18140f] transition hover:text-[#c1440e]">
+            Creator<em className="not-italic italic text-[#c1440e]">Hub</em>
           </Link>
           <Link
             href="/messages"
-            className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-1.5 rounded-[2px] border border-[#18140f]/15 px-3 py-1.5 text-xs font-medium text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -284,9 +281,9 @@ export default function MessageConversationPage({
       {/* Body: sidebar + chat */}
       <div className="flex min-h-0 flex-1">
         {/* Sidebar — hidden on mobile */}
-        <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-slate-950/60 lg:flex">
-          <div className="shrink-0 border-b border-white/10 px-5 py-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+        <aside className="hidden w-72 shrink-0 flex-col border-r border-[#18140f]/10 bg-[#fbf9f4] lg:flex">
+          <div className="shrink-0 border-b border-[#18140f]/10 px-5 py-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#8b8578]">
               Conversations
             </p>
           </div>
@@ -298,37 +295,37 @@ export default function MessageConversationPage({
                 <Link
                   key={c.id}
                   href={`/messages/${c.id}`}
-                  className={`flex items-center gap-3 border-b border-white/5 px-5 py-4 transition ${
+                  className={`flex items-center gap-3 border-b border-[#18140f]/5 px-5 py-4 transition ${
                     isActive
-                      ? "bg-violet-600/15 border-l-2 border-l-violet-500"
-                      : "hover:bg-white/5"
+                      ? "border-l-2 border-l-[#c1440e] bg-[#c1440e]/10"
+                      : "hover:bg-[#18140f]/[0.03]"
                   }`}
                 >
                   <div className="relative shrink-0">
                     <div
-                      className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold ${
+                      className={`flex h-9 w-9 items-center justify-center rounded-[2px] text-xs font-bold ${
                         isActive
-                          ? "bg-violet-500/30 text-violet-200"
-                          : "bg-white/10 text-slate-300"
+                          ? "bg-[#c1440e]/20 text-[#c1440e]"
+                          : "bg-[#18140f]/5 text-[#3a332a]"
                       }`}
                     >
                       {initials}
                     </div>
                     {c.unread && !isActive ? (
-                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-violet-500 ring-2 ring-[#0a0f1e]" />
+                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#c1440e] ring-2 ring-[#fbf9f4]" />
                     ) : null}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p
                       className={`truncate text-sm font-semibold ${
-                        isActive ? "text-violet-200" : "text-slate-200"
+                        isActive ? "text-[#c1440e]" : "text-[#3a332a]"
                       }`}
                     >
                       {c.otherName}
                     </p>
-                    <p className="truncate text-xs text-slate-500">{c.lastMessage || "No messages"}</p>
+                    <p className="truncate text-xs text-[#8b8578]">{c.lastMessage || "No messages"}</p>
                   </div>
-                  <p className="shrink-0 text-xs text-slate-600">{timeAgo(c.updatedAt)}</p>
+                  <p className="shrink-0 text-xs text-[#8b8578]">{timeAgo(c.updatedAt)}</p>
                 </Link>
               )
             })}
@@ -339,25 +336,25 @@ export default function MessageConversationPage({
         <div className="flex min-w-0 flex-1 flex-col">
           {loading ? (
             <div className="flex flex-1 items-center justify-center">
-              <p className="text-slate-400">Loading conversation…</p>
+              <p className="text-[#6b6153]">Loading conversation…</p>
             </div>
           ) : error ? (
             <div className="flex flex-1 items-center justify-center p-8">
-              <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-6 text-sm text-rose-400">
+              <div className="border border-rose-300 bg-rose-50 p-6 text-sm text-rose-700">
                 {error}
               </div>
             </div>
           ) : (
             <>
               {/* Chat header */}
-              <div className="shrink-0 border-b border-white/10 bg-slate-950/60 px-6 py-4">
+              <div className="shrink-0 border-b border-[#18140f]/10 bg-[#fbf9f4] px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/20 text-sm font-bold text-violet-300">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-sm font-bold text-[#c1440e]">
                     {getInitials(otherName)}
                   </div>
                   <div>
-                    <p className="font-semibold text-white">{otherName}</p>
-                    <p className="text-xs text-slate-500">Direct message</p>
+                    <p className="font-semibold text-[#18140f]">{otherName}</p>
+                    <p className="text-xs text-[#8b8578]">Direct message</p>
                   </div>
                 </div>
               </div>
@@ -367,15 +364,15 @@ export default function MessageConversationPage({
                 {messages.length === 0 ? (
                   <div className="flex h-full items-center justify-center">
                     <div className="text-center">
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-400">
+                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-[#c1440e]">
                         <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                         </svg>
                       </div>
-                      <p className="mt-4 font-semibold text-white">
+                      <p className="mt-4 font-semibold text-[#18140f]">
                         Start the conversation
                       </p>
-                      <p className="mt-1 text-sm text-slate-400">
+                      <p className="mt-1 text-sm text-[#6b6153]">
                         Say hello to {otherName}
                       </p>
                     </div>
@@ -394,8 +391,8 @@ export default function MessageConversationPage({
                       <div key={msg.id}>
                         {showTime ? (
                           <div className="my-4 flex items-center justify-center">
-                            <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-500">
-                              {new Date(msg.created_at).toLocaleString("en-US", {
+                            <span className="rounded-full bg-[#18140f]/5 px-3 py-1 text-xs text-[#8b8578]">
+                              {new Date(msg.created_at).toLocaleString("en-GB", {
                                 month: "short",
                                 day: "numeric",
                                 hour: "numeric",
@@ -410,8 +407,8 @@ export default function MessageConversationPage({
                           <div
                             className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-6 ${
                               isMine
-                                ? "rounded-br-md bg-violet-600 text-white"
-                                : "rounded-bl-md bg-white/10 text-slate-100"
+                                ? "rounded-br-md bg-[#c1440e] text-[#fef8f2]"
+                                : "rounded-bl-md bg-[#18140f]/[0.06] text-[#18140f]"
                             }`}
                           >
                             {msg.content}
@@ -425,7 +422,7 @@ export default function MessageConversationPage({
               </div>
 
               {/* Input */}
-              <div className="shrink-0 border-t border-white/10 bg-slate-950/60 px-6 py-4">
+              <div className="shrink-0 border-t border-[#18140f]/10 bg-[#fbf9f4] px-6 py-4">
                 <div className="flex items-end gap-3">
                   <textarea
                     rows={1}
@@ -437,21 +434,21 @@ export default function MessageConversationPage({
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder={`Message ${otherName}…`}
-                    className="flex-1 resize-none overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+                    className="flex-1 resize-none overflow-hidden rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition placeholder:text-[#8b8578] focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
                     style={{ minHeight: "48px" }}
                   />
                   <button
                     type="button"
                     onClick={handleSend}
                     disabled={!newMessage.trim() || sending}
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-600 text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[2px] bg-[#c1440e] text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                     </svg>
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-slate-600">Press Enter to send · Shift+Enter for new line</p>
+                <p className="mt-2 text-xs text-[#8b8578]">Press Enter to send · Shift+Enter for new line</p>
               </div>
             </>
           )}
