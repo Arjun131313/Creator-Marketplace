@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-
-const NICHES = [
-  "Beauty", "Fashion", "Fitness", "Food", "Travel",
-  "Gaming", "Tech", "Lifestyle", "Business", "Other",
-] as const
+import { NICHES } from "@/lib/niches"
 
 type PackageForm = { name: string; description: string; price: string }
 

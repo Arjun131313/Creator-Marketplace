@@ -9,6 +9,7 @@ import { getPlatformFollowers, getPlatformUsername } from "@/types/database"
 import type { PlatformStats, CreatorPackage, ContentUrl } from "@/types/database"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import { getCreatorTier } from "@/lib/creator-tier"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -304,11 +305,21 @@ export default function CreatorProfilePage() {
                 )}
               </div>
 
-              {profile.niche && (
-                <span className="inline-block mb-3 bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full font-label-sm text-label-sm">
-                  {profile.niche}
-                </span>
-              )}
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                {profile.niche && (
+                  <span className="inline-block bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full font-label-sm text-label-sm">
+                    {profile.niche}
+                  </span>
+                )}
+                {(() => {
+                  const tier = getCreatorTier(reviews.length, avgRating)
+                  return (
+                    <span className={`inline-block rounded-full px-3 py-1 text-label-sm font-semibold uppercase tracking-wide ${tier.className}`}>
+                      {tier.label}
+                    </span>
+                  )
+                })()}
+              </div>
 
               <p className="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mb-6 leading-relaxed">
                 {profile.bio ?? "No bio provided."}
@@ -497,7 +508,7 @@ export default function CreatorProfilePage() {
                         </span>
                       </div>
                       <h4 className="font-display-lg text-display-lg font-bold text-on-surface mb-4">
-                        ${pkg.price.toLocaleString()}
+                        £{pkg.price.toLocaleString()}
                       </h4>
                       <p className="text-on-surface-variant mb-6 flex-grow leading-relaxed">
                         {pkg.description || "Our most popular package for brands ready to scale."}
@@ -526,7 +537,7 @@ export default function CreatorProfilePage() {
                       {style.label}
                     </span>
                     <h4 className="font-display-lg text-display-lg font-bold text-on-surface mb-4">
-                      ${pkg.price.toLocaleString()}
+                      £{pkg.price.toLocaleString()}
                     </h4>
                     <p className="text-on-surface-variant mb-6 flex-grow leading-relaxed">
                       {pkg.description || "Package tailored for your brand needs."}

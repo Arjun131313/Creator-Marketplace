@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { NICHE_CATEGORIES } from "@/lib/niches"
 
 export default function PublicNav() {
   const pathname = usePathname()
@@ -41,72 +42,90 @@ export default function PublicNav() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-[#18140f]/10 bg-[#f5f1e8]/90 px-gutter py-4 backdrop-blur-md">
-      <Link href="/" className="flex items-center gap-2">
-        <span className="font-serif text-xl tracking-tight text-[#18140f]">
-          Real<em className="not-italic italic text-[#c1440e]">Reach</em>
-        </span>
-      </Link>
+    <header className="sticky top-0 z-50 border-b border-[#18140f]/10 bg-[#f5f1e8]/90 backdrop-blur-md">
+      <div className="flex w-full items-center justify-between px-gutter py-4">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="font-serif text-xl tracking-tight text-[#18140f]">
+            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          </span>
+        </Link>
 
-      <nav className="hidden md:flex items-center gap-8">
-        {navLinks.map((link) => (
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`font-label-md text-label-md transition-colors ${
+                pathname === link.href
+                  ? "font-semibold text-primary"
+                  : "text-on-surface-variant hover:text-primary"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {!checked ? (
+            <div className="h-8 w-8 animate-pulse rounded-full bg-surface-container" />
+          ) : userRole ? (
+            <>
+              <Link href="/messages" aria-label="Messages">
+                <span className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                  notifications
+                </span>
+              </Link>
+              <Link href={dashHref}>
+                <div className="w-9 h-9 rounded-full bg-primary-container overflow-hidden border border-[#18140f]/10 flex items-center justify-center">
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="material-symbols-outlined text-on-primary-container text-[20px]">
+                      person
+                    </span>
+                  )}
+                </div>
+              </Link>
+            </>
+          ) : (
+            <div className="hidden md:flex items-center gap-3">
+              <Link
+                href="/login"
+                className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-[2px] bg-primary px-5 py-2 font-label-md text-label-md text-on-primary transition-colors hover:bg-[#a23a0c]"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <nav
+        aria-label="Browse by category"
+        className="flex items-center gap-5 overflow-x-auto border-t border-[#18140f]/10 px-gutter py-2.5"
+      >
+        {NICHE_CATEGORIES.map((cat) => (
           <Link
-            key={link.href}
-            href={link.href}
-            className={`font-label-md text-label-md transition-colors ${
-              pathname === link.href
-                ? "font-semibold text-primary"
-                : "text-on-surface-variant hover:text-primary"
-            }`}
+            key={cat.name}
+            href={`/creators?niche=${encodeURIComponent(cat.name)}`}
+            className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-on-surface-variant transition-colors hover:text-primary"
           >
-            {link.label}
+            <span className="material-symbols-outlined text-[16px]">{cat.icon}</span>
+            {cat.name}
           </Link>
         ))}
       </nav>
-
-      <div className="flex items-center gap-4">
-        {!checked ? (
-          <div className="h-8 w-8 animate-pulse rounded-full bg-surface-container" />
-        ) : userRole ? (
-          <>
-            <Link href="/messages" aria-label="Messages">
-              <span className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
-                notifications
-              </span>
-            </Link>
-            <Link href={dashHref}>
-              <div className="w-9 h-9 rounded-full bg-primary-container overflow-hidden border border-[#18140f]/10 flex items-center justify-center">
-                {avatarUrl ? (
-                  <img
-                    src={avatarUrl}
-                    alt="Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="material-symbols-outlined text-on-primary-container text-[20px]">
-                    person
-                  </span>
-                )}
-              </div>
-            </Link>
-          </>
-        ) : (
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/signup"
-              className="rounded-[2px] bg-primary px-5 py-2 font-label-md text-label-md text-on-primary transition-colors hover:bg-[#a23a0c]"
-            >
-              Sign up
-            </Link>
-          </div>
-        )}
-      </div>
     </header>
   )
 }

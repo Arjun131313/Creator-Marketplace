@@ -3,12 +3,9 @@
 import { useState } from "react"
 import Link from "next/link"
 import PublicNav from "@/components/public-nav"
+import { NICHES } from "@/lib/niches"
 
 const PLATFORMS = ["Instagram", "TikTok", "Snapchat", "Other"] as const
-const NICHES = [
-  "Beauty", "Fashion", "Fitness", "Food", "Travel",
-  "Gaming", "Tech", "Lifestyle", "Business", "Other",
-] as const
 
 const inputClass =
   "w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] placeholder:text-[#8b8578] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"

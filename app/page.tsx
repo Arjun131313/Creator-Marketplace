@@ -8,6 +8,8 @@ import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { supabase } from "@/lib/supabase"
 import { getPlatformFollowers } from "@/types/database"
 import type { PlatformStats, CreatorPackage } from "@/types/database"
+import { getCreatorTier } from "@/lib/creator-tier"
+import { NICHE_CATEGORIES } from "@/lib/niches"
 
 type Creator = {
   id: string
@@ -343,29 +345,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PHOTO STRIP (paper) ──────────────────────────────────────────── */}
+      {/* ── TRENDING NICHES (paper, photo tiles) ─────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-20 md:px-8">
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden bg-[#18140f]/5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/creator-kitchen.jpg"
-              alt="A creator filming a cooking video for a brand collaboration"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden bg-[#18140f]/5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/creator-street.jpg"
-              alt="A creator filming content on a phone outdoors"
-              className="h-full w-full object-cover"
-            />
-          </div>
+        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Trending niches</p>
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {NICHE_CATEGORIES.filter((cat) => cat.image).map((cat) => (
+            <Link
+              key={cat.name}
+              href={`/creators?niche=${encodeURIComponent(cat.name)}`}
+              className="group relative aspect-[3/4] w-40 shrink-0 overflow-hidden bg-[#18140f]/5 sm:w-48"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={cat.image!}
+                alt={`${cat.name} creators`}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b08]/80 via-transparent to-transparent" />
+              <p className="absolute bottom-3 left-3 font-serif text-lg text-[#f5f1e8]">{cat.name}</p>
+            </Link>
+          ))}
         </div>
-        <p className="mt-6 text-center text-sm text-[#6b6153]">
-          From TikTok tutorials to Instagram reels — the kind of content your next campaign could look like.
-        </p>
       </section>
 
       {/* ── TRUST BAR (paper) ────────────────────────────────────────────── */}
@@ -638,6 +638,7 @@ export default function Home() {
 function FeaturedCreatorCard({ creator }: { creator: Creator }) {
   const price = getStartingPrice(creator.packages)
   const rating = creator.avgRating
+  const tier = getCreatorTier(creator.reviewCount, creator.avgRating)
 
   return (
     <Link href={`/creators/${creator.id}`} className="group relative block aspect-[4/5] overflow-hidden bg-[#18140f]">
@@ -653,6 +654,11 @@ function FeaturedCreatorCard({ creator }: { creator: Creator }) {
           {creatorInitials(creator.display_name)}
         </div>
       )}
+      <div className="absolute left-4 top-4">
+        <span className="rounded-full bg-[#0d0b08]/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#fef8f2] backdrop-blur-md">
+          {tier.label}
+        </span>
+      </div>
       <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b08] via-[#0d0b08]/10 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-7 text-[#f5f1e8]">
         {creator.niche && (
@@ -680,6 +686,7 @@ function CreatorListRow({ creator }: { creator: Creator }) {
   const price = getStartingPrice(creator.packages)
   const rating = creator.avgRating
   const platforms = getActivePlatforms(creator.platform_stats)
+  const tier = getCreatorTier(creator.reviewCount, creator.avgRating)
 
   return (
     <Link
@@ -699,7 +706,12 @@ function CreatorListRow({ creator }: { creator: Creator }) {
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <p className="truncate font-semibold text-[#18140f]">{creator.display_name ?? "Creator"}</p>
+        <div className="flex items-center gap-2">
+          <p className="truncate font-semibold text-[#18140f]">{creator.display_name ?? "Creator"}</p>
+          <span className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide ${tier.className}`}>
+            {tier.label}
+          </span>
+        </div>
         <p className="truncate text-sm text-[#6b6153]">
           {creator.niche ?? "Content Creator"}{platforms.length > 0 ? ` · ${platforms.join(", ")}` : ""}
         </p>
@@ -710,9 +722,7 @@ function CreatorListRow({ creator }: { creator: Creator }) {
             <span className="text-[#c1440e]">★</span>
             {rating.toFixed(1)}
           </span>
-        ) : (
-          <span className="hidden text-xs text-[#8b8578] sm:inline">New</span>
-        )}
+        ) : null}
         {price && <span className="font-semibold text-[#c1440e]">From {price}</span>}
         <ArrowIcon className="h-4 w-4 text-[#6b6153] transition-transform group-hover:translate-x-1" />
       </div>

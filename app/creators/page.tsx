@@ -8,6 +8,7 @@ import { getPlatformFollowers } from "@/types/database"
 import type { PlatformStats, CreatorPackage, ContentUrl } from "@/types/database"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import { getCreatorTier } from "@/lib/creator-tier"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -67,7 +68,7 @@ function BrowseCreatorsPageInner() {
   const [allCreators, setAllCreators] = useState<Creator[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") ?? "")
-  const [selectedNiche, setSelectedNiche] = useState<string>("")
+  const [selectedNiche, setSelectedNiche] = useState<string>(searchParams.get("niche") ?? "")
   const [selectedPlatform, setSelectedPlatform] = useState<string>("")
   const [priceRange, setPriceRange] = useState<string>("")
   const [minRating, setMinRating] = useState<number>(0)
@@ -419,9 +420,9 @@ function BrowseCreatorsPageInner() {
 
         {/* ── Grid ─────────────────────────────────────────────────────────── */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="paper-card rounded-xl h-96 animate-pulse" />
+              <div key={i} className="paper-card rounded-xl h-64 animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
@@ -440,7 +441,7 @@ function BrowseCreatorsPageInner() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {visible.map((creator) => (
                 <CreatorCard key={creator.id} creator={creator} />
               ))}
@@ -474,11 +475,12 @@ function CreatorCard({ creator }: { creator: Creator }) {
   const igFollowers = getPlatformFollowers(creator.platform_stats, "instagram")
   const ttFollowers = getPlatformFollowers(creator.platform_stats, "tiktok")
   const scFollowers = getPlatformFollowers(creator.platform_stats, "snapchat")
+  const tier = getCreatorTier(creator.reviewCount, creator.avgRating)
 
   return (
     <article className="paper-card rounded-xl overflow-hidden flex flex-col">
       {/* Image area */}
-      <div className="relative h-64 overflow-hidden bg-surface-container-low">
+      <div className="relative h-40 overflow-hidden bg-surface-container-low">
         {creator.avatar_url ? (
           <img
             src={creator.avatar_url}
@@ -487,30 +489,26 @@ function CreatorCard({ creator }: { creator: Creator }) {
           />
         ) : (
           <div className="w-full h-full bg-surface-container-high flex items-center justify-center">
-            <span className="text-5xl font-medium text-on-surface-variant/40 font-headline-md">
+            <span className="text-4xl font-medium text-on-surface-variant/40 font-headline-md">
               {initials}
             </span>
           </div>
         )}
 
-        {/* Availability */}
-        <div className="absolute top-4 left-4">
-          {creator.available ? (
-            <span className="bg-tertiary-container/80 backdrop-blur-md text-tertiary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-tertiary-fixed animate-pulse" />
-              Available Now
-            </span>
-          ) : (
-            <span className="bg-surface-container-highest/80 backdrop-blur-md text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider">
-              Busy
-            </span>
-          )}
+        {/* Availability dot */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-[#0d0b08]/60 px-2 py-1 backdrop-blur-md">
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${creator.available ? "bg-emerald-400 animate-pulse" : "bg-white/40"}`}
+          />
+          <span className="font-label-sm text-[10px] uppercase tracking-wider text-white">
+            {creator.available ? "Available" : "Busy"}
+          </span>
         </div>
 
         {/* Niche badge */}
         {creator.niche && (
-          <div className="absolute bottom-4 left-4">
-            <span className="bg-primary-container text-on-primary px-3 py-1 rounded-lg font-label-sm text-label-sm shadow-lg shadow-primary/20">
+          <div className="absolute bottom-3 left-3">
+            <span className="bg-primary-container text-on-primary px-2.5 py-1 rounded-lg font-label-sm text-[11px] shadow-lg shadow-primary/20">
               {creator.niche}
             </span>
           </div>
@@ -518,78 +516,81 @@ function CreatorCard({ creator }: { creator: Creator }) {
       </div>
 
       {/* Body */}
-      <div className="p-gutter flex-grow flex flex-col">
-        {/* Name + Rating */}
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="font-headline-md text-headline-md text-on-surface leading-tight">
+      <div className="p-4 flex-grow flex flex-col">
+        {/* Name + tier */}
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-headline-md text-base font-semibold text-on-surface leading-tight">
             {creator.display_name ?? "Creator"}
           </h3>
+        </div>
+        <span className={`mt-1.5 inline-block w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${tier.className}`}>
+          {tier.label}
+        </span>
+
+        {/* Rating + platform stats */}
+        <div className="mt-2 flex items-center gap-3 text-on-surface-variant flex-wrap">
           {creator.avgRating !== null ? (
             <div className="flex items-center gap-1 text-primary shrink-0">
               <span
-                className="material-symbols-outlined text-[18px]"
+                className="material-symbols-outlined text-[15px]"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 star
               </span>
-              <span className="font-label-md text-label-md">
+              <span className="font-label-sm text-label-sm">
                 {creator.avgRating.toFixed(1)}
               </span>
-              <span className="text-on-surface-variant text-[12px]">
+              <span className="text-on-surface-variant text-[11px]">
                 ({creator.reviewCount})
               </span>
             </div>
           ) : null}
-        </div>
-
-        {/* Platform stats */}
-        <div className="flex items-center gap-6 mb-4 text-on-surface-variant flex-wrap">
           {igFollowers ? (
             <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[18px]">photo_camera</span>
-              <span className="font-label-sm text-label-sm">{formatFollowers(igFollowers)}</span>
+              <span className="material-symbols-outlined text-[15px]">photo_camera</span>
+              <span className="font-label-sm text-[11px]">{formatFollowers(igFollowers)}</span>
             </div>
           ) : null}
           {ttFollowers ? (
             <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[18px]">video_library</span>
-              <span className="font-label-sm text-label-sm">{formatFollowers(ttFollowers)}</span>
+              <span className="material-symbols-outlined text-[15px]">video_library</span>
+              <span className="font-label-sm text-[11px]">{formatFollowers(ttFollowers)}</span>
             </div>
           ) : null}
           {scFollowers ? (
             <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[18px]">photo_filter</span>
-              <span className="font-label-sm text-label-sm">{formatFollowers(scFollowers)}</span>
+              <span className="material-symbols-outlined text-[15px]">photo_filter</span>
+              <span className="font-label-sm text-[11px]">{formatFollowers(scFollowers)}</span>
             </div>
           ) : null}
         </div>
 
         {/* Content type tags */}
         {(creator.content_types ?? []).length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-6">
-            {(creator.content_types ?? []).slice(0, 3).map((t) => (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(creator.content_types ?? []).slice(0, 2).map((t) => (
               <span
                 key={t}
-                className="px-2 py-1 bg-surface-container-highest rounded font-label-sm text-[11px] text-on-surface-variant"
+                className="px-2 py-0.5 bg-surface-container-highest rounded font-label-sm text-[10px] text-on-surface-variant"
               >
                 {t}
               </span>
             ))}
-            {(creator.content_types ?? []).length > 3 && (
-              <span className="px-2 py-1 bg-surface-container-highest rounded font-label-sm text-[11px] text-on-surface-variant">
-                +{(creator.content_types ?? []).length - 3}
+            {(creator.content_types ?? []).length > 2 && (
+              <span className="px-2 py-0.5 bg-surface-container-highest rounded font-label-sm text-[10px] text-on-surface-variant">
+                +{(creator.content_types ?? []).length - 2}
               </span>
             )}
           </div>
         )}
 
         {/* Price + CTA */}
-        <div className="pt-4 border-t border-outline-variant flex justify-between items-center mt-auto">
+        <div className="mt-3 pt-3 border-t border-outline-variant flex justify-between items-center mt-auto">
           <div className="flex flex-col">
-            <span className="text-[10px] text-on-surface-variant uppercase font-label-sm tracking-widest">
+            <span className="text-[9px] text-on-surface-variant uppercase font-label-sm tracking-widest">
               Starting Price
             </span>
-            <span className="font-bold text-primary text-lg">
+            <span className="font-bold text-primary text-base">
               {creator.startingPrice != null
                 ? `From £${creator.startingPrice.toLocaleString()}`
                 : "Contact"}
