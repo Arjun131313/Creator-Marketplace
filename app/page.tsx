@@ -343,6 +343,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── PHOTO STRIP (paper) ──────────────────────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-6 py-20 md:px-8">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="relative aspect-[4/3] overflow-hidden bg-[#18140f]/5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/creator-kitchen.jpg"
+              alt="A creator filming a cooking video for a brand collaboration"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden bg-[#18140f]/5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/creator-street.jpg"
+              alt="A creator filming content on a phone outdoors"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+        <p className="mt-6 text-center text-sm text-[#6b6153]">
+          From TikTok tutorials to Instagram reels — the kind of content your next campaign could look like.
+        </p>
+      </section>
+
       {/* ── TRUST BAR (paper) ────────────────────────────────────────────── */}
       <div className="border-b border-[#18140f]/10 py-10">
         <div className="mx-auto max-w-7xl px-6 md:px-8">

@@ -133,6 +133,16 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
+      {/* ── Photo banner (paper) ─────────────────────────────────────────── */}
+      <div className="relative h-64 overflow-hidden bg-[#18140f]/5 sm:h-80">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/hero-vlogger.jpg"
+          alt="A creator recording video content with a ring light and smartphone"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
       {/* ── Steps (paper) ─────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-5xl px-6 py-24 md:px-8">
         <div className="space-y-16">

@@ -59,6 +59,15 @@ export default function CreatorWaitlistPage() {
     <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
       <PublicNav />
 
+      <div className="relative h-56 overflow-hidden bg-[#18140f]/5 sm:h-72">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/waitlist-hero.jpg"
+          alt="A creator filming content with a smartphone on a gimbal"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
       <main className="mx-auto max-w-2xl px-6 py-16 md:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">For creators</p>
         <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
