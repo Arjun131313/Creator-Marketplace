@@ -55,7 +55,6 @@ export async function POST(request: NextRequest) {
         subject: "You're on the RealReach Agency creator waitlist",
         html: `<p>Hi ${name},</p><p>Thanks for joining the RealReach Agency creator waitlist. We're onboarding our founding cohort by hand — we'll be in touch personally once there's a spot for you.</p>`,
       })
-      emailDebug = "sendEmail resolved without throwing"
     } catch (err) {
       emailDebug = `sendEmail threw: ${err instanceof Error ? err.message : String(err)}`
     }
