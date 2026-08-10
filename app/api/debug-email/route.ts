@@ -1,11 +1,12 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 // Temporary diagnostic endpoint — confirms env vars are readable and shows
 // Resend's raw response. Delete this file once email sending is confirmed
 // working; it should never ship long-term even though it doesn't leak secrets.
-export async function GET() {
+export async function GET(request: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.EMAIL_FROM ?? "RealReach Agency <hello@realreachagency.com>"
+  const to = request.nextUrl.searchParams.get("to") ?? "arjunmattu913@gmail.com"
 
   if (!apiKey) {
     return NextResponse.json({ apiKeyPresent: false, from })
@@ -19,7 +20,7 @@ export async function GET() {
     },
     body: JSON.stringify({
       from,
-      to: "arjunmattu913@gmail.com",
+      to,
       subject: "Debug test",
       html: "<p>Debug test</p>",
     }),
@@ -31,6 +32,7 @@ export async function GET() {
     apiKeyPresent: true,
     apiKeyLength: apiKey.length,
     from,
+    to,
     resendStatus: response.status,
     resendBody: body,
   })
