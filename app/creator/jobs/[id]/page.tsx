@@ -111,14 +111,14 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#6b6153]">Loading job details…</p>
+        <p className="text-[#595e66]">Loading job details…</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="border border-rose-300 bg-rose-50 p-10 text-rose-700">
+      <div className="border-2 border-[#ff534b] bg-white p-10 text-[#ff534b]">
         {error}
       </div>
     )
@@ -126,41 +126,41 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-8">
-      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+      <section className="border-2 border-[#10141b] bg-white p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Job details</p>
-            <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">{job?.title}</h1>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Job details</p>
+            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#10141b]">{job?.title}</h1>
           </div>
-          <div className="text-right text-sm text-[#6b6153]">
+          <div className="text-right text-sm text-[#595e66]">
             <p>Status: {job?.status}</p>
             <p>Budget: £{job?.budget.toFixed(2)}</p>
             <p>{job?.deadline ? `Deadline ${new Date(job.deadline).toLocaleDateString("en-GB")}` : "No deadline"}</p>
           </div>
         </div>
 
-        <div className="mt-8 border border-[#18140f]/10 bg-white/40 p-6">
-          <p className="text-sm leading-7 text-[#3a332a]">{job?.description}</p>
+        <div className="mt-8 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
+          <p className="text-sm leading-7 text-[#10141b]">{job?.description}</p>
         </div>
       </section>
 
-      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
-        <h2 className="font-serif text-xl text-[#18140f]">Submit your application</h2>
+      <section className="border-2 border-[#10141b] bg-white p-8">
+        <h2 className="font-display text-xl font-extrabold text-[#10141b]">Submit your application</h2>
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <label className="block">
-              <span className="text-sm font-medium text-[#3a332a]">Pitch</span>
+              <span className="text-sm font-bold text-[#10141b]">Pitch</span>
               <textarea
                 required
                 value={pitch}
                 onChange={(event) => setPitch(event.target.value)}
-                className="mt-2 min-h-[160px] w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                className="mt-2 min-h-[160px] w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium text-[#3a332a]">Proposed rate (GBP)</span>
+              <span className="text-sm font-bold text-[#10141b]">Proposed rate (GBP)</span>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#6b6153]">£</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#595e66]">£</span>
                 <input
                   type="number"
                   min="0"
@@ -168,21 +168,21 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
                   placeholder="Optional"
                   value={rate}
                   onChange={(event) => setRate(event.target.value)}
-                  className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white py-3 pl-8 pr-4 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                  className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] py-3 pl-8 pr-4 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
                 />
               </div>
             </label>
           </div>
 
           {error ? (
-            <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
               {error}
             </div>
           ) : null}
 
           <button
             disabled={submitting}
-            className="inline-flex w-full items-center justify-center rounded-[2px] bg-[#c1440e] px-6 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? "Submitting application…" : "Submit application"}
           </button>
