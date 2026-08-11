@@ -24,72 +24,16 @@ type ApplicationRow = {
 }
 
 const JOB_STATUS_STYLE: Record<string, string> = {
-  open: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
-  in_progress: "bg-[#c1440e]/10 text-[#c1440e] border-[#c1440e]/30",
-  completed: "bg-sky-500/10 text-sky-700 border-sky-500/30",
-  cancelled: "bg-rose-500/10 text-rose-700 border-rose-500/30",
+  open: "bg-[#c8f23c] text-[#182704]",
+  in_progress: "bg-[#1a54f0] text-white",
+  completed: "bg-[#10141b] text-[#f5f3ee]",
+  cancelled: "bg-[#ff534b] text-white",
 }
 
 const APP_STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-500/10 text-amber-700 border-amber-500/30",
-  accepted: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30",
-  rejected: "bg-rose-500/10 text-rose-700 border-rose-500/30",
-}
-
-function BriefcaseIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
-    </svg>
-  )
-}
-
-function UsersIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-    </svg>
-  )
-}
-
-function CurrencyIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-    </svg>
-  )
-}
-
-function StatCard({
-  icon,
-  label,
-  value,
-  sub,
-  color = "accent",
-}: {
-  icon: React.ReactNode
-  label: string
-  value: string | number
-  sub?: string
-  color?: "accent" | "emerald" | "amber"
-}) {
-  const iconBg =
-    color === "emerald"
-      ? "bg-emerald-500/10 text-emerald-700"
-      : color === "amber"
-        ? "bg-amber-500/10 text-amber-700"
-        : "bg-[#c1440e]/10 text-[#c1440e]"
-
-  return (
-    <div className="border border-[#18140f]/10 bg-[#fbf9f4] p-6 transition hover:border-[#18140f]/20">
-      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-[2px] ${iconBg}`}>
-        {icon}
-      </div>
-      <p className="mt-5 font-serif text-3xl text-[#18140f]">{value}</p>
-      <p className="mt-1 text-sm font-medium text-[#3a332a]">{label}</p>
-      {sub ? <p className="mt-0.5 text-xs text-[#6b6153]">{sub}</p> : null}
-    </div>
-  )
+  pending: "bg-[#feb930] text-[#2b1d00]",
+  accepted: "bg-[#c8f23c] text-[#182704]",
+  rejected: "bg-[#ff534b] text-white",
 }
 
 export default function BrandDashboardPage() {
@@ -150,7 +94,6 @@ export default function BrandDashboardPage() {
 
         const appList = appData ?? []
 
-        // Fetch creator names
         const creatorIds = Array.from(new Set(appList.map((a) => a.creator_id)))
         if (creatorIds.length > 0) {
           const { data: profiles } = await supabase
@@ -175,7 +118,7 @@ export default function BrandDashboardPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#6b6153]">Loading dashboard…</p>
+        <p className="text-[#595e66]">Loading dashboard…</p>
       </div>
     )
   }
@@ -184,85 +127,62 @@ export default function BrandDashboardPage() {
   const totalApplications = applications.length
   const budgetPosted = jobs.reduce((sum, j) => sum + j.budget, 0)
   const recentJobs = jobs.slice(0, 4)
-
-  const greeting = (() => {
-    const h = new Date().getHours()
-    if (h < 12) return "Good morning"
-    if (h < 18) return "Good afternoon"
-    return "Good evening"
-  })()
+  const firstName = displayName ? displayName.split(" ")[0] : null
 
   return (
     <div className="space-y-8">
-      {/* Hero header */}
-      <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Brand Portal</p>
-            <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">
-              {greeting}{displayName ? `, ${displayName}` : ""}.
-            </h1>
-            <p className="mt-2 text-[#6b6153]">Here&apos;s what&apos;s happening with your campaigns.</p>
-          </div>
+      {/* ── Greeting ──────────────────────────────────────────────────────── */}
+      <section>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <h1 className="font-display text-[11vw] font-extrabold leading-[0.95] tracking-[-0.03em] sm:text-6xl">
+            Morning{firstName ? `, ${firstName}` : ""}.
+          </h1>
           <Link
             href="/brand/jobs/new"
-            className="inline-flex shrink-0 items-center gap-2 rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
+            className="inline-flex shrink-0 items-center gap-2 border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Post a new job
+            Post a brief
           </Link>
         </div>
+        <p className="mt-2 text-[#595e66]">Here&apos;s what&apos;s happening with your campaigns.</p>
+      </section>
 
-        {/* Stats */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <StatCard
-            icon={<BriefcaseIcon />}
-            label="Active jobs"
-            value={activeJobs}
-            sub={`${jobs.length} total posted`}
-            color="accent"
-          />
-          <StatCard
-            icon={<UsersIcon />}
-            label="Applications received"
-            value={totalApplications}
-            sub="across all jobs"
-            color="emerald"
-          />
-          <StatCard
-            icon={<CurrencyIcon />}
-            label="Budget posted"
-            value={`£${budgetPosted.toLocaleString()}`}
-            sub="total across all jobs"
-            color="amber"
-          />
+      {/* ── Stat chips ────────────────────────────────────────────────────── */}
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="border-2 border-[#10141b] bg-[#c8f23c] p-5">
+          <p className="font-display text-3xl font-extrabold text-[#182704]">{activeJobs}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#182704]/70">Live campaigns</p>
+        </div>
+        <div className="border-2 border-[#10141b] bg-[#feb930] p-5">
+          <p className="font-display text-3xl font-extrabold text-[#2b1d00]">{totalApplications}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#2b1d00]/70">Applicants to review</p>
+        </div>
+        <div className="border-2 border-[#10141b] bg-white p-5">
+          <p className="font-display text-3xl font-extrabold">£{budgetPosted.toLocaleString()}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#595e66]">Committed budget</p>
+        </div>
+        <div className="border-2 border-[#10141b] bg-[#10141b] p-5">
+          <p className="font-display text-3xl font-extrabold text-[#f5f3ee]">{jobs.length}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#a8adb6]">Total briefs posted</p>
         </div>
       </section>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
-        {/* Recent jobs */}
-        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
+        {/* ── Live campaigns ───────────────────────────────────────────────── */}
+        <section className="border-2 border-[#10141b] bg-white p-6">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="font-serif text-xl text-[#18140f]">Recent jobs</h2>
-            <Link
-              href="/brand/jobs"
-              className="text-sm font-medium text-[#c1440e] transition hover:underline"
-            >
+            <h2 className="font-display text-xl font-extrabold">Live campaigns</h2>
+            <Link href="/brand/jobs" className="text-sm font-bold text-[#1a54f0] hover:underline">
               View all →
             </Link>
           </div>
 
-          <div className="mt-6 space-y-3">
+          <div className="mt-4 divide-y divide-[#10141b]/10 border-t border-[#10141b]/10">
             {recentJobs.length === 0 ? (
-              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
-                <p className="text-[#6b6153]">No jobs yet.</p>
-                <Link
-                  href="/brand/jobs/new"
-                  className="mt-3 inline-block text-sm font-medium text-[#c1440e] hover:underline"
-                >
-                  Post your first job →
+              <div className="py-8 text-center">
+                <p className="text-[#595e66]">No jobs yet.</p>
+                <Link href="/brand/jobs/new" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
+                  Post your first brief →
                 </Link>
               </div>
             ) : (
@@ -270,72 +190,52 @@ export default function BrandDashboardPage() {
                 <Link
                   key={job.id}
                   href={`/brand/jobs/${job.id}`}
-                  className="group flex items-center justify-between gap-4 border border-[#18140f]/10 p-4 transition hover:border-[#c1440e]/40 hover:bg-[#c1440e]/5"
+                  className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[#eae8e1]/40"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-3">
-                      <p className="truncate font-medium text-[#18140f] transition group-hover:text-[#c1440e]">
-                        {job.title}
-                      </p>
-                      <span
-                        className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                          JOB_STATUS_STYLE[job.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
-                        }`}
-                      >
+                      <p className="truncate font-bold">{job.title}</p>
+                      <span className={`shrink-0 px-2 py-0.5 text-[10px] font-bold uppercase ${JOB_STATUS_STYLE[job.status] ?? "bg-[#10141b]/10 text-[#595e66]"}`}>
                         {job.status.replace("_", " ")}
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-[#6b6153]">
+                    <p className="mt-1 text-xs text-[#595e66]">
                       {job.deadline
                         ? `Deadline ${new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}`
                         : "No deadline"}
                     </p>
                   </div>
-                  <p className="shrink-0 font-serif text-lg text-[#18140f]">
-                    £{job.budget.toLocaleString()}
-                  </p>
+                  <p className="shrink-0 font-display text-lg font-extrabold text-[#1a54f0]">£{job.budget.toLocaleString()}</p>
                 </Link>
               ))
             )}
           </div>
         </section>
 
-        {/* Recent applications */}
-        <section className="border border-[#18140f]/10 bg-[#fbf9f4] p-8">
-          <h2 className="font-serif text-xl text-[#18140f]">Recent applications</h2>
+        {/* ── Applicants to review ─────────────────────────────────────────── */}
+        <section className="border-2 border-[#10141b] bg-white p-6">
+          <h2 className="font-display text-xl font-extrabold">Applicants to review</h2>
 
-          <div className="mt-6 space-y-3">
+          <div className="mt-4 divide-y divide-[#10141b]/10 border-t border-[#10141b]/10">
             {applications.length === 0 ? (
-              <div className="border border-dashed border-[#18140f]/15 p-8 text-center">
-                <p className="text-[#6b6153]">No applications yet.</p>
+              <div className="py-8 text-center">
+                <p className="text-[#595e66]">No applications yet.</p>
               </div>
             ) : (
               applications.map((app) => {
                 const matchingJob = jobs.find((j) => j.id === app.job_id)
                 return (
-                  <div
-                    key={app.id}
-                    className="flex items-center justify-between gap-3 border border-[#18140f]/10 p-4"
-                  >
+                  <div key={app.id} className="flex items-center justify-between gap-3 py-4">
                     <div className="min-w-0">
-                      <p className="truncate font-medium text-[#18140f]">{app.creatorName ?? "Creator"}</p>
-                      <p className="mt-0.5 truncate text-xs text-[#6b6153]">
-                        {matchingJob?.title ?? "Job"}
-                      </p>
+                      <p className="truncate font-bold">{app.creatorName ?? "Creator"}</p>
+                      <p className="mt-0.5 truncate text-xs text-[#595e66]">{matchingJob?.title ?? "Job"}</p>
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1">
-                      <span
-                        className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                          APP_STATUS_STYLE[app.status] ?? "bg-[#18140f]/5 text-[#3a332a] border-[#18140f]/20"
-                        }`}
-                      >
+                      <span className={`px-2 py-0.5 text-[10px] font-bold uppercase ${APP_STATUS_STYLE[app.status] ?? "bg-[#10141b]/10 text-[#595e66]"}`}>
                         {app.status}
                       </span>
-                      <p className="text-xs text-[#8b8578]">
-                        {new Date(app.created_at).toLocaleDateString("en-GB", {
-                          month: "short",
-                          day: "numeric",
-                        })}
+                      <p className="text-xs text-[#8b8f96]">
+                        {new Date(app.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
                       </p>
                     </div>
                   </div>
@@ -347,7 +247,7 @@ export default function BrandDashboardPage() {
           {applications.length > 0 ? (
             <Link
               href="/brand/jobs"
-              className="mt-6 flex items-center justify-center border border-[#18140f]/10 py-3 text-sm font-medium text-[#3a332a] transition hover:border-[#c1440e]/40 hover:text-[#c1440e]"
+              className="mt-6 flex items-center justify-center border-2 border-[#10141b] py-3 text-sm font-bold transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
             >
               Manage all jobs
             </Link>
@@ -356,7 +256,7 @@ export default function BrandDashboardPage() {
       </div>
 
       {error ? (
-        <div className="border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
+        <div className="border-2 border-[#ff534b] bg-white p-4 text-sm text-[#ff534b]">
           {error}
         </div>
       ) : null}
