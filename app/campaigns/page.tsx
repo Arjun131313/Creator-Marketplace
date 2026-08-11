@@ -25,6 +25,7 @@ const SORTS: { key: SortKey; label: string }[] = [
 
 export default function CampaignsPage() {
   const [jobs, setJobs] = useState<CampaignJob[]>([])
+  const [applicantCounts, setApplicantCounts] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState<SortKey>("newest")
 
@@ -36,8 +37,25 @@ export default function CampaignsPage() {
         .eq("status", "open")
         .order("created_at", { ascending: false })
 
-      setJobs(data ?? [])
+      const jobsList = data ?? []
+      setJobs(jobsList)
       setLoading(false)
+
+      if (jobsList.length > 0) {
+        const { data: counts } = await supabase.rpc("job_application_counts", {
+          job_ids: jobsList.map((j) => j.id),
+        })
+        if (counts) {
+          setApplicantCounts(
+            Object.fromEntries(
+              (counts as { job_id: string; application_count: number }[]).map((row) => [
+                row.job_id,
+                row.application_count,
+              ]),
+            ),
+          )
+        }
+      }
     }
 
     load()
@@ -108,9 +126,16 @@ export default function CampaignsPage() {
                   <span className="font-display text-3xl font-extrabold text-[#1a54f0]">
                     £{job.budget.toLocaleString()}
                   </span>
-                  <span className="bg-[#10141b] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#f5f3ee]">
-                    {new Date(job.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {applicantCounts[job.id] ? (
+                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                        {applicantCounts[job.id]} applied
+                      </span>
+                    ) : null}
+                    <span className="bg-[#10141b] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#f5f3ee]">
+                      {new Date(job.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex-1 p-5">

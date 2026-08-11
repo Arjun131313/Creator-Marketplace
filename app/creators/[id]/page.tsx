@@ -240,7 +240,7 @@ export default function CreatorProfilePage() {
             <p className="text-xs font-extrabold uppercase tracking-wide text-[#595e66]">
               {profile.niche ?? "Content creator"}
             </p>
-            <h1 className="font-display text-[13vw] font-extrabold leading-[0.9] tracking-[-0.035em] sm:text-7xl lg:text-[96px]">
+            <h1 className="font-display text-[13vw] font-extrabold leading-[0.85] tracking-[-0.035em] sm:text-7xl lg:text-[128px]">
               {nameParts[0]}
               {nameParts.length > 1 && (
                 <>

@@ -420,7 +420,12 @@ export type Database = {
       }
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      job_application_counts: {
+        Args: { job_ids: string[] }
+        Returns: { job_id: string; application_count: number }[]
+      }
+    }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>
   }
