@@ -37,6 +37,7 @@ export default function PublicNav() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/creators", label: "Creators" },
+    { href: "/campaigns", label: "Campaigns" },
     { href: "/how-it-works", label: "How it works" },
   ]
 
