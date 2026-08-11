@@ -145,29 +145,29 @@ export default function Home() {
       </div>
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-[1400px] px-5 py-16 md:py-24">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="mx-auto max-w-[1400px] px-5 py-16 md:py-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[782fr_578fr]">
           <div>
-            <h1 className="font-display text-5xl font-extrabold leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-[15vw] font-extrabold leading-[0.95] tracking-[-0.035em] sm:text-[80px] lg:text-[120px] lg:leading-[0.95]">
               Small
               <br />
               audience.
               <br />
               <span className="text-[#1a54f0]">Serious money.</span>
             </h1>
-            <p className="mt-6 max-w-lg text-base leading-7 text-[#595e66] sm:text-lg">
+            <p className="mt-6 max-w-[512px] text-lg leading-7 text-[#595e66]">
               RealReach Agency pairs UK brands with micro-influencers who actually get replies. Fixed fees in pounds, paid on delivery, no agency taking a third.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/signup"
-                className="bg-[#1a54f0] px-6 py-3.5 text-center text-sm font-bold text-white transition-opacity hover:opacity-90"
+                className="border-2 border-[#10141b] bg-[#1a54f0] px-6 py-4 text-center text-xl text-white transition-opacity hover:opacity-90"
               >
                 I&apos;m a creator →
               </Link>
               <Link
                 href="/signup"
-                className="border border-[#10141b] px-6 py-3.5 text-center text-sm font-bold text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+                className="border-2 border-[#10141b] bg-transparent px-6 py-4 text-center text-xl text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
               >
                 I&apos;m a brand →
               </Link>
@@ -190,33 +190,25 @@ export default function Home() {
           </div>
 
           <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#10141b]">
+            <div className="relative aspect-[574/670] w-full overflow-hidden bg-[#10141b]">
               {loading ? (
                 <div className="h-full w-full animate-pulse bg-[#1b2028]" />
-              ) : heroCreator ? (
+              ) : heroCreator?.avatar_url ? (
                 <Link href={`/creators/${heroCreator.id}`} className="block h-full w-full">
-                  {heroCreator.avatar_url ? (
-                    <img
-                      src={heroCreator.avatar_url}
-                      alt={heroCreator.display_name ?? ""}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src="/images/hero-vlogger.jpg"
-                      alt="A creator filming content"
-                      className="h-full w-full object-cover"
-                    />
-                  )}
+                  <img
+                    src={heroCreator.avatar_url}
+                    alt={heroCreator.display_name ?? ""}
+                    className="h-full w-full object-cover"
+                  />
                 </Link>
               ) : (
-                <img src="/images/hero-vlogger.jpg" alt="A creator filming content" className="h-full w-full object-cover" />
+                <img src="/images/hero-lovable-reference.jpg" alt="A UK content creator filming with a phone gimbal" className="h-full w-full object-cover" />
               )}
             </div>
             {heroPrice && heroCreator && (
-              <div className="absolute -bottom-5 -left-5 border border-[#10141b] bg-[#f5f3ee] px-5 py-4 shadow-[6px_6px_0_#10141b]">
-                <p className="font-display text-2xl font-extrabold">£{heroPrice.toLocaleString()}</p>
-                <p className="text-xs text-[#595e66]">per reel · {(heroCreator.display_name ?? "Creator").split(" ")[0]}</p>
+              <div className="absolute bottom-8 -left-4 border-2 border-[#10141b] bg-[#feb930] px-4 py-3 shadow-[6px_6px_0_#10141b]">
+                <p className="font-display text-2xl font-extrabold text-[#10141b]">£{heroPrice.toLocaleString()}</p>
+                <p className="text-xs text-[#10141b]/70">per reel · {(heroCreator.display_name ?? "Creator").split(" ")[0]}</p>
               </div>
             )}
           </div>

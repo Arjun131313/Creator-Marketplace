@@ -49,12 +49,12 @@ export default function PublicNav() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors ${
+              className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
                 pathname === link.href
                   ? "text-[#10141b]"
                   : "text-[#595e66] hover:text-[#10141b]"
