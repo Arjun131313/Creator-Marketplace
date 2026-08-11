@@ -12,3 +12,12 @@ export const NICHE_CATEGORIES = [
 ] as const
 
 export const NICHES = NICHE_CATEGORIES.map((c) => c.name)
+
+const FALLBACK_CREATOR_IMAGE = "/images/creator-street.jpg"
+
+// Best-effort photo for a creator card when no real avatar has been uploaded yet.
+// Falls back to a generic content-creation photo for niches without a specific one.
+export function getNicheImage(niche: string | null): string {
+  const match = NICHE_CATEGORIES.find((c) => c.name === niche)
+  return match?.image ?? FALLBACK_CREATOR_IMAGE
+}

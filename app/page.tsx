@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase"
 import { getPlatformFollowers } from "@/types/database"
 import type { PlatformStats, CreatorPackage } from "@/types/database"
 import { getCreatorTier } from "@/lib/creator-tier"
-import { NICHE_CATEGORIES } from "@/lib/niches"
+import { NICHE_CATEGORIES, getNicheImage } from "@/lib/niches"
 
 type Creator = {
   id: string
@@ -33,11 +33,6 @@ function getStartingPrice(packages: CreatorPackage[] | null): number | null {
   const prices = packages.map((p) => p.price).filter((p): p is number => typeof p === "number" && p > 0)
   if (!prices.length) return null
   return Math.min(...prices)
-}
-
-function creatorInitials(name: string | null): string {
-  if (!name) return "C"
-  return name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()
 }
 
 export default function Home() {
@@ -271,13 +266,11 @@ export default function Home() {
               return (
                 <Link key={creator.id} href={`/creators/${creator.id}`} className="group block bg-white">
                   <div className="relative aspect-square overflow-hidden bg-[#eae8e1]">
-                    {creator.avatar_url ? (
-                      <img src={creator.avatar_url} alt={creator.display_name ?? ""} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center font-display text-3xl font-extrabold text-[#595e66]">
-                        {creatorInitials(creator.display_name)}
-                      </div>
-                    )}
+                    <img
+                      src={creator.avatar_url ?? getNicheImage(creator.niche)}
+                      alt={creator.display_name ?? ""}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                     {creator.avgRating !== null && (
                       <span className="absolute left-2 top-2 bg-[#c8f23c] px-2 py-1 text-[10px] font-bold text-[#10141b]">
                         {creator.avgRating.toFixed(1)} ★
