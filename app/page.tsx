@@ -301,33 +301,45 @@ export default function Home() {
         )}
       </section>
 
-      {/* ── LIVE BRIEFS ───────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-[1400px] px-5 py-20">
-        <div className="mb-2 flex items-end justify-between">
-          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Live briefs, right now</h2>
-          <Link href="/signup" className="text-sm font-bold text-[#1a54f0] hover:underline">
-            Browse all briefs →
-          </Link>
-        </div>
-        <p className="mb-8 max-w-xl text-sm text-[#595e66]">
-          Every brief lists the fee before you apply. No &quot;exposure&quot;, no gifting-only, no discovery calls.
-        </p>
-        {openJobs.length === 0 ? (
-          <div className="border border-[#10141b]/10 bg-white p-12 text-center">
-            <p className="text-[#595e66]">No open briefs yet — we&apos;re onboarding our founding brands. Post the first one.</p>
-            <Link href="/signup" className="mt-4 inline-block bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white">Post a brief</Link>
+      {/* ── LIVE BRIEFS (full-bleed ink) ─────────────────────────────────── */}
+      <section className="bg-[#10141b] py-16 text-[#f5f3ee]">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h2 className="font-display text-5xl font-extrabold leading-none sm:text-6xl">
+              Live briefs,
+              <br />
+              right now
+            </h2>
+            <p className="mt-6 max-w-md text-base leading-6 text-[#a8adb6]">
+              Every brief lists the fee before you apply. No &quot;exposure&quot;, no gifting-only, no discovery calls.
+            </p>
+            <Link href="/signup" className="mt-8 inline-block text-xs font-extrabold tracking-wide text-[#f5f3ee] underline decoration-2 underline-offset-4">
+              BROWSE ALL{openJobCount !== null && openJobCount > 0 ? ` ${openJobCount}` : ""} BRIEFS
+            </Link>
           </div>
-        ) : (
-          <div className="grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 md:grid-cols-3">
-            {openJobs.map((job) => (
-              <div key={job.id} className="bg-white p-6">
-                <p className="font-display text-lg font-extrabold">{job.title}</p>
-                <p className="mt-1 text-xs text-[#595e66]">{job.brand_name}</p>
-                <p className="mt-4 font-display text-xl font-extrabold text-[#1a54f0]">£{job.budget.toLocaleString()}</p>
+
+          <div>
+            {openJobs.length === 0 ? (
+              <div className="border border-[#f5f3ee]/15 p-10 text-center">
+                <p className="text-[#a8adb6]">No open briefs yet — we&apos;re onboarding our founding brands.</p>
+                <Link href="/signup" className="mt-4 inline-block bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white">Post a brief</Link>
               </div>
-            ))}
+            ) : (
+              <div className="divide-y divide-[#f5f3ee]/12 border-t border-[#f5f3ee]/12">
+                {openJobs.map((job) => (
+                  <div key={job.id} className="flex items-center justify-between gap-4 py-6">
+                    <div className="min-w-0">
+                      <span className="mb-2 inline-block bg-[#1a54f0] px-2 py-1 text-[10px] font-extrabold text-white">BRIEF</span>
+                      <p className="truncate text-xl">{job.title}</p>
+                      <p className="mt-1 text-sm text-[#a8adb6]">{job.brand_name}</p>
+                    </div>
+                    <p className="shrink-0 font-display text-2xl">£{job.budget.toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </section>
 
       {/* ── FOOTER ────────────────────────────────────────────────────────── */}
