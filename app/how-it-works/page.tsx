@@ -1,5 +1,6 @@
 import Link from "next/link"
 import PublicNav from "@/components/public-nav"
+import MobileBottomNav from "@/components/mobile-bottom-nav"
 
 const steps = [
   {
@@ -101,31 +102,31 @@ const faqs = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       <PublicNav />
 
       {/* ── Hero (ink) ────────────────────────────────────────────────────── */}
-      <section className="bg-[#18140f] py-24 text-[#f5f1e8]">
+      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#e8a37c]">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">
             Simple. Transparent. Effective.
           </p>
-          <h1 className="mt-4 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
-            How RealReach Agency <em className="not-italic italic">works</em>
+          <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
+            How RealReach works.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#b8afa0]">
-            From posting a brief to approving content — we handle everything in between. Here&apos;s exactly how brands and microinfluencers work together on RealReach Agency.
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
+            From posting a brief to approving content — we handle everything in between. Here&apos;s exactly how brands and microinfluencers work together on RealReach.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/signup"
-              className="rounded-[2px] bg-[#c1440e] px-6 py-3 text-sm font-semibold text-[#fef8f2] transition-colors hover:bg-[#a23a0c]"
+              className="border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Get started free
             </Link>
             <Link
               href="/creators"
-              className="rounded-[2px] border border-[#3a332a] px-6 py-3 text-sm font-semibold text-[#f5f1e8] transition-colors hover:border-[#e8a37c]"
+              className="border-2 border-[#f5f3ee]/40 px-6 py-3 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
             >
               Browse creators
             </Link>
@@ -134,7 +135,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ── Photo banner (paper) ─────────────────────────────────────────── */}
-      <div className="relative h-64 overflow-hidden bg-[#18140f]/5 sm:h-80">
+      <div className="relative h-64 overflow-hidden border-b-2 border-[#10141b] sm:h-80">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/hero-vlogger.jpg"
@@ -149,16 +150,16 @@ export default function HowItWorksPage() {
           {steps.map((step, i) => (
             <div
               key={step.number}
-              className={`flex flex-col gap-8 border-t border-[#18140f]/10 pt-10 lg:flex-row lg:items-start ${
+              className={`flex flex-col gap-8 border-t-2 border-[#10141b]/10 pt-10 lg:flex-row lg:items-start ${
                 i % 2 === 1 ? "lg:flex-row-reverse" : ""
               }`}
             >
               {/* Icon + number */}
               <div className="flex shrink-0 flex-col items-start gap-4 lg:w-48">
-                <div className="flex h-14 w-14 items-center justify-center border border-[#18140f]/15 text-[#c1440e]">
+                <div className="flex h-14 w-14 items-center justify-center border-2 border-[#10141b] text-[#1a54f0]">
                   {step.icon}
                 </div>
-                <p className="font-serif text-6xl leading-none text-[#18140f]/10">
+                <p className="font-display text-6xl font-extrabold leading-none text-[#10141b]/10">
                   {step.number}
                 </p>
               </div>
@@ -166,18 +167,18 @@ export default function HowItWorksPage() {
               {/* Content */}
               <div className="flex-1 space-y-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">
                     Step {step.number}
                   </p>
-                  <h2 className="mt-1 font-serif text-2xl font-medium">{step.title}</h2>
-                  <p className="mt-0.5 text-sm font-medium text-[#6b6153]">{step.subtitle}</p>
+                  <h2 className="mt-1 font-display text-2xl font-extrabold">{step.title}</h2>
+                  <p className="mt-0.5 text-sm font-bold text-[#595e66]">{step.subtitle}</p>
                 </div>
-                <p className="leading-7 text-[#6b6153]">{step.description}</p>
+                <p className="leading-7 text-[#595e66]">{step.description}</p>
                 <ul className="space-y-2">
                   {step.points.map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-sm text-[#6b6153]">
+                    <li key={point} className="flex items-start gap-3 text-sm text-[#595e66]">
                       <svg
-                        className="mt-0.5 h-4 w-4 shrink-0 text-[#c1440e]"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#1a54f0]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -198,36 +199,36 @@ export default function HowItWorksPage() {
       {/* ── FAQ (paper) ───────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-3xl px-6 pb-24 md:px-8">
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">FAQ</p>
-          <h2 className="mt-2 font-serif text-3xl font-medium">Common questions</h2>
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">FAQ</p>
+          <h2 className="mt-2 font-display text-3xl font-extrabold">Common questions</h2>
         </div>
-        <div className="divide-y divide-[#18140f]/10 border-y border-[#18140f]/10">
+        <div className="divide-y-2 divide-[#10141b]/10 border-y-2 border-[#10141b]/10">
           {faqs.map((faq) => (
             <div key={faq.q} className="py-7">
-              <p className="font-semibold text-[#18140f]">{faq.q}</p>
-              <p className="mt-2 text-sm leading-6 text-[#6b6153]">{faq.a}</p>
+              <p className="font-bold text-[#10141b]">{faq.q}</p>
+              <p className="mt-2 text-sm leading-6 text-[#595e66]">{faq.a}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── CTA (ink) ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#18140f] py-24 text-[#f5f1e8]">
+      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
-          <h2 className="font-serif text-3xl font-medium sm:text-4xl">Ready to get started?</h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#b8afa0]">
-            Join brands who use RealReach Agency to find and work with the best microinfluencers.
+          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Ready to get started?</h2>
+          <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
+            Join brands who use RealReach to find and work with the best microinfluencers.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/signup"
-              className="rounded-[2px] bg-[#c1440e] px-8 py-4 text-sm font-semibold text-[#fef8f2] transition-colors hover:bg-[#a23a0c]"
+              className="border-2 border-[#10141b] bg-[#1a54f0] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Sign up as a brand
             </Link>
             <Link
               href="/signup"
-              className="rounded-[2px] border border-[#3a332a] px-8 py-4 text-sm font-semibold text-[#f5f1e8] transition-colors hover:border-[#e8a37c]"
+              className="border-2 border-[#f5f3ee]/40 px-8 py-4 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
             >
               Join as a creator
             </Link>
@@ -235,19 +236,23 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <footer className="border-t border-[#3a332a] bg-[#18140f] px-6 py-10 text-[#8b8578]">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-6">
-          <Link href="/" className="font-serif text-lg text-[#f5f1e8] transition hover:text-[#e8a37c]">
-            Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
-          </Link>
-          <div className="flex flex-wrap items-center gap-6 text-sm">
-            <Link href="/creators" className="transition hover:text-[#f5f1e8]">Browse Creators</Link>
-            <Link href="/how-it-works" className="transition hover:text-[#f5f1e8]">How it Works</Link>
-            <Link href="/login" className="transition hover:text-[#f5f1e8]">Log in</Link>
-            <Link href="/signup" className="transition hover:text-[#f5f1e8]">Sign up</Link>
+      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
+          <div className="flex flex-wrap gap-6 text-sm">
+            <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
+            <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
+            <Link href="/terms" className="hover:text-[#f5f3ee]">Terms</Link>
+            <Link href="/privacy" className="hover:text-[#f5f3ee]">Privacy</Link>
+          </div>
+          <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>
       </footer>
+
+      <MobileBottomNav />
     </div>
   )
 }

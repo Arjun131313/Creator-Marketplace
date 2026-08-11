@@ -70,15 +70,15 @@ const SECTIONS = [
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Help Center</p>
-        <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">Help Center</p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
           How can we help?
         </h1>
-        <p className="mt-4 max-w-xl text-lg leading-8 text-[#6b6153]">
+        <p className="mt-4 max-w-xl text-lg leading-8 text-[#595e66]">
           Answers to common questions for brands and creators. Can&apos;t find what you need? Reach
           out and we&apos;ll get back to you.
         </p>
@@ -86,12 +86,12 @@ export default function HelpPage() {
         <div className="mt-14 space-y-14">
           {SECTIONS.map((section) => (
             <div key={section.title}>
-              <h2 className="mb-5 font-serif text-2xl font-medium">{section.title}</h2>
-              <div className="divide-y divide-[#18140f]/10 border-y border-[#18140f]/10">
+              <h2 className="mb-5 font-display text-2xl font-extrabold">{section.title}</h2>
+              <div className="divide-y-2 divide-[#10141b]/10 border-y-2 border-[#10141b]/10">
                 {section.items.map((item) => (
                   <div key={item.q} className="py-6">
-                    <p className="font-semibold text-[#18140f]">{item.q}</p>
-                    <p className="mt-2 leading-7 text-[#6b6153]">{item.a}</p>
+                    <p className="font-bold text-[#10141b]">{item.q}</p>
+                    <p className="mt-2 leading-7 text-[#595e66]">{item.a}</p>
                   </div>
                 ))}
               </div>
@@ -99,34 +99,34 @@ export default function HelpPage() {
           ))}
         </div>
 
-        <div className="mt-16 rounded-sm border border-[#18140f]/10 bg-[#fbf9f4] p-8 text-center">
-          <h2 className="font-serif text-2xl font-medium">Still need help?</h2>
-          <p className="mx-auto mt-2 max-w-md text-[#6b6153]">
+        <div className="mt-16 border-2 border-[#10141b] bg-white p-8 text-center">
+          <h2 className="font-display text-2xl font-extrabold">Still need help?</h2>
+          <p className="mx-auto mt-2 max-w-md text-[#595e66]">
             Email us and we&apos;ll get back to you as soon as we can.
           </p>
           <a
             href="mailto:hello@realreachagency.com"
-            className="mt-6 inline-block rounded-[2px] bg-[#c1440e] px-6 py-3 text-sm font-semibold text-[#fef8f2] transition-colors hover:bg-[#a23a0c]"
+            className="mt-6 inline-block border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             hello@realreachagency.com
           </a>
         </div>
 
         <p className="mt-10 text-sm">
-          <Link href="/how-it-works" className="font-semibold text-[#c1440e] hover:underline">
+          <Link href="/how-it-works" className="font-bold text-[#1a54f0] hover:underline">
             See the full how-it-works guide →
           </Link>
         </p>
       </main>
 
-      <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
+      <footer className="border-t-2 border-[#10141b]/10 bg-[#f5f3ee] px-6 py-10 text-[#595e66]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
-          <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+            RealReach.
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
-            <Link href="/terms" className="transition hover:text-[#18140f]">Terms</Link>
-            <Link href="/privacy" className="transition hover:text-[#18140f]">Privacy</Link>
+            <Link href="/terms" className="transition hover:text-[#10141b]">Terms</Link>
+            <Link href="/privacy" className="transition hover:text-[#10141b]">Privacy</Link>
           </div>
         </div>
       </footer>

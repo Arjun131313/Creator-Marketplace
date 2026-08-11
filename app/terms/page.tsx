@@ -3,24 +3,24 @@ import PublicNav from "@/components/public-nav"
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <div className="mb-10 rounded-sm border border-[#c1440e]/30 bg-[#c1440e]/5 p-5 text-sm leading-6 text-[#6b6153]">
-          <strong className="text-[#18140f]">Draft — not legal advice.</strong> This is placeholder
+        <div className="mb-10 border-2 border-[#feb930] bg-[#feb930]/10 p-5 text-sm leading-6 text-[#595e66]">
+          <strong className="text-[#10141b]">Draft — not legal advice.</strong> This is placeholder
           content generated to unblock development and ad-platform requirements. Replace the
           bracketed details, confirm it matches how RealReach Agency actually operates, and have it
           reviewed by a qualified lawyer in your jurisdiction before publishing it as final.
         </div>
 
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Legal</p>
-        <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight">Terms of Service</h1>
-        <p className="mt-3 text-sm text-[#6b6153]">Last updated: [DATE]</p>
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">Legal</p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight">Terms of Service</h1>
+        <p className="mt-3 text-sm text-[#595e66]">Last updated: [DATE]</p>
 
-        <div className="mt-10 space-y-8 leading-7 text-[#3a332a]">
+        <div className="mt-10 space-y-8 leading-7 text-[#10141b]">
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">1. Who we are</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">1. Who we are</h2>
             <p>
               RealReach Agency (&ldquo;RealReach Agency&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) operates a marketplace platform
               that connects brands (&ldquo;Brands&rdquo;) seeking microinfluencer marketing content with independent
@@ -32,7 +32,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">2. What RealReach Agency is (and isn&apos;t)</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">2. What RealReach Agency is (and isn&apos;t)</h2>
             <p>
               RealReach Agency provides the platform, tools, and payment infrastructure that let Brands and
               Creators find each other, agree on a brief, and exchange payment for deliverables. We are
@@ -44,7 +44,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">3. Accounts</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">3. Accounts</h2>
             <p>
               You must be at least 18 years old (or the age of majority in your jurisdiction) to create
               an account. You&apos;re responsible for keeping your login credentials secure and for all
@@ -56,7 +56,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">4. Jobs, briefs, and applications</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">4. Jobs, briefs, and applications</h2>
             <p>
               Brands post job briefs describing the campaign, deliverables, budget, and deadline.
               Creators may apply, or Brands may reach out directly. Once a Brand accepts an application
@@ -66,7 +66,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">5. Payments and escrow</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">5. Payments and escrow</h2>
             <p>
               When a Brand hires a Creator, the agreed payment is held in escrow by our payment
               processor until the Brand approves the delivered content, or the applicable revision/
@@ -78,7 +78,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">6. Revisions, disputes, and refunds</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">6. Revisions, disputes, and refunds</h2>
             <p>
               Brands may request reasonable revisions consistent with the original brief before
               approving delivered content. If a Brand and Creator cannot agree on whether deliverables
@@ -89,7 +89,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">7. Content and intellectual property</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">7. Content and intellectual property</h2>
             <p>
               Unless the job brief states otherwise, ownership and usage rights for delivered content
               transfer to the Brand only once payment has been released to the Creator. Creators retain
@@ -99,7 +99,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">8. Prohibited conduct</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">8. Prohibited conduct</h2>
             <p>
               You may not use RealReach Agency to circumvent platform fees by arranging payment outside the
               platform for a job originated on RealReach Agency, post unlawful, deceptive, or infringing
@@ -108,7 +108,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">9. Limitation of liability</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">9. Limitation of liability</h2>
             <p>
               RealReach Agency is provided &ldquo;as is.&rdquo; To the maximum extent permitted by law, RealReach Agency is not
               liable for indirect, incidental, or consequential damages arising from your use of the
@@ -118,7 +118,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">10. Changes to these Terms</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">10. Changes to these Terms</h2>
             <p>
               We may update these Terms from time to time. We&apos;ll post the updated version here and
               update the &ldquo;Last updated&rdquo; date above. Continued use of RealReach Agency after changes take
@@ -127,7 +127,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">11. Governing law</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">11. Governing law</h2>
             <p>
               These Terms are governed by the laws of England and Wales, without regard to
               conflict-of-law principles.
@@ -135,7 +135,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">12. Contact</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">12. Contact</h2>
             <p>
               Questions about these Terms? Email hello@realreachagency.com.
             </p>
@@ -143,20 +143,20 @@ export default function TermsPage() {
         </div>
 
         <p className="mt-14 text-sm">
-          <Link href="/privacy" className="font-semibold text-[#c1440e] hover:underline">
+          <Link href="/privacy" className="font-bold text-[#1a54f0] hover:underline">
             Read our Privacy Policy →
           </Link>
         </p>
       </main>
 
-      <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
+      <footer className="border-t-2 border-[#10141b]/10 bg-[#f5f3ee] px-6 py-10 text-[#595e66]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
-          <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+            RealReach.
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
-            <Link href="/help" className="transition hover:text-[#18140f]">Help Center</Link>
-            <Link href="/privacy" className="transition hover:text-[#18140f]">Privacy</Link>
+            <Link href="/help" className="transition hover:text-[#10141b]">Help Center</Link>
+            <Link href="/privacy" className="transition hover:text-[#10141b]">Privacy</Link>
           </div>
         </div>
       </footer>

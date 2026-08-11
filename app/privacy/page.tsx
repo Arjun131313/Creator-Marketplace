@@ -3,25 +3,25 @@ import PublicNav from "@/components/public-nav"
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <div className="mb-10 rounded-sm border border-[#c1440e]/30 bg-[#c1440e]/5 p-5 text-sm leading-6 text-[#6b6153]">
-          <strong className="text-[#18140f]">Draft — not legal advice.</strong> This is placeholder
+        <div className="mb-10 border-2 border-[#feb930] bg-[#feb930]/10 p-5 text-sm leading-6 text-[#595e66]">
+          <strong className="text-[#10141b]">Draft — not legal advice.</strong> This is placeholder
           content generated to unblock development and ad-platform requirements (e.g. Meta requires a
           live Privacy Policy URL before it will approve an ad account). Replace the bracketed details,
           confirm it matches your actual data practices, and have it reviewed by a qualified lawyer
           before publishing it as final.
         </div>
 
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c1440e]">Legal</p>
-        <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight">Privacy Policy</h1>
-        <p className="mt-3 text-sm text-[#6b6153]">Last updated: [DATE]</p>
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">Legal</p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight">Privacy Policy</h1>
+        <p className="mt-3 text-sm text-[#595e66]">Last updated: [DATE]</p>
 
-        <div className="mt-10 space-y-8 leading-7 text-[#3a332a]">
+        <div className="mt-10 space-y-8 leading-7 text-[#10141b]">
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">1. Who this policy covers</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">1. Who this policy covers</h2>
             <p>
               This Privacy Policy explains how RealReach Agency (&ldquo;we&rdquo;, &ldquo;us&rdquo;) collects, uses, and
               protects information about Brands and Creators (&ldquo;you&rdquo;) who use the RealReach Agency platform.
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">2. Information we collect</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">2. Information we collect</h2>
             <ul className="ml-5 list-disc space-y-2">
               <li><strong>Account information:</strong> name, email, password (hashed), and account role (Brand or Creator).</li>
               <li><strong>Profile information:</strong> for Creators — bio, niche, platform handles and follower counts, portfolio content, package pricing; for Brands — company name and job briefs.</li>
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">3. How we use your information</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">3. How we use your information</h2>
             <p>We use the information above to:</p>
             <ul className="ml-5 mt-2 list-disc space-y-2">
               <li>Operate the marketplace — matching Brands with Creators, processing job briefs and applications, and facilitating messaging.</li>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">4. Who we share it with</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">4. Who we share it with</h2>
             <ul className="ml-5 list-disc space-y-2">
               <li><strong>Other users:</strong> your public profile (Creators) or job briefs (Brands) are visible to the other side of the marketplace as needed to facilitate a job.</li>
               <li><strong>Service providers:</strong> our database host (Supabase), payment processor (Stripe), and hosting provider, solely to operate the platform on our behalf.</li>
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">5. Data retention</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">5. Data retention</h2>
             <p>
               We retain account and transaction data for as long as your account is active and for
               [X years] afterward to meet our legal, tax, and dispute-resolution obligations. You can
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">6. Your rights</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">6. Your rights</h2>
             <p>
               Under UK GDPR (and equivalent laws if you&apos;re based elsewhere), you have the right to
               access, correct, export, or delete your personal information, and to object to or
@@ -89,7 +89,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">7. Cookies</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">7. Cookies</h2>
             <p>
               We use essential cookies to keep you signed in and the platform functioning, and
               (if enabled) analytics/advertising cookies to understand traffic and measure ad campaigns.
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">8. Security</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">8. Security</h2>
             <p>
               We use industry-standard measures — including encryption in transit, access controls, and
               row-level security on our database — to protect your information. No system is completely
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">9. International transfers</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">9. International transfers</h2>
             <p>
               Your information may be processed in countries other than your own by the service
               providers listed above. Where required, we rely on appropriate safeguards (such as
@@ -116,12 +116,12 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">10. Children</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">10. Children</h2>
             <p>RealReach Agency is not intended for anyone under 18, and we don&apos;t knowingly collect data from them.</p>
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">11. Changes to this policy</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">11. Changes to this policy</h2>
             <p>
               We may update this policy from time to time. We&apos;ll post the updated version here and
               update the &ldquo;Last updated&rdquo; date above.
@@ -129,26 +129,26 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-lg font-semibold text-[#18140f]">12. Contact</h2>
+            <h2 className="mb-2 text-lg font-bold text-[#10141b]">12. Contact</h2>
             <p>Questions about this policy or your data? Email hello@realreachagency.com.</p>
           </section>
         </div>
 
         <p className="mt-14 text-sm">
-          <Link href="/terms" className="font-semibold text-[#c1440e] hover:underline">
+          <Link href="/terms" className="font-bold text-[#1a54f0] hover:underline">
             Read our Terms of Service →
           </Link>
         </p>
       </main>
 
-      <footer className="border-t border-[#18140f]/10 bg-[#f5f1e8] px-6 py-10 text-[#6b6153]">
+      <footer className="border-t-2 border-[#10141b]/10 bg-[#f5f3ee] px-6 py-10 text-[#595e66]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
-          <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+            RealReach.
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
-            <Link href="/help" className="transition hover:text-[#18140f]">Help Center</Link>
-            <Link href="/terms" className="transition hover:text-[#18140f]">Terms</Link>
+            <Link href="/help" className="transition hover:text-[#10141b]">Help Center</Link>
+            <Link href="/terms" className="transition hover:text-[#10141b]">Terms</Link>
           </div>
         </div>
       </footer>
