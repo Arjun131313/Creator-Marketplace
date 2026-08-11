@@ -11,7 +11,20 @@ type ConversationSummary = {
   otherName: string
   lastMessage: string
   updatedAt: string
-  unread: boolean
+  unreadCount: number
+}
+
+const AVATAR_COLORS = [
+  { bg: "#ff534b", text: "#fff6f5" },
+  { bg: "#1a54f0", text: "#f2f5fc" },
+  { bg: "#c8f23c", text: "#182704" },
+  { bg: "#feb930", text: "#2b1d00" },
+]
+
+function avatarColor(name: string) {
+  let hash = 0
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
 }
 
 function getInitials(name: string) {
@@ -103,17 +116,14 @@ export default function MessagesPage() {
         read: boolean
       }[]
 
-      const latestByConv = new Map<
-        string,
-        { content: string; created_at: string; unread: boolean }
-      >()
+      const latestByConv = new Map<string, { content: string; created_at: string }>()
+      const unreadCountByConv = new Map<string, number>()
       msgs.forEach((m) => {
         if (!latestByConv.has(m.conversation_id)) {
-          latestByConv.set(m.conversation_id, {
-            content: m.content,
-            created_at: m.created_at,
-            unread: m.recipient_id === userId && !m.read,
-          })
+          latestByConv.set(m.conversation_id, { content: m.content, created_at: m.created_at })
+        }
+        if (m.recipient_id === userId && !m.read) {
+          unreadCountByConv.set(m.conversation_id, (unreadCountByConv.get(m.conversation_id) ?? 0) + 1)
         }
       })
 
@@ -134,7 +144,7 @@ export default function MessagesPage() {
             otherName: nameById.get(otherId) ?? "User",
             lastMessage: latest?.content ?? "No messages yet",
             updatedAt: latest?.created_at ?? new Date(0).toISOString(),
-            unread: latest?.unread ?? false,
+            unreadCount: unreadCountByConv.get(c.id) ?? 0,
           }
         })
         .sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1))
@@ -152,16 +162,16 @@ export default function MessagesPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b-2 border-[#10141b] bg-[#f5f3ee]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-4">
-          <Link href="/" className="font-serif text-lg text-[#18140f] transition hover:text-[#c1440e]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+            RealReach.
           </Link>
           <Link
             href="/creators"
-            className="rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-sm font-medium text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
+            className="border-2 border-[#10141b] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
           >
             Browse creators
           </Link>
@@ -171,9 +181,9 @@ export default function MessagesPage() {
       <main className="mx-auto max-w-4xl px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">Inbox</p>
-          <h1 className="mt-2 font-serif text-3xl font-medium text-[#18140f]">Messages</h1>
-          <p className="mt-1 text-sm text-[#6b6153]">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Inbox</p>
+          <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-[#10141b]">Messages</h1>
+          <p className="mt-1 text-sm text-[#595e66]">
             {conversations.length} conversation{conversations.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -181,30 +191,27 @@ export default function MessagesPage() {
         {loading ? (
           <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="h-24 animate-pulse border border-[#18140f]/10 bg-[#18140f]/[0.03]"
-              />
+              <div key={i} className="h-24 animate-pulse border-2 border-[#10141b]/10 bg-white" />
             ))}
           </div>
         ) : error ? (
-          <div className="border border-rose-300 bg-rose-50 p-6 text-sm text-rose-700">
+          <div className="border-2 border-[#ff534b] bg-white p-6 text-sm text-[#ff534b]">
             {error}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="border border-dashed border-[#18140f]/15 p-16 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-[#c1440e]">
+          <div className="border-2 border-dashed border-[#10141b]/20 p-16 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#1a54f0]/10 text-[#1a54f0]">
               <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
               </svg>
             </div>
-            <p className="mt-4 font-semibold text-[#18140f]">No conversations yet</p>
-            <p className="mt-1 text-sm text-[#6b6153]">
+            <p className="mt-4 font-bold text-[#10141b]">No conversations yet</p>
+            <p className="mt-1 text-sm text-[#595e66]">
               Visit a creator profile to start a conversation.
             </p>
             <Link
               href="/creators"
-              className="mt-6 inline-flex items-center gap-2 rounded-[2px] bg-[#c1440e] px-5 py-2.5 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c]"
+              className="mt-6 inline-flex items-center gap-2 border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Browse creators
             </Link>
@@ -213,53 +220,41 @@ export default function MessagesPage() {
           <div className="space-y-2">
             {conversations.map((conv) => {
               const initials = getInitials(conv.otherName)
+              const unread = conv.unreadCount > 0
+              const color = avatarColor(conv.otherName)
               return (
                 <Link
                   key={conv.id}
                   href={`/messages/${conv.id}`}
-                  className="group flex items-center gap-4 border border-[#18140f]/10 bg-[#fbf9f4] p-5 transition hover:border-[#c1440e]/40"
+                  className="group flex items-center gap-4 border-2 border-[#10141b] bg-white p-5 transition-colors hover:bg-[#eae8e1]/40"
                 >
                   {/* Avatar */}
-                  <div className="relative shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-sm font-bold text-[#c1440e]">
-                      {initials}
-                    </div>
-                    {conv.unread ? (
-                      <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-[#c1440e] ring-2 ring-[#f5f1e8]" />
-                    ) : null}
+                  <div
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full font-display text-lg font-extrabold"
+                    style={{ backgroundColor: color.bg, color: color.text }}
+                  >
+                    {initials}
                   </div>
 
                   {/* Content */}
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <p
-                        className={`truncate text-base font-semibold transition ${
-                          conv.unread ? "text-[#18140f]" : "text-[#3a332a] group-hover:text-[#18140f]"
-                        }`}
-                      >
-                        {conv.otherName}
-                      </p>
-                      <p className="shrink-0 text-xs text-[#8b8578]">{timeAgo(conv.updatedAt)}</p>
-                    </div>
-                    <p
-                      className={`mt-0.5 truncate text-sm ${
-                        conv.unread ? "font-medium text-[#3a332a]" : "text-[#8b8578]"
-                      }`}
-                    >
+                    <p className={`truncate text-base ${unread ? "font-extrabold text-[#10141b]" : "font-semibold text-[#10141b]"}`}>
+                      {conv.otherName}
+                    </p>
+                    <p className={`mt-0.5 truncate text-sm ${unread ? "font-semibold text-[#10141b]" : "text-[#595e66]"}`}>
                       {conv.lastMessage}
                     </p>
                   </div>
 
-                  {/* Arrow */}
-                  <svg
-                    className="h-5 w-5 shrink-0 text-[#8b8578] transition group-hover:text-[#c1440e]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                  </svg>
+                  {/* Time + unread badge */}
+                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                    <p className="text-xs text-[#8b8f96]">{timeAgo(conv.updatedAt)}</p>
+                    {unread ? (
+                      <span className="grid h-5 min-w-[20px] place-items-center rounded-full bg-[#ff534b] px-1 text-[11px] font-bold text-white">
+                        {conv.unreadCount}
+                      </span>
+                    ) : null}
+                  </div>
                 </Link>
               )
             })}

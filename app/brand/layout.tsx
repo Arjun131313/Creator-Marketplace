@@ -3,40 +3,40 @@ import MessagesNavLink from "@/components/messages-nav-link"
 
 export default function BrandLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-[#18140f]">
-      <header className="sticky top-0 z-40 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+      <header className="sticky top-0 z-40 border-b-2 border-[#10141b] bg-[#f5f3ee]/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1440e]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">
               Brand Portal
             </p>
-            <Link href="/brand/dashboard" className="font-serif text-xl text-[#18140f] transition hover:text-[#c1440e]">
-              Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+            <Link href="/brand/dashboard" className="font-display text-xl font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+              RealReach.
             </Link>
           </div>
 
-          <nav className="flex flex-wrap items-center gap-2 text-sm font-medium">
+          <nav className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.06em]">
             <Link
-              className="rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
+              className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
               href="/brand/dashboard"
             >
               Dashboard
             </Link>
             <Link
-              className="rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
+              className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
               href="/brand/jobs"
             >
               Jobs
             </Link>
             <Link
-              className="rounded-[2px] border border-[#18140f]/15 px-4 py-2 text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
+              className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
               href="/creators"
             >
               Browse creators
             </Link>
             <MessagesNavLink />
             <Link
-              className="rounded-[2px] bg-[#c1440e] px-4 py-2 text-[#fef8f2] transition hover:bg-[#a23a0c]"
+              className="border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-white transition-opacity hover:opacity-90"
               href="/brand/jobs/new"
             >
               Post a job

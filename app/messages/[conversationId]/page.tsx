@@ -23,6 +23,24 @@ type ConvSummary = {
   unread: boolean
 }
 
+type EscrowPayment = {
+  status: string
+  amount: number
+}
+
+const AVATAR_COLORS = [
+  { bg: "#ff534b", text: "#fff6f5" },
+  { bg: "#1a54f0", text: "#f2f5fc" },
+  { bg: "#c8f23c", text: "#182704" },
+  { bg: "#feb930", text: "#2b1d00" },
+]
+
+function avatarColor(name: string) {
+  let hash = 0
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
+}
+
 function getInitials(name: string) {
   return name
     .split(" ")
@@ -62,6 +80,7 @@ export default function MessageConversationPage({
   const [sessionUserId, setSessionUserId] = useState<string | null>(null)
   const [otherUserId, setOtherUserId] = useState<string | null>(null)
   const [convList, setConvList] = useState<ConvSummary[]>([])
+  const [escrow, setEscrow] = useState<EscrowPayment | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -128,6 +147,20 @@ export default function MessageConversationPage({
 
       setOtherName(profileRes.data?.display_name ?? "User")
       setMessages(msgRes.data ?? [])
+
+      supabase
+        .from("payments")
+        .select("status,amount")
+        .or(
+          `and(brand_id.eq.${userId},creator_id.eq.${otherId}),and(brand_id.eq.${otherId},creator_id.eq.${userId})`,
+        )
+        .in("status", ["held", "released"])
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (mounted && data) setEscrow(data)
+        })
 
       // Mark messages as read
       const unread = (msgRes.data ?? []).filter(
@@ -272,17 +305,19 @@ export default function MessageConversationPage({
     }
   }
 
+  const otherColor = avatarColor(otherName)
+
   return (
-    <div className="flex h-screen flex-col bg-[#f5f1e8] text-[#18140f]">
+    <div className="flex h-screen flex-col bg-[#f5f3ee] text-[#10141b]">
       {/* Top nav */}
-      <header className="shrink-0 border-b border-[#18140f]/10 bg-[#f5f1e8]/95 backdrop-blur-md">
+      <header className="shrink-0 border-b-2 border-[#10141b] bg-[#f5f3ee]/95 backdrop-blur-md">
         <div className="flex items-center justify-between gap-4 px-4 py-3">
-          <Link href="/" className="font-serif text-base text-[#18140f] transition hover:text-[#c1440e]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <Link href="/" className="font-display text-base font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+            RealReach.
           </Link>
           <Link
             href="/messages"
-            className="flex items-center gap-1.5 rounded-[2px] border border-[#18140f]/15 px-3 py-1.5 text-xs font-medium text-[#3a332a] transition hover:border-[#c1440e] hover:text-[#c1440e]"
+            className="flex items-center gap-1.5 border-2 border-[#10141b] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -295,51 +330,43 @@ export default function MessageConversationPage({
       {/* Body: sidebar + chat */}
       <div className="flex min-h-0 flex-1">
         {/* Sidebar — hidden on mobile */}
-        <aside className="hidden w-72 shrink-0 flex-col border-r border-[#18140f]/10 bg-[#fbf9f4] lg:flex">
-          <div className="shrink-0 border-b border-[#18140f]/10 px-5 py-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#8b8578]">
+        <aside className="hidden w-[336px] shrink-0 flex-col border-r-2 border-[#10141b] bg-white lg:flex">
+          <div className="shrink-0 border-b-2 border-[#10141b]/10 px-5 py-4">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">
               Conversations
             </p>
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 divide-y-2 divide-[#10141b]/10 overflow-y-auto">
             {convList.map((c) => {
               const isActive = c.id === conversationId
               const initials = getInitials(c.otherName)
+              const color = avatarColor(c.otherName)
               return (
                 <Link
                   key={c.id}
                   href={`/messages/${c.id}`}
-                  className={`flex items-center gap-3 border-b border-[#18140f]/5 px-5 py-4 transition ${
-                    isActive
-                      ? "border-l-2 border-l-[#c1440e] bg-[#c1440e]/10"
-                      : "hover:bg-[#18140f]/[0.03]"
+                  className={`flex items-center gap-3 px-4 py-3.5 transition-colors ${
+                    isActive ? "bg-[#1a54f0]/10" : "hover:bg-[#eae8e1]/40"
                   }`}
                 >
                   <div className="relative shrink-0">
                     <div
-                      className={`flex h-9 w-9 items-center justify-center rounded-[2px] text-xs font-bold ${
-                        isActive
-                          ? "bg-[#c1440e]/20 text-[#c1440e]"
-                          : "bg-[#18140f]/5 text-[#3a332a]"
-                      }`}
+                      className="flex h-12 w-12 items-center justify-center rounded-full font-display text-lg font-extrabold"
+                      style={{ backgroundColor: color.bg, color: color.text }}
                     >
                       {initials}
                     </div>
                     {c.unread && !isActive ? (
-                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#c1440e] ring-2 ring-[#fbf9f4]" />
+                      <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-[#ff534b] ring-2 ring-white" />
                     ) : null}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p
-                      className={`truncate text-sm font-semibold ${
-                        isActive ? "text-[#c1440e]" : "text-[#3a332a]"
-                      }`}
-                    >
+                    <p className={`truncate text-sm ${isActive ? "font-extrabold text-[#1a54f0]" : "font-semibold text-[#10141b]"}`}>
                       {c.otherName}
                     </p>
-                    <p className="truncate text-xs text-[#8b8578]">{c.lastMessage || "No messages"}</p>
+                    <p className="truncate text-xs text-[#595e66]">{c.lastMessage || "No messages"}</p>
                   </div>
-                  <p className="shrink-0 text-xs text-[#8b8578]">{timeAgo(c.updatedAt)}</p>
+                  <p className="shrink-0 text-xs text-[#8b8f96]">{timeAgo(c.updatedAt)}</p>
                 </Link>
               )
             })}
@@ -350,43 +377,58 @@ export default function MessageConversationPage({
         <div className="flex min-w-0 flex-1 flex-col">
           {loading ? (
             <div className="flex flex-1 items-center justify-center">
-              <p className="text-[#6b6153]">Loading conversation…</p>
+              <p className="text-[#595e66]">Loading conversation…</p>
             </div>
           ) : error ? (
             <div className="flex flex-1 items-center justify-center p-8">
-              <div className="border border-rose-300 bg-rose-50 p-6 text-sm text-rose-700">
+              <div className="border-2 border-[#ff534b] bg-white p-6 text-sm text-[#ff534b]">
                 {error}
               </div>
             </div>
           ) : (
             <>
               {/* Chat header */}
-              <div className="shrink-0 border-b border-[#18140f]/10 bg-[#fbf9f4] px-6 py-4">
+              <div className="shrink-0 border-b-2 border-[#10141b] bg-white px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-sm font-bold text-[#c1440e]">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-full font-display text-sm font-extrabold"
+                    style={{ backgroundColor: otherColor.bg, color: otherColor.text }}
+                  >
                     {getInitials(otherName)}
                   </div>
                   <div>
-                    <p className="font-semibold text-[#18140f]">{otherName}</p>
-                    <p className="text-xs text-[#8b8578]">Direct message</p>
+                    <p className="font-bold text-[#10141b]">{otherName}</p>
+                    <p className="text-xs text-[#595e66]">Direct message</p>
                   </div>
                 </div>
               </div>
+
+              {/* Escrow status banner */}
+              {escrow ? (
+                <div className="shrink-0 border-b-2 border-[#10141b] bg-[#c8f23c] px-6 py-3 text-[#182704]">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em]">
+                    {escrow.status === "released" ? "Payment released" : "Offer accepted"}
+                  </p>
+                  <p className="font-display text-2xl font-extrabold">
+                    £{escrow.amount.toLocaleString()} {escrow.status === "released" ? "released" : "held in escrow"}
+                  </p>
+                </div>
+              ) : null}
 
               {/* Messages */}
               <div className="flex-1 overflow-y-auto space-y-1 px-6 py-6">
                 {messages.length === 0 ? (
                   <div className="flex h-full items-center justify-center">
                     <div className="text-center">
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[2px] bg-[#c1440e]/10 text-[#c1440e]">
+                      <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#1a54f0]/10 text-[#1a54f0]">
                         <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                         </svg>
                       </div>
-                      <p className="mt-4 font-semibold text-[#18140f]">
+                      <p className="mt-4 font-bold text-[#10141b]">
                         Start the conversation
                       </p>
-                      <p className="mt-1 text-sm text-[#6b6153]">
+                      <p className="mt-1 text-sm text-[#595e66]">
                         Say hello to {otherName}
                       </p>
                     </div>
@@ -405,7 +447,7 @@ export default function MessageConversationPage({
                       <div key={msg.id}>
                         {showTime ? (
                           <div className="my-4 flex items-center justify-center">
-                            <span className="rounded-full bg-[#18140f]/5 px-3 py-1 text-xs text-[#8b8578]">
+                            <span className="rounded-full bg-[#10141b]/5 px-3 py-1 text-xs text-[#595e66]">
                               {new Date(msg.created_at).toLocaleString("en-GB", {
                                 month: "short",
                                 day: "numeric",
@@ -419,10 +461,10 @@ export default function MessageConversationPage({
                           className={`flex ${isMine ? "justify-end" : "justify-start"} mb-1`}
                         >
                           <div
-                            className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-6 ${
+                            className={`max-w-[70%] rounded-[20px] px-4 py-2.5 text-sm leading-6 ${
                               isMine
-                                ? "rounded-br-md bg-[#c1440e] text-[#fef8f2]"
-                                : "rounded-bl-md bg-[#18140f]/[0.06] text-[#18140f]"
+                                ? "rounded-br-md bg-[#1a54f0] text-[#f2f5fc]"
+                                : "rounded-bl-md bg-[#eae8e1] text-[#10141b]"
                             }`}
                           >
                             {msg.content}
@@ -436,7 +478,7 @@ export default function MessageConversationPage({
               </div>
 
               {/* Input */}
-              <div className="shrink-0 border-t border-[#18140f]/10 bg-[#fbf9f4] px-6 py-4">
+              <div className="shrink-0 border-t-2 border-[#10141b] bg-white px-6 py-4">
                 <div className="flex items-end gap-3">
                   <textarea
                     rows={1}
@@ -448,21 +490,19 @@ export default function MessageConversationPage({
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder={`Message ${otherName}…`}
-                    className="flex-1 resize-none overflow-hidden rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition placeholder:text-[#8b8578] focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                    className="flex-1 resize-none overflow-hidden border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
                     style={{ minHeight: "48px" }}
                   />
                   <button
                     type="button"
                     onClick={handleSend}
                     disabled={!newMessage.trim() || sending}
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[2px] bg-[#c1440e] text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-12 shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#10141b] px-4 font-display text-sm font-extrabold text-[#f5f3ee] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                    </svg>
+                    Send
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-[#8b8578]">Press Enter to send · Shift+Enter for new line</p>
+                <p className="mt-2 text-xs text-[#8b8f96]">Press Enter to send · Shift+Enter for new line</p>
               </div>
             </>
           )}
