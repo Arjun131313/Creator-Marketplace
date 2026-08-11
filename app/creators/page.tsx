@@ -5,10 +5,11 @@ import { Suspense, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { getPlatformFollowers } from "@/types/database"
-import type { PlatformStats, CreatorPackage, ContentUrl } from "@/types/database"
+import type { PlatformStats, CreatorPackage } from "@/types/database"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { getCreatorTier } from "@/lib/creator-tier"
+import { NICHE_CATEGORIES, getNicheImage } from "@/lib/niches"
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -27,9 +28,9 @@ type Creator = {
   startingPrice: number | null
 }
 
-type FilterKey = "category" | "platform" | "price" | "rating"
+type FilterKey = "platform" | "price" | "rating"
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatFollowers(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
@@ -41,16 +42,6 @@ function getStartingPrice(packages: CreatorPackage[] | null): number | null {
   if (!packages || packages.length === 0) return null
   const prices = packages.map((p) => p.price).filter((p) => p > 0)
   return prices.length > 0 ? Math.min(...prices) : null
-}
-
-function creatorInitials(name: string | null): string {
-  if (!name) return "?"
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase()
 }
 
 // ── Main page ──────────────────────────────────────────────────────────────────
@@ -76,7 +67,7 @@ function BrowseCreatorsPageInner() {
   const [displayCount, setDisplayCount] = useState(12)
   const filterRef = useRef<HTMLDivElement>(null)
 
-  // ── Fetch ──────────────────────────────────────────────────────────────────
+  // ── Fetch ────────────────────────────────────────────────────────────────
   useEffect(() => {
     let mounted = true
     ;(async () => {
@@ -129,7 +120,7 @@ function BrowseCreatorsPageInner() {
     return () => { mounted = false }
   }, [])
 
-  // ── Click outside to close filter dropdowns ────────────────────────────────
+  // ── Click outside to close filter dropdowns ──────────────────────────────
   useEffect(() => {
     if (!openFilter) return
     function handleClick(e: MouseEvent) {
@@ -141,11 +132,8 @@ function BrowseCreatorsPageInner() {
     return () => document.removeEventListener("mousedown", handleClick)
   }, [openFilter])
 
-  // ── Filter logic ───────────────────────────────────────────────────────────
-  const niches = Array.from(new Set(allCreators.map((c) => c.niche).filter(Boolean) as string[])).sort()
-
+  // ── Filter logic ─────────────────────────────────────────────────────────
   const filtered = allCreators.filter((c) => {
-    // search
     const q = searchQuery.toLowerCase()
     if (
       q &&
@@ -156,17 +144,14 @@ function BrowseCreatorsPageInner() {
     )
       return false
 
-    // niche
     if (selectedNiche && c.niche !== selectedNiche) return false
 
-    // platform
     if (selectedPlatform) {
       const plat = selectedPlatform as keyof PlatformStats
       const followers = getPlatformFollowers(c.platform_stats, plat)
       if (!followers) return false
     }
 
-    // price
     if (priceRange) {
       const p = c.startingPrice
       if (priceRange === "under100" && (p === null || p >= 100)) return false
@@ -174,31 +159,12 @@ function BrowseCreatorsPageInner() {
       if (priceRange === "over500" && (p === null || p <= 500)) return false
     }
 
-    // rating
     if (minRating > 0 && (c.avgRating === null || c.avgRating < minRating)) return false
 
     return true
   })
 
   const visible = filtered.slice(0, displayCount)
-
-  // ── Active filters pills ────────────────────────────────────────────────────
-  const activeFilters: { key: string; label: string; clear: () => void }[] = []
-  if (selectedNiche) activeFilters.push({ key: "niche", label: selectedNiche, clear: () => setSelectedNiche("") })
-  if (selectedPlatform)
-    activeFilters.push({
-      key: "platform",
-      label: selectedPlatform.charAt(0).toUpperCase() + selectedPlatform.slice(1),
-      clear: () => setSelectedPlatform(""),
-    })
-  if (priceRange)
-    activeFilters.push({
-      key: "price",
-      label: priceRange === "under100" ? "Under £100" : priceRange === "100to500" ? "£100–£500" : "Over £500",
-      clear: () => setPriceRange(""),
-    })
-  if (minRating > 0)
-    activeFilters.push({ key: "rating", label: `${minRating}+ stars`, clear: () => setMinRating(0) })
 
   function clearAll() {
     setSelectedNiche("")
@@ -209,251 +175,139 @@ function BrowseCreatorsPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-on-background">
+    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
       <PublicNav />
 
-      <main className="max-w-[1280px] mx-auto px-gutter py-16 pb-24 md:pb-16">
-        {/* ── Header & Search ──────────────────────────────────────────────── */}
-        <section className="relative mb-10">
-          <div>
-            <h1 className="font-display-lg text-display-lg font-medium mb-4">
-              Explore elite <em className="not-italic italic text-primary">creators</em>
-            </h1>
-            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
-              Discover high-tier talent for your brand campaigns. Filter through verified creators across global platforms.
-            </p>
-          </div>
-          <div className="relative w-full max-w-3xl">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
-              search
-            </span>
-            <input
-              className="w-full bg-surface-container-low border border-outline-variant rounded-sm py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md"
-              placeholder="Search creators, niches, or keywords..."
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+      <main className="mx-auto max-w-[1400px] px-5 py-16 pb-24 md:pb-16">
+        {/* ── Header & Search ────────────────────────────────────────────── */}
+        <section className="mb-10">
+          <h1 className="font-display text-[13vw] font-extrabold leading-[0.95] tracking-[-0.035em] sm:text-6xl lg:text-[80px]">
+            Find your creator.
+          </h1>
+          <p className="mt-4 max-w-lg text-base text-[#595e66]">
+            {allCreators.length} UK creators, filtered by niche, platform, and rate.
+          </p>
+          <input
+            className="mt-6 w-full max-w-2xl border-2 border-[#10141b] bg-white px-4 py-3.5 text-sm outline-none placeholder:text-[#8b8f96] focus:bg-[#f5f3ee]"
+            placeholder="Search creators, niches, or keywords..."
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </section>
 
-        {/* ── Filters ─────────────────────────────────────────────────────── */}
-        <section ref={filterRef} className="flex flex-wrap items-center gap-4 mb-10">
-          {/* Category */}
-          <div className="relative">
+        {/* ── Niche pills ─────────────────────────────────────────────────── */}
+        <section className="mb-6 flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedNiche("")}
+            className={`border-2 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+              !selectedNiche ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]"
+            }`}
+          >
+            All
+          </button>
+          {NICHE_CATEGORIES.map((cat) => (
             <button
-              onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === "category" ? null : "category") }}
-              className={`flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg border transition-all font-label-md text-label-md ${
-                openFilter === "category" || selectedNiche
-                  ? "border-primary/50 text-primary"
-                  : "border-outline-variant text-on-surface hover:border-primary/50"
+              key={cat.name}
+              onClick={() => setSelectedNiche(cat.name)}
+              className={`border-2 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+                selectedNiche === cat.name ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]"
               }`}
             >
-              Category
-              <span className="material-symbols-outlined text-[20px]">expand_more</span>
+              {cat.name}
             </button>
-            {openFilter === "category" && (
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="absolute top-full mt-2 left-0 z-50 bg-surface-container-high border border-outline-variant rounded-xl shadow-2xl p-2 min-w-[180px] max-h-64 overflow-y-auto"
-              >
-                <button
-                  onClick={() => { setSelectedNiche(""); setOpenFilter(null) }}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!selectedNiche ? "bg-primary/20 text-primary" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest"}`}
-                >
-                  All categories
-                </button>
-                {niches.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => { setSelectedNiche(n); setOpenFilter(null) }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedNiche === n ? "bg-primary/20 text-primary" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest"}`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          ))}
+        </section>
 
-          {/* Platform */}
-          <div className="relative">
-            <button
-              onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === "platform" ? null : "platform") }}
-              className={`flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg border transition-all font-label-md text-label-md ${
-                openFilter === "platform" || selectedPlatform
-                  ? "border-primary/50 text-primary"
-                  : "border-outline-variant text-on-surface hover:border-primary/50"
-              }`}
-            >
-              Platform
-              <span className="material-symbols-outlined text-[20px]">expand_more</span>
-            </button>
-            {openFilter === "platform" && (
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="absolute top-full mt-2 left-0 z-50 bg-surface-container-high border border-outline-variant rounded-xl shadow-2xl p-2 min-w-[160px]"
+        {/* ── Filters ───────────────────────────────────────────────────── */}
+        <section ref={filterRef} className="mb-10 flex flex-wrap items-center gap-3">
+          {([
+            { key: "platform" as const, label: "Platform", value: selectedPlatform, options: [
+              { value: "", label: "All platforms" },
+              { value: "instagram", label: "Instagram" },
+              { value: "tiktok", label: "TikTok" },
+              { value: "snapchat", label: "Snapchat" },
+            ], set: setSelectedPlatform },
+            { key: "price" as const, label: "Price", value: priceRange, options: [
+              { value: "", label: "Any price" },
+              { value: "under100", label: "Under £100" },
+              { value: "100to500", label: "£100 – £500" },
+              { value: "over500", label: "Over £500" },
+            ], set: setPriceRange },
+            { key: "rating" as const, label: "Rating", value: String(minRating), options: [
+              { value: "0", label: "Any rating" },
+              { value: "4", label: "4+ stars" },
+              { value: "4.5", label: "4.5+ stars" },
+              { value: "5", label: "5 stars only" },
+            ], set: (v: string) => setMinRating(Number(v)) },
+          ]).map((f) => (
+            <div key={f.key} className="relative">
+              <button
+                onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === f.key ? null : f.key) }}
+                className={`border-2 px-4 py-2 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+                  openFilter === f.key || (f.value && f.value !== "0") ? "border-[#1a54f0] text-[#1a54f0]" : "border-[#10141b]/20 text-[#10141b] hover:border-[#10141b]"
+                }`}
               >
-                {[
-                  { value: "", label: "All platforms" },
-                  { value: "instagram", label: "Instagram" },
-                  { value: "tiktok", label: "TikTok" },
-                  { value: "snapchat", label: "Snapchat" },
-                ].map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => { setSelectedPlatform(opt.value); setOpenFilter(null) }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedPlatform === opt.value ? "bg-primary/20 text-primary" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest"}`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Price Range */}
-          <div className="relative">
-            <button
-              onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === "price" ? null : "price") }}
-              className={`flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg border transition-all font-label-md text-label-md ${
-                openFilter === "price" || priceRange
-                  ? "border-primary/50 text-primary"
-                  : "border-outline-variant text-on-surface hover:border-primary/50"
-              }`}
-            >
-              Price Range
-              <span className="material-symbols-outlined text-[20px]">expand_more</span>
-            </button>
-            {openFilter === "price" && (
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="absolute top-full mt-2 left-0 z-50 bg-surface-container-high border border-outline-variant rounded-xl shadow-2xl p-2 min-w-[160px]"
-              >
-                {[
-                  { value: "", label: "Any price" },
-                  { value: "under100", label: "Under £100" },
-                  { value: "100to500", label: "£100 – £500" },
-                  { value: "over500", label: "Over £500" },
-                ].map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => { setPriceRange(opt.value); setOpenFilter(null) }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${priceRange === opt.value ? "bg-primary/20 text-primary" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest"}`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Rating */}
-          <div className="relative">
-            <button
-              onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === "rating" ? null : "rating") }}
-              className={`flex items-center gap-2 px-4 py-2 bg-surface-container rounded-lg border transition-all font-label-md text-label-md ${
-                openFilter === "rating" || minRating > 0
-                  ? "border-primary/50 text-primary"
-                  : "border-outline-variant text-on-surface hover:border-primary/50"
-              }`}
-            >
-              Rating
-              <span className="material-symbols-outlined text-[20px]">expand_more</span>
-            </button>
-            {openFilter === "rating" && (
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="absolute top-full mt-2 left-0 z-50 bg-surface-container-high border border-outline-variant rounded-xl shadow-2xl p-2 min-w-[160px]"
-              >
-                {[
-                  { value: 0, label: "Any rating" },
-                  { value: 4, label: "4+ stars" },
-                  { value: 4.5, label: "4.5+ stars" },
-                  { value: 5, label: "5 stars only" },
-                ].map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => { setMinRating(opt.value); setOpenFilter(null) }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${minRating === opt.value ? "bg-primary/20 text-primary" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest"}`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Active filter pills */}
-          {activeFilters.length > 0 && (
-            <>
-              <div className="h-6 w-px bg-white/10 mx-1 hidden sm:block" />
-              <div className="flex flex-wrap gap-2">
-                {activeFilters.map((f) => (
-                  <span
-                    key={f.key}
-                    className="bg-primary/20 text-primary border border-primary/30 px-3 py-1.5 rounded-full font-label-sm text-label-sm flex items-center gap-1"
-                  >
-                    {f.label}
-                    <button onClick={f.clear} aria-label={`Remove ${f.label} filter`}>
-                      <span className="material-symbols-outlined text-[14px]">close</span>
+                {f.label} ▾
+              </button>
+              {openFilter === f.key && (
+                <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 z-50 mt-1 min-w-[180px] border-2 border-[#10141b] bg-white">
+                  {f.options.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { f.set(opt.value); setOpenFilter(null) }}
+                      className={`block w-full px-4 py-2.5 text-left text-sm ${f.value === opt.value ? "bg-[#1a54f0] text-white" : "text-[#10141b] hover:bg-[#eae8e1]"}`}
+                    >
+                      {opt.label}
                     </button>
-                  </span>
-                ))}
-                <button
-                  onClick={clearAll}
-                  className="bg-surface-container-highest text-on-surface-variant border border-outline-variant px-3 py-1.5 rounded-full font-label-sm text-label-sm hover:text-on-surface transition-colors"
-                >
-                  Clear all
-                </button>
-              </div>
-            </>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+          {(selectedNiche || selectedPlatform || priceRange || minRating > 0 || searchQuery) && (
+            <button onClick={clearAll} className="text-xs font-extrabold uppercase tracking-wide text-[#595e66] underline hover:text-[#10141b]">
+              Clear all
+            </button>
           )}
         </section>
 
-        {/* ── Results count ────────────────────────────────────────────────── */}
+        {/* ── Results count ──────────────────────────────────────────────── */}
         {!loading && (
-          <p className="text-on-surface-variant font-label-sm text-label-sm mb-gutter">
+          <p className="mb-4 text-xs font-extrabold uppercase tracking-wide text-[#595e66]">
             {filtered.length} creator{filtered.length !== 1 ? "s" : ""} found
           </p>
         )}
 
-        {/* ── Grid ─────────────────────────────────────────────────────────── */}
+        {/* ── Grid ────────────────────────────────────────────────────────── */}
         {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="paper-card rounded-xl h-64 animate-pulse" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-[500px] animate-pulse border-2 border-[#10141b]/10 bg-white" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="paper-card rounded-2xl p-16 text-center">
-            <span className="material-symbols-outlined text-on-surface-variant text-[48px]">
-              manage_search
-            </span>
-            <p className="mt-4 font-headline-md text-headline-md text-on-surface">No creators found</p>
-            <p className="mt-2 text-on-surface-variant">Try adjusting your filters or search query.</p>
-            <button
-              onClick={clearAll}
-              className="mt-6 bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md text-label-md hover:opacity-90 transition-all"
-            >
+          <div className="border-2 border-[#10141b] bg-white p-16 text-center">
+            <p className="font-display text-2xl font-extrabold">No creators found</p>
+            <p className="mt-2 text-[#595e66]">Try adjusting your filters or search query.</p>
+            <button onClick={clearAll} className="mt-6 bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white">
               Clear filters
             </button>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {visible.map((creator) => (
                 <CreatorCard key={creator.id} creator={creator} />
               ))}
             </div>
 
             {filtered.length > displayCount && (
-              <div className="text-center mt-10">
+              <div className="mt-10 text-center">
                 <button
                   onClick={() => setDisplayCount((c) => c + 12)}
-                  className="inline-flex items-center gap-2 bg-surface-container border border-outline-variant hover:border-primary/50 text-on-surface px-8 py-4 rounded-xl font-label-md text-label-md transition-all hover:bg-surface-container-high"
+                  className="border-2 border-[#10141b] px-8 py-3.5 text-sm font-extrabold uppercase tracking-wide transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
                 >
-                  <span className="material-symbols-outlined">expand_more</span>
                   Load more creators
                 </button>
               </div>
@@ -468,194 +322,69 @@ function BrowseCreatorsPageInner() {
   )
 }
 
-// ── Creator Card ───────────────────────────────────────────────────────────────
+// ── Creator Card ─────────────────────────────────────────────────────────────
 
 function CreatorCard({ creator }: { creator: Creator }) {
-  const initials = creatorInitials(creator.display_name)
   const igFollowers = getPlatformFollowers(creator.platform_stats, "instagram")
   const ttFollowers = getPlatformFollowers(creator.platform_stats, "tiktok")
   const scFollowers = getPlatformFollowers(creator.platform_stats, "snapchat")
   const tier = getCreatorTier(creator.reviewCount, creator.avgRating)
+  const price = creator.startingPrice
 
   return (
-    <article className="paper-card rounded-xl overflow-hidden flex flex-col">
-      {/* Image area */}
-      <div className="relative h-40 overflow-hidden bg-surface-container-low">
-        {creator.avatar_url ? (
-          <img
-            src={creator.avatar_url}
-            alt={creator.display_name ?? "Creator"}
-            className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full bg-surface-container-high flex items-center justify-center">
-            <span className="text-4xl font-medium text-on-surface-variant/40 font-headline-md">
-              {initials}
-            </span>
-          </div>
+    <Link href={`/creators/${creator.id}`} className="group block border-2 border-[#10141b] bg-white">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#eae8e1]">
+        <img
+          src={creator.avatar_url ?? getNicheImage(creator.niche)}
+          alt={creator.display_name ?? "Creator"}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        {creator.avgRating !== null && (
+          <span className="absolute left-3 top-3 bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold text-[#182704]">
+            {creator.avgRating.toFixed(1)} ★
+          </span>
         )}
+        <span className="absolute right-3 top-3 flex items-center gap-1 bg-[#10141b]/70 px-2 py-1 text-[10px] font-bold uppercase text-white">
+          <span className={`h-1.5 w-1.5 rounded-full ${creator.available ? "bg-[#c8f23c]" : "bg-white/40"}`} />
+          {creator.available ? "Available" : "Busy"}
+        </span>
+      </div>
 
-        {/* Availability dot */}
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-[#0d0b08]/60 px-2 py-1 backdrop-blur-md">
-          <span
-            className={`h-1.5 w-1.5 rounded-full ${creator.available ? "bg-emerald-400 animate-pulse" : "bg-white/40"}`}
-          />
-          <span className="font-label-sm text-[10px] uppercase tracking-wider text-white">
-            {creator.available ? "Available" : "Busy"}
+      <div className="p-4">
+        <p className="font-display text-2xl font-extrabold leading-none">{creator.display_name ?? "Creator"}</p>
+        <p className="mt-2 truncate text-sm text-[#595e66]">
+          {creator.niche ?? "Content creator"}
+          {igFollowers ? ` · ${formatFollowers(igFollowers)} followers` : ttFollowers ? ` · ${formatFollowers(ttFollowers)} followers` : scFollowers ? ` · ${formatFollowers(scFollowers)} followers` : ""}
+        </p>
+        <div className="mt-3 flex items-center justify-between border-t border-[#10141b]/10 pt-3">
+          <span className={`px-2 py-0.5 text-[10px] font-bold uppercase ${tier.className}`}>{tier.label}</span>
+          <span className="font-display text-lg font-extrabold text-[#1a54f0]">
+            {price != null ? `from £${price.toLocaleString()}` : "Contact"}
           </span>
         </div>
-
-        {/* Niche badge */}
-        {creator.niche && (
-          <div className="absolute bottom-3 left-3">
-            <span className="bg-primary-container text-on-primary px-2.5 py-1 rounded-lg font-label-sm text-[11px] shadow-lg shadow-primary/20">
-              {creator.niche}
-            </span>
-          </div>
-        )}
       </div>
-
-      {/* Body */}
-      <div className="p-4 flex-grow flex flex-col">
-        {/* Name + tier */}
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-headline-md text-base font-semibold text-on-surface leading-tight">
-            {creator.display_name ?? "Creator"}
-          </h3>
-        </div>
-        <span className={`mt-1.5 inline-block w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${tier.className}`}>
-          {tier.label}
-        </span>
-
-        {/* Rating + platform stats */}
-        <div className="mt-2 flex items-center gap-3 text-on-surface-variant flex-wrap">
-          {creator.avgRating !== null ? (
-            <div className="flex items-center gap-1 text-primary shrink-0">
-              <span
-                className="material-symbols-outlined text-[15px]"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                star
-              </span>
-              <span className="font-label-sm text-label-sm">
-                {creator.avgRating.toFixed(1)}
-              </span>
-              <span className="text-on-surface-variant text-[11px]">
-                ({creator.reviewCount})
-              </span>
-            </div>
-          ) : null}
-          {igFollowers ? (
-            <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[15px]">photo_camera</span>
-              <span className="font-label-sm text-[11px]">{formatFollowers(igFollowers)}</span>
-            </div>
-          ) : null}
-          {ttFollowers ? (
-            <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[15px]">video_library</span>
-              <span className="font-label-sm text-[11px]">{formatFollowers(ttFollowers)}</span>
-            </div>
-          ) : null}
-          {scFollowers ? (
-            <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[15px]">photo_filter</span>
-              <span className="font-label-sm text-[11px]">{formatFollowers(scFollowers)}</span>
-            </div>
-          ) : null}
-        </div>
-
-        {/* Content type tags */}
-        {(creator.content_types ?? []).length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {(creator.content_types ?? []).slice(0, 2).map((t) => (
-              <span
-                key={t}
-                className="px-2 py-0.5 bg-surface-container-highest rounded font-label-sm text-[10px] text-on-surface-variant"
-              >
-                {t}
-              </span>
-            ))}
-            {(creator.content_types ?? []).length > 2 && (
-              <span className="px-2 py-0.5 bg-surface-container-highest rounded font-label-sm text-[10px] text-on-surface-variant">
-                +{(creator.content_types ?? []).length - 2}
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Price + CTA */}
-        <div className="mt-3 pt-3 border-t border-outline-variant flex justify-between items-center mt-auto">
-          <div className="flex flex-col">
-            <span className="text-[9px] text-on-surface-variant uppercase font-label-sm tracking-widest">
-              Starting Price
-            </span>
-            <span className="font-bold text-primary text-base">
-              {creator.startingPrice != null
-                ? `From £${creator.startingPrice.toLocaleString()}`
-                : "Contact"}
-            </span>
-          </div>
-          <Link
-            href={`/creators/${creator.id}`}
-            className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/20"
-          >
-            View Profile
-          </Link>
-        </div>
-      </div>
-    </article>
+    </Link>
   )
 }
 
-// ── Footer ─────────────────────────────────────────────────────────────────────
+// ── Footer ────────────────────────────────────────────────────────────────────
 
 function PageFooter() {
   return (
-    <footer className="w-full py-16 px-gutter bg-surface-container-lowest border-t border-outline-variant">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-[1280px] mx-auto">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-[28px]">hub</span>
-            <span className="font-headline-lg font-bold text-primary">RealReach Agency</span>
-          </div>
-          <p className="text-on-surface-variant font-body-md text-body-md max-w-xs">
-            Connecting everyday microinfluencers with brands.
-          </p>
-          <p className="font-body-md text-body-md text-on-surface-variant mt-4">
-            © 2026 RealReach Agency. All rights reserved.
-          </p>
+    <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+          <p className="mt-1 text-xs">Manchester &amp; London</p>
         </div>
-        <div className="grid grid-cols-2 gap-8 md:col-span-2">
-          <div className="flex flex-col gap-4">
-            <h5 className="font-headline-md text-on-surface">Explore</h5>
-            <nav className="flex flex-col gap-2">
-              <Link href="/creators" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                For Brands
-              </Link>
-              <Link href="/creator/dashboard" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                For Creators
-              </Link>
-              <Link href="/how-it-works" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                How it Works
-              </Link>
-            </nav>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h5 className="font-headline-md text-on-surface">Legal</h5>
-            <nav className="flex flex-col gap-2">
-              <Link href="/privacy" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                Terms of Service
-              </Link>
-              <Link href="/help" className="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md">
-                Support
-              </Link>
-            </nav>
-          </div>
+        <div className="flex flex-wrap gap-6 text-sm">
+          <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
+          <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
+          <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
+          <Link href="/terms" className="hover:text-[#f5f3ee]">Terms</Link>
+          <Link href="/privacy" className="hover:text-[#f5f3ee]">Privacy</Link>
         </div>
+        <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
       </div>
     </footer>
   )
