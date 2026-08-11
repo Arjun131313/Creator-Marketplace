@@ -14,7 +14,7 @@ export default function MobileBottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 w-full z-50 bg-surface/95 backdrop-blur-xl border-t border-[#18140f]/10 shadow-2xl flex justify-around items-center px-4 pt-2 pb-4">
+    <nav className="md:hidden fixed bottom-0 w-full z-50 bg-surface/95 backdrop-blur-xl border-t border-[#10141b]/10 flex justify-around items-center px-4 pt-2 pb-4">
       {NAV_ITEMS.map((item) => {
         const isActive =
           item.href === "/"
@@ -24,7 +24,7 @@ export default function MobileBottomNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center justify-center rounded-xl transition-all p-2 ${
+            className={`flex flex-col items-center justify-center transition-all p-2 ${
               isActive
                 ? "text-primary"
                 : "text-on-surface-variant hover:text-on-surface"

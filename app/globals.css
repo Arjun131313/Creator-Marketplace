@@ -17,78 +17,77 @@
 }
 
 /* ── Tailwind v4 design system ─────────────────────────────────────────────── */
+/* Locked from brit-influencer-connect.lovable.app — see docs/design/DESIGN-SYSTEM.md */
 @theme {
-  /* Background / page (warm paper) */
-  --color-background:                #f5f1e8;
-  --color-on-background:             #18140f;
+  /* Background / page */
+  --color-background:                #f5f3ee;
+  --color-on-background:             #10141b;
 
-  /* Surface layers (paper tones) */
-  --color-surface:                   #f5f1e8;
-  --color-on-surface:                #18140f;
-  --color-on-surface-variant:        #6b6153;
-  --color-surface-container-lowest:  #fbf9f4;
-  --color-surface-container-low:     #efe9db;
-  --color-surface-container:         #e9e1d0;
-  --color-surface-container-high:    #e1d7c1;
-  --color-surface-container-highest: #d8cbb0;
+  /* Surface layers */
+  --color-surface:                   #f5f3ee;
+  --color-on-surface:                #10141b;
+  --color-on-surface-variant:        #595e66;
+  --color-surface-container-lowest:  #ffffff;
+  --color-surface-container-low:     #eae8e1;
+  --color-surface-container:         #eae8e1;
+  --color-surface-container-high:    #ddd9cf;
+  --color-surface-container-highest: #d1ccbf;
 
   /* Ink (dark contrast sections) */
-  --color-ink:                       #18140f;
-  --color-ink-soft:                  #2a241d;
-  --color-on-ink:                    #f5f1e8;
-  --color-on-ink-variant:            #b8afa0;
+  --color-ink:                       #10141b;
+  --color-ink-soft:                  #1b2028;
+  --color-on-ink:                    #f5f3ee;
+  --color-on-ink-variant:            #a8adb6;
 
   /* Outline */
-  --color-outline:                   rgba(24, 20, 15, 0.16);
-  --color-outline-variant:           rgba(24, 20, 15, 0.1);
-  --color-inverse-surface:           #18140f;
-  --color-inverse-on-surface:        #f5f1e8;
+  --color-outline:                   rgba(16, 20, 27, 0.16);
+  --color-outline-variant:           rgba(16, 20, 27, 0.1);
+  --color-inverse-surface:           #10141b;
+  --color-inverse-on-surface:        #f5f3ee;
 
-  /* Primary — terracotta */
-  --color-primary:                   #c1440e;
-  --color-on-primary:                #fef8f2;
-  --color-primary-container:         #c1440e;
-  --color-on-primary-container:      #fde3d0;
+  /* Primary — flat blue accent */
+  --color-primary:                   #1a54f0;
+  --color-on-primary:                #ffffff;
+  --color-primary-container:         #1a54f0;
+  --color-on-primary-container:      #dbe6fe;
   --color-on-primary-fixed:          #ffffff;
-  --color-primary-fixed-dim:         #e8a37c;
-  --color-inverse-primary:           #e8a37c;
+  --color-primary-fixed-dim:         #6b8ff5;
+  --color-inverse-primary:           #6b8ff5;
 
-  /* Secondary — ochre gold */
-  --color-secondary:                 #b08d2a;
-  --color-on-secondary:              #fef8f2;
-  --color-secondary-container:       #b08d2a;
-  --color-on-secondary-container:    #fdf3d8;
+  /* Status — positive (released / booked) */
+  --color-secondary:                 #7a9a1e;
+  --color-on-secondary:              #10141b;
+  --color-secondary-container:       #c8f23c;
+  --color-on-secondary-container:    #1c2606;
 
-  /* Tertiary — deep green (availability) */
-  --color-tertiary:                  #2f5233;
-  --color-on-tertiary:               #ffffff;
-  --color-tertiary-container:        #2f5233;
-  --color-on-tertiary-container:     #cdeccf;
-  --color-tertiary-fixed:            #cdeccf;
+  /* Status — pending (scheduled / awaiting) */
+  --color-tertiary:                  #a06c00;
+  --color-on-tertiary:               #10141b;
+  --color-tertiary-container:        #feb930;
+  --color-on-tertiary-container:     #2b1d00;
+  --color-tertiary-fixed:            #feb930;
 
-  /* Error */
-  --color-error:                     #ba1a1a;
+  /* Status — urgent / pass */
+  --color-error:                     #d93a32;
   --color-on-error:                  #ffffff;
-  --color-error-container:           #ffdad6;
+  --color-error-container:           #ff534b;
 
   /* ── Custom spacing ─────────────────────────────────────────────────── */
-  /* NOTE: Only define names not already in Tailwind's spacing scale.
-     sm/md/lg/xl/xs conflict with max-w-*, gap-* utilities — use px/py-{n} instead. */
   --spacing-gutter: 24px;
 
   /* ── Font families ────────────────────────────────────────────────────── */
-  --font-display-lg:        var(--font-fraunces), "Fraunces", serif;
-  --font-display:           var(--font-fraunces), "Fraunces", serif;
-  --font-headline-lg:       var(--font-fraunces), "Fraunces", serif;
-  --font-headline-lg-mobile:var(--font-fraunces), "Fraunces", serif;
-  --font-headline-md:       var(--font-fraunces), "Fraunces", serif;
-  --font-headline:          var(--font-fraunces), "Fraunces", serif;
-  --font-body-lg:           var(--font-inter),  "Inter", sans-serif;
-  --font-body-md:           var(--font-inter),  "Inter", sans-serif;
-  --font-body:              var(--font-inter),  "Inter", sans-serif;
-  --font-label-md:          var(--font-inter),  sans-serif;
-  --font-label-sm:          var(--font-inter),  sans-serif;
-  --font-label:             var(--font-inter),  sans-serif;
+  --font-display-lg:        var(--font-bricolage), "Arial Black", sans-serif;
+  --font-display:           var(--font-bricolage), "Arial Black", sans-serif;
+  --font-headline-lg:       var(--font-bricolage), "Arial Black", sans-serif;
+  --font-headline-lg-mobile:var(--font-bricolage), "Arial Black", sans-serif;
+  --font-headline-md:       var(--font-bricolage), "Arial Black", sans-serif;
+  --font-headline:          var(--font-bricolage), "Arial Black", sans-serif;
+  --font-body-lg:           var(--font-manrope), "Manrope", sans-serif;
+  --font-body-md:           var(--font-manrope), "Manrope", sans-serif;
+  --font-body:              var(--font-manrope), "Manrope", sans-serif;
+  --font-label-md:          var(--font-manrope), sans-serif;
+  --font-label-sm:          var(--font-manrope), sans-serif;
+  --font-label:             var(--font-manrope), sans-serif;
 
   /* ── Font sizes ───────────────────────────────────────────────────────── */
   --text-display-lg:        3rem;    /* 48px */
@@ -103,53 +102,49 @@
 
 /* ── Font family via next/font CSS vars ────────────────────────────────────── */
 @theme inline {
-  --font-display-lg:         var(--font-fraunces), serif;
-  --font-headline-md:        var(--font-fraunces), serif;
-  --font-headline-lg:        var(--font-fraunces), serif;
-  --font-body-md:            var(--font-inter),  "Inter", sans-serif;
-  --font-body-lg:            var(--font-inter),  "Inter", sans-serif;
-  --font-label-md:           var(--font-inter),  sans-serif;
-  --font-label-sm:           var(--font-inter),  sans-serif;
-  --font-sans:               var(--font-inter),  sans-serif;
-  --font-serif:              var(--font-fraunces), serif;
+  --font-display-lg:         var(--font-bricolage), sans-serif;
+  --font-headline-md:        var(--font-bricolage), sans-serif;
+  --font-headline-lg:        var(--font-bricolage), sans-serif;
+  --font-body-md:            var(--font-manrope), "Manrope", sans-serif;
+  --font-body-lg:            var(--font-manrope), "Manrope", sans-serif;
+  --font-label-md:           var(--font-manrope), sans-serif;
+  --font-label-sm:           var(--font-manrope), sans-serif;
+  --font-sans:               var(--font-manrope), sans-serif;
+  --font-serif:              var(--font-bricolage), sans-serif;
 }
 
 /* ── Utility classes ───────────────────────────────────────────────────────── */
-/* Flat, bordered card — no blur, no glow. Editorial rather than "glass". */
+/* Flat, sharp-cornered card — no radius, no blur, no glow. */
 .paper-card {
-  background: #fbf9f4;
-  border: 1px solid rgba(24, 20, 15, 0.12);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  background: #ffffff;
+  border: 1px solid rgba(16, 20, 27, 0.14);
+  border-radius: 0;
+  transition: border-color 0.15s ease;
 }
 .paper-card:hover {
-  border-color: rgba(193, 68, 14, 0.4);
+  border-color: #1a54f0;
 }
 
 .ink-card {
-  background: #2a241d;
-  border: 1px solid rgba(245, 241, 232, 0.1);
-  transition: border-color 0.2s ease;
+  background: #1b2028;
+  border: 1px solid rgba(245, 243, 238, 0.12);
+  border-radius: 0;
+  transition: border-color 0.15s ease;
 }
 .ink-card:hover {
-  border-color: rgba(232, 163, 124, 0.35);
-}
-
-.text-accent-serif {
-  font-family: var(--font-fraunces), serif;
-  font-style: italic;
-  color: #c1440e;
+  border-color: #6b8ff5;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: #efe9db; }
-::-webkit-scrollbar-thumb  { background: #d8cbb0; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #c1440e; }
+::-webkit-scrollbar-track  { background: #eae8e1; }
+::-webkit-scrollbar-thumb  { background: #d1ccbf; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #1a54f0; }
 
 /* ── Body defaults ─────────────────────────────────────────────────────────── */
 body {
-  background-color: #f5f1e8;
-  color: #18140f;
+  background-color: #f5f3ee;
+  color: #10141b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

@@ -4,7 +4,6 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import { NICHE_CATEGORIES } from "@/lib/niches"
 
 export default function PublicNav() {
   const pathname = usePathname()
@@ -37,28 +36,28 @@ export default function PublicNav() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/creators", label: "Browse" },
-    { href: "/how-it-works", label: "How it Works" },
+    { href: "/creators", label: "Creators" },
+    { href: "/how-it-works", label: "How it works" },
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#18140f]/10 bg-[#f5f1e8]/90 backdrop-blur-md">
-      <div className="flex w-full items-center justify-between px-gutter py-4">
+    <header className="sticky top-0 z-50 border-b border-[#10141b]/10 bg-[#f5f3ee]/95 backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-6 px-5 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-serif text-xl tracking-tight text-[#18140f]">
-            Real<em className="not-italic italic text-[#c1440e]">Reach</em>
+          <span className="font-display text-xl font-extrabold tracking-tight text-[#10141b]">
+            RealReach.
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`font-label-md text-label-md transition-colors ${
+              className={`text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "font-semibold text-primary"
-                  : "text-on-surface-variant hover:text-primary"
+                  ? "text-[#10141b]"
+                  : "text-[#595e66] hover:text-[#10141b]"
               }`}
             >
               {link.label}
@@ -68,64 +67,43 @@ export default function PublicNav() {
 
         <div className="flex items-center gap-4">
           {!checked ? (
-            <div className="h-8 w-8 animate-pulse rounded-full bg-surface-container" />
+            <div className="h-8 w-8 animate-pulse bg-[#eae8e1]" />
           ) : userRole ? (
             <>
-              <Link href="/messages" aria-label="Messages">
-                <span className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
-                  notifications
-                </span>
+              <Link
+                href="/messages"
+                className="hidden text-sm font-medium text-[#595e66] transition-colors hover:text-[#10141b] sm:inline"
+              >
+                Inbox
               </Link>
               <Link href={dashHref}>
-                <div className="w-9 h-9 rounded-full bg-primary-container overflow-hidden border border-[#18140f]/10 flex items-center justify-center">
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden border border-[#10141b]/15 bg-[#eae8e1]">
                   {avatarUrl ? (
-                    <img
-                      src={avatarUrl}
-                      alt="Avatar"
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
                   ) : (
-                    <span className="material-symbols-outlined text-on-primary-container text-[20px]">
-                      person
-                    </span>
+                    <span className="text-xs font-bold text-[#595e66]">·</span>
                   )}
                 </div>
               </Link>
             </>
           ) : (
-            <div className="hidden md:flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+                className="hidden text-sm font-medium text-[#595e66] transition-colors hover:text-[#10141b] sm:inline"
               >
                 Log in
               </Link>
               <Link
                 href="/signup"
-                className="rounded-[2px] bg-primary px-5 py-2 font-label-md text-label-md text-on-primary transition-colors hover:bg-[#a23a0c]"
+                className="bg-[#10141b] px-4 py-2 text-sm font-bold text-[#f5f3ee] transition-opacity hover:opacity-85"
               >
-                Sign up
+                Join free
               </Link>
             </div>
           )}
         </div>
       </div>
-
-      <nav
-        aria-label="Browse by category"
-        className="flex items-center gap-5 overflow-x-auto border-t border-[#18140f]/10 px-gutter py-2.5"
-      >
-        {NICHE_CATEGORIES.map((cat) => (
-          <Link
-            key={cat.name}
-            href={`/creators?niche=${encodeURIComponent(cat.name)}`}
-            className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-on-surface-variant transition-colors hover:text-primary"
-          >
-            <span className="material-symbols-outlined text-[16px]">{cat.icon}</span>
-            {cat.name}
-          </Link>
-        ))}
-      </nav>
     </header>
   )
 }

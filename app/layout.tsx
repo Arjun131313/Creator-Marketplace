@@ -1,18 +1,17 @@
 import type { Metadata } from "next"
-import { Inter, Fraunces } from "next/font/google"
+import { Manrope, Bricolage_Grotesque } from "next/font/google"
 import "./globals.css"
 
-const inter = Inter({
-  variable: "--font-inter",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 })
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["600", "700", "800"],
   display: "swap",
 })
 
@@ -29,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${manrope.variable} ${bricolage.variable} h-full antialiased`}
     >
       <head>
         <link
