@@ -97,6 +97,7 @@ export default function BrandJobDetailPage({
   const [comment, setComment] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [cancelling, setCancelling] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -219,6 +220,28 @@ export default function BrandJobDetailPage({
     setSubmitting(false)
   }
 
+  async function handleCancelJob() {
+    if (!job) return
+    if (!window.confirm("Cancel this job? It will stop accepting applications and no longer be visible to creators.")) {
+      return
+    }
+
+    setCancelling(true)
+    const { error: cancelError } = await supabase
+      .from("jobs")
+      .update({ status: "cancelled" })
+      .eq("id", job.id)
+
+    if (cancelError) {
+      setError(cancelError.message)
+      setCancelling(false)
+      return
+    }
+
+    setJob((prev) => (prev ? { ...prev, status: "cancelled" } : prev))
+    setCancelling(false)
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
@@ -291,6 +314,16 @@ export default function BrandJobDetailPage({
           >
             View applications
           </Link>
+          {job.status === "open" && !hasAcceptedCreator ? (
+            <button
+              type="button"
+              onClick={handleCancelJob}
+              disabled={cancelling}
+              className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-5 py-2.5 text-sm font-bold text-[#10141b] transition-colors hover:border-[#ff534b] hover:text-[#ff534b] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {cancelling ? "Cancelling…" : "Cancel job"}
+            </button>
+          ) : null}
         </div>
       </section>
 

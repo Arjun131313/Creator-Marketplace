@@ -39,10 +39,57 @@ const SUBMISSION_LABEL: Record<SubmissionStatus, string> = {
   revision_requested: "Revision requested",
 }
 
+type PaymentStatus = "pending" | "held" | "released" | "refunded" | "disputed"
+
+const PAYMENT_BADGE: Record<PaymentStatus, string> = {
+  pending: "bg-[#feb930] text-[#2b1d00]",
+  held: "bg-[#1a54f0] text-white",
+  released: "bg-[#c8f23c] text-[#182704]",
+  refunded: "bg-[#10141b]/10 text-[#595e66]",
+  disputed: "bg-[#ff534b] text-white",
+}
+
+const PAYMENT_LABEL: Record<PaymentStatus, string> = {
+  pending: "Payment initiated",
+  held: "Payment held in escrow",
+  released: "Paid",
+  refunded: "Refunded",
+  disputed: "Disputed",
+}
+
+type DisputeStatus = "open" | "under_review" | "resolved" | "closed"
+
+type Dispute = {
+  id: string
+  payment_id: string | null
+  status: DisputeStatus
+  reason: string
+  resolution: string | null
+}
+
+const DISPUTE_BADGE: Record<DisputeStatus, string> = {
+  open: "bg-[#ff534b] text-white",
+  under_review: "bg-[#feb930] text-[#2b1d00]",
+  resolved: "bg-[#c8f23c] text-[#182704]",
+  closed: "bg-[#10141b]/10 text-[#595e66]",
+}
+
+const DISPUTE_LABEL: Record<DisputeStatus, string> = {
+  open: "Dispute open",
+  under_review: "Dispute under review",
+  resolved: "Dispute resolved",
+  closed: "Dispute closed",
+}
+
 export default function CreatorApplicationsPage() {
   const router = useRouter()
   const [applications, setApplications] = useState<ApplicationItem[]>([])
   const [submissionsByApplication, setSubmissionsByApplication] = useState<Record<string, Submission>>({})
+  const [paymentsByApplication, setPaymentsByApplication] = useState<Record<string, { id: string; status: PaymentStatus }>>({})
+  const [disputesByPayment, setDisputesByPayment] = useState<Record<string, Dispute>>({})
+  const [disputeFormOpenFor, setDisputeFormOpenFor] = useState<string | null>(null)
+  const [disputeReasons, setDisputeReasons] = useState<Record<string, string>>({})
+  const [raisingDisputeFor, setRaisingDisputeFor] = useState<string | null>(null)
   const [formState, setFormState] = useState<Record<string, { content_url: string; notes: string }>>({})
   const [submittingId, setSubmittingId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -109,10 +156,18 @@ export default function CreatorApplicationsPage() {
         .map((item) => item.id)
 
       if (acceptedIds.length > 0) {
-        const { data: submissionRows } = await supabase
-          .from("submissions")
-          .select("id,application_id,content_url,notes,status,reviewer_notes")
-          .in("application_id", acceptedIds)
+        const jobIds = Array.from(
+          new Set(applicationItems.filter((item) => acceptedIds.includes(item.id)).map((item) => item.job_id)),
+        )
+
+        const [{ data: submissionRows }, { data: paymentRows }, { data: disputeRows }] = await Promise.all([
+          supabase
+            .from("submissions")
+            .select("id,application_id,content_url,notes,status,reviewer_notes")
+            .in("application_id", acceptedIds),
+          supabase.from("payments").select("id,application_id,status").in("application_id", acceptedIds),
+          supabase.from("disputes").select("id,payment_id,status,reason,resolution").in("job_id", jobIds),
+        ])
 
         setSubmissionsByApplication(
           Object.fromEntries(
@@ -126,6 +181,23 @@ export default function CreatorApplicationsPage() {
                 reviewer_notes: row.reviewer_notes,
               },
             ]),
+          ),
+        )
+
+        setPaymentsByApplication(
+          Object.fromEntries(
+            (paymentRows ?? []).map((row) => [
+              row.application_id,
+              { id: row.id, status: row.status as PaymentStatus },
+            ]),
+          ),
+        )
+
+        setDisputesByPayment(
+          Object.fromEntries(
+            (disputeRows ?? [])
+              .filter((row): row is Dispute & { payment_id: string } => row.payment_id !== null)
+              .map((row) => [row.payment_id, row as Dispute]),
           ),
         )
       }
@@ -203,6 +275,51 @@ export default function CreatorApplicationsPage() {
     setSubmittingId(null)
   }
 
+  async function handleRaiseDispute(application: ApplicationItem) {
+    const payment = paymentsByApplication[application.id]
+    const reason = disputeReasons[application.id]?.trim()
+    if (!payment || !reason) return
+
+    setRaisingDisputeFor(application.id)
+    setError(null)
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session?.access_token) {
+      router.push("/login")
+      return
+    }
+
+    const response = await fetch("/api/disputes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ jobId: application.job_id, paymentId: payment.id, reason }),
+    })
+
+    const data = (await response.json()) as { dispute?: Dispute; error?: string }
+
+    if (!response.ok || !data.dispute) {
+      setError(data.error ?? "Failed to raise dispute")
+      setRaisingDisputeFor(null)
+      return
+    }
+
+    setDisputesByPayment((prev) => ({ ...prev, [payment.id]: data.dispute! }))
+    if (payment.status === "held") {
+      setPaymentsByApplication((prev) => ({
+        ...prev,
+        [application.id]: { id: payment.id, status: "disputed" },
+      }))
+    }
+    setDisputeFormOpenFor(null)
+    setRaisingDisputeFor(null)
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
@@ -267,6 +384,56 @@ export default function CreatorApplicationsPage() {
 
                 {application.status === "accepted" ? (
                   <div className="mt-5 border-t-2 border-[#10141b]/10 pt-5">
+                    {paymentsByApplication[application.id] ? (
+                      <div className="mb-4 flex flex-wrap items-center gap-3">
+                        <span
+                          className={`px-3 py-1 text-xs font-bold uppercase ${
+                            PAYMENT_BADGE[paymentsByApplication[application.id].status]
+                          }`}
+                        >
+                          {PAYMENT_LABEL[paymentsByApplication[application.id].status]}
+                        </span>
+                        {(() => {
+                          const payment = paymentsByApplication[application.id]
+                          const dispute = disputesByPayment[payment.id]
+                          if (dispute) {
+                            return (
+                              <span className={`px-3 py-1 text-xs font-bold uppercase ${DISPUTE_BADGE[dispute.status]}`}>
+                                {DISPUTE_LABEL[dispute.status]}
+                              </span>
+                            )
+                          }
+                          return (
+                            <button
+                              onClick={() => setDisputeFormOpenFor(disputeFormOpenFor === application.id ? null : application.id)}
+                              className="text-xs font-bold text-[#ff534b] underline"
+                            >
+                              Raise a dispute
+                            </button>
+                          )
+                        })()}
+                      </div>
+                    ) : null}
+
+                    {disputeFormOpenFor === application.id ? (
+                      <div className="mb-4 space-y-2 border-2 border-[#ff534b]/40 bg-[#ff534b]/5 p-4">
+                        <textarea
+                          rows={2}
+                          placeholder="Explain what's gone wrong — this is visible to RealReach and freezes this payment until resolved."
+                          value={disputeReasons[application.id] ?? ""}
+                          onChange={(e) => setDisputeReasons((prev) => ({ ...prev, [application.id]: e.target.value }))}
+                          className="w-full border-2 border-[#10141b]/20 bg-white px-3 py-2 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#ff534b]"
+                        />
+                        <button
+                          disabled={raisingDisputeFor === application.id || !disputeReasons[application.id]?.trim()}
+                          onClick={() => handleRaiseDispute(application)}
+                          className="inline-flex items-center justify-center border-2 border-[#ff534b] bg-[#ff534b] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {raisingDisputeFor === application.id ? "Submitting…" : "Submit dispute"}
+                        </button>
+                      </div>
+                    ) : null}
+
                     {submission ? (
                       <div className="mb-4 flex flex-wrap items-center gap-2">
                         <span className={`px-3 py-1 text-xs font-bold uppercase ${SUBMISSION_BADGE[submission.status]}`}>

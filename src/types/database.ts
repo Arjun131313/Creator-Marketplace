@@ -69,6 +69,7 @@ export type Database = {
           bio: string | null
           avatar_url: string | null
           stripe_account_id: string | null
+          stripe_payouts_enabled: boolean
           niche: string | null
           platform_stats: PlatformStats | null
           packages: CreatorPackage[] | null
@@ -84,6 +85,7 @@ export type Database = {
           bio?: string | null
           avatar_url?: string | null
           stripe_account_id?: string | null
+          stripe_payouts_enabled?: boolean
           niche?: string | null
           platform_stats?: PlatformStats | null
           packages?: CreatorPackage[] | null
@@ -99,6 +101,7 @@ export type Database = {
           bio?: string | null
           avatar_url?: string | null
           stripe_account_id?: string | null
+          stripe_payouts_enabled?: boolean
           niche?: string | null
           platform_stats?: PlatformStats | null
           packages?: CreatorPackage[] | null

@@ -3,6 +3,29 @@ import Stripe from "stripe"
 import { createAdminClient } from "@/lib/supabase"
 import { stripe } from "@/lib/stripe"
 
+type AdminClient = ReturnType<typeof createAdminClient>
+
+// Marks a job "completed" once every payment tied to it has settled (released
+// or refunded) — called right after a release, so at least one creator was
+// actually paid. Leaves in-flight jobs (still held/pending/disputed payments)
+// untouched.
+async function maybeCompleteJob(adminClient: AdminClient, jobId: string) {
+  const { data: outstanding } = await adminClient
+    .from("payments")
+    .select("id")
+    .eq("job_id", jobId)
+    .in("status", ["pending", "held", "disputed"])
+    .limit(1)
+
+  if (outstanding && outstanding.length > 0) return
+
+  await adminClient
+    .from("jobs")
+    .update({ status: "completed" })
+    .eq("id", jobId)
+    .eq("status", "in_progress")
+}
+
 // Stripe webhook endpoint. Register this URL (https://<your-domain>/api/webhooks/stripe)
 // in the Stripe Dashboard once deployed, and set STRIPE_WEBHOOK_SECRET to the signing
 // secret it gives you. Payment status in the database is driven entirely by these
@@ -62,7 +85,7 @@ export async function POST(request: NextRequest) {
         .from("payments")
         .update({ status: "released" })
         .eq("stripe_payment_intent_id", intent.id)
-        .select("id,creator_id,amount,platform_fee,currency")
+        .select("id,job_id,creator_id,amount,platform_fee,currency")
         .maybeSingle()
 
       if (payment) {
@@ -92,6 +115,8 @@ export async function POST(request: NextRequest) {
             `Payment ${payment.id} released but creator ${payment.creator_id} has no connected Stripe account yet — payout not sent.`,
           )
         }
+
+        await maybeCompleteJob(adminClient, payment.job_id)
       }
       break
     }
@@ -111,13 +136,15 @@ export async function POST(request: NextRequest) {
     }
 
     case "account.updated": {
-      // Tracks Stripe Connect onboarding progress for creators. There's no column
-      // for this yet — add e.g. `stripe_onboarding_complete boolean` to profiles
-      // via a migration if you want to gate UI (like "you can now be paid out") on it.
+      // Tracks Stripe Connect onboarding progress for creators, so the UI can show
+      // "payouts enabled" once Stripe has verified identity + bank details.
       const account = event.data.object as Stripe.Account
-      console.log(
-        `Stripe account ${account.id} updated — charges_enabled=${account.charges_enabled}, payouts_enabled=${account.payouts_enabled}`,
-      )
+      const payoutsEnabled = Boolean(account.charges_enabled && account.payouts_enabled)
+
+      await adminClient
+        .from("profiles")
+        .update({ stripe_payouts_enabled: payoutsEnabled })
+        .eq("stripe_account_id", account.id)
       break
     }
 

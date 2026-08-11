@@ -5,9 +5,7 @@ import { stripe } from "@/lib/stripe"
 // Creates (or reuses) a Stripe Express connected account for a creator and returns
 // an onboarding link. Visit the returned URL to complete identity verification and
 // bank details — until that's done, Stripe will reject transfers to the account.
-//
-// Not yet wired to any button in the UI — call this from the creator profile/setup
-// flow once you decide where "connect your payout account" should live.
+// Called from the "Payout account" section of app/creator/profile/setup/page.tsx.
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("Authorization")
   if (!authHeader?.startsWith("Bearer ")) {

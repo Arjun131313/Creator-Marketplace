@@ -47,6 +47,9 @@ export default function CreatorProfileSetupPage() {
   const [error, setError] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [stripeAccountId, setStripeAccountId] = useState<string | null>(null)
+  const [stripePayoutsEnabled, setStripePayoutsEnabled] = useState(false)
+  const [connectingStripe, setConnectingStripe] = useState(false)
   const [form, setForm] = useState<FormState>({
     display_name: "",
     bio: "",
@@ -73,7 +76,7 @@ export default function CreatorProfileSetupPage() {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role,display_name,bio,niche,avatar_url,platform_stats,packages")
+        .select("role,display_name,bio,niche,avatar_url,platform_stats,packages,stripe_account_id,stripe_payouts_enabled")
         .eq("id", session.user.id)
         .single()
 
@@ -84,6 +87,9 @@ export default function CreatorProfileSetupPage() {
 
       const stats = profile.platform_stats
       const pkgs = profile.packages
+
+      setStripeAccountId(profile.stripe_account_id)
+      setStripePayoutsEnabled(profile.stripe_payouts_enabled)
 
       setForm({
         display_name: profile.display_name ?? "",
@@ -142,6 +148,35 @@ export default function CreatorProfileSetupPage() {
     const { data: publicUrlData } = supabase.storage.from("avatars").getPublicUrl(path)
     setForm((p) => ({ ...p, avatar_url: publicUrlData.publicUrl }))
     setUploadingAvatar(false)
+  }
+
+  async function handleConnectStripe() {
+    setConnectingStripe(true)
+    setError(null)
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session?.access_token) {
+      router.push("/login")
+      return
+    }
+
+    const response = await fetch("/api/stripe/connect", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    })
+
+    const data = (await response.json()) as { url?: string; error?: string }
+
+    if (!response.ok || !data.url) {
+      setError(data.error ?? "Failed to start Stripe onboarding. Please try again.")
+      setConnectingStripe(false)
+      return
+    }
+
+    window.location.href = data.url
   }
 
   function updatePackage(index: number, field: keyof PackageForm, value: string) {
@@ -294,6 +329,50 @@ export default function CreatorProfileSetupPage() {
                 ))}
               </select>
             </div>
+          </div>
+        </section>
+
+        {/* Payout account */}
+        <section className="border-2 border-[#10141b] bg-white p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Payout account</h2>
+          <p className="mt-1 text-sm text-[#595e66]">
+            Connect a Stripe account so brands can pay you — funds are held in escrow and
+            released to this account when a brand approves your work.
+          </p>
+
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-5">
+            <div>
+              {stripePayoutsEnabled ? (
+                <span className="inline-block bg-[#c8f23c] px-3 py-1 text-xs font-bold uppercase text-[#182704]">
+                  Payouts enabled
+                </span>
+              ) : stripeAccountId ? (
+                <span className="inline-block bg-[#feb930] px-3 py-1 text-xs font-bold uppercase text-[#2b1d00]">
+                  Onboarding incomplete
+                </span>
+              ) : (
+                <span className="inline-block bg-[#10141b]/10 px-3 py-1 text-xs font-bold uppercase text-[#595e66]">
+                  Not connected
+                </span>
+              )}
+              <p className="mt-2 text-sm text-[#595e66]">
+                {stripePayoutsEnabled
+                  ? "You're all set to receive payouts."
+                  : stripeAccountId
+                    ? "Finish verifying your details with Stripe to start receiving payouts."
+                    : "You won't be able to receive payment until this is connected."}
+              </p>
+            </div>
+            {!stripePayoutsEnabled ? (
+              <button
+                type="button"
+                onClick={handleConnectStripe}
+                disabled={connectingStripe}
+                className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {connectingStripe ? "Redirecting…" : stripeAccountId ? "Finish onboarding" : "Connect Stripe"}
+              </button>
+            ) : null}
           </div>
         </section>
 
