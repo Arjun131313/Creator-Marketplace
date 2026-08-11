@@ -74,63 +74,63 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#18140f] px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-[#f5f3ee] px-4 py-12">
       <div className="w-full max-w-md">
-        <Link href="/" className="mb-8 flex justify-center font-serif text-2xl text-[#f5f1e8]">
-          Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
+        <Link href="/" className="mb-8 flex justify-center font-display text-2xl font-extrabold text-[#10141b]">
+          RealReach.
         </Link>
 
-        <div className="paper-card rounded-sm p-10">
-          <h1 className="font-serif text-3xl font-medium text-[#18140f]">Set a new password</h1>
+        <div className="border-2 border-[#10141b] bg-white p-10">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#10141b]">Set a new password</h1>
 
           {invalid ? (
             <>
-              <p className="mt-2 text-sm text-[#6b6153]">
+              <p className="mt-2 text-sm text-[#595e66]">
                 This reset link is invalid or has expired.
               </p>
               <p className="mt-6 text-center text-sm">
-                <Link href="/forgot-password" className="font-semibold text-[#c1440e] hover:underline">
+                <Link href="/forgot-password" className="font-bold text-[#1a54f0] hover:underline">
                   Request a new link
                 </Link>
               </p>
             </>
           ) : success ? (
-            <div className="mt-8 rounded-sm border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className="mt-8 border-2 border-[#c8f23c] bg-[#c8f23c]/20 px-4 py-3 text-sm text-[#182704]">
               Password updated. Redirecting you to log in…
             </div>
           ) : !ready ? (
-            <p className="mt-2 text-sm text-[#6b6153]">Verifying your reset link…</p>
+            <p className="mt-2 text-sm text-[#595e66]">Verifying your reset link…</p>
           ) : (
             <>
-              <p className="mt-2 text-sm text-[#6b6153]">
+              <p className="mt-2 text-sm text-[#595e66]">
                 Choose a new password for your account.
               </p>
               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <label className="block">
-                  <span className="text-sm font-medium text-[#3a332a]">New password</span>
+                  <span className="text-sm font-bold text-[#10141b]">New password</span>
                   <input
                     type="password"
                     required
                     minLength={8}
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                    className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
                   />
                 </label>
                 <label className="block">
-                  <span className="text-sm font-medium text-[#3a332a]">Confirm new password</span>
+                  <span className="text-sm font-bold text-[#10141b]">Confirm new password</span>
                   <input
                     type="password"
                     required
                     minLength={8}
                     value={confirmPassword}
                     onChange={(event) => setConfirmPassword(event.target.value)}
-                    className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                    className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
                   />
                 </label>
 
                 {message ? (
-                  <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                  <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
                     {message}
                   </div>
                 ) : null}
@@ -138,7 +138,7 @@ export default function ResetPasswordPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex w-full items-center justify-center rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {loading ? "Updating..." : "Update password"}
                 </button>

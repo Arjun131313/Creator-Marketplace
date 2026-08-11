@@ -56,23 +56,23 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#18140f] px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-[#f5f3ee] px-4 py-12">
       <div className="w-full max-w-md">
-        <Link href="/" className="mb-8 flex justify-center font-serif text-2xl text-[#f5f1e8]">
-          Real<em className="not-italic italic text-[#e8a37c]">Reach</em>
+        <Link href="/" className="mb-8 flex justify-center font-display text-2xl font-extrabold text-[#10141b]">
+          RealReach.
         </Link>
 
-        <div className="paper-card rounded-sm p-10">
-          <h1 className="font-serif text-3xl font-medium text-[#18140f]">Sign up</h1>
-          <p className="mt-2 text-sm text-[#6b6153]">
+        <div className="border-2 border-[#10141b] bg-white p-10">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#10141b]">Sign up</h1>
+          <p className="mt-2 text-sm text-[#595e66]">
             Create a Brand or Creator account.
           </p>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="grid gap-3 sm:grid-cols-2">
               <label
-                className={`cursor-pointer rounded-sm border p-4 text-center transition ${
-                  role === "brand" ? "border-[#c1440e] bg-[#c1440e]/5" : "border-[#18140f]/15 hover:border-[#18140f]/30"
+                className={`cursor-pointer border-2 p-4 text-center transition-colors ${
+                  role === "brand" ? "border-[#1a54f0] bg-[#1a54f0]/5" : "border-[#10141b]/20 hover:border-[#10141b]/40"
                 }`}
               >
                 <input
@@ -83,13 +83,13 @@ export default function SignupPage() {
                   onChange={() => setRole("brand")}
                   className="sr-only"
                 />
-                <div className={role === "brand" ? "font-semibold text-[#18140f]" : "text-[#6b6153]"}>
+                <div className={role === "brand" ? "font-bold text-[#10141b]" : "text-[#595e66]"}>
                   Brand
                 </div>
               </label>
               <label
-                className={`cursor-pointer rounded-sm border p-4 text-center transition ${
-                  role === "creator" ? "border-[#c1440e] bg-[#c1440e]/5" : "border-[#18140f]/15 hover:border-[#18140f]/30"
+                className={`cursor-pointer border-2 p-4 text-center transition-colors ${
+                  role === "creator" ? "border-[#1a54f0] bg-[#1a54f0]/5" : "border-[#10141b]/20 hover:border-[#10141b]/40"
                 }`}
               >
                 <input
@@ -100,7 +100,7 @@ export default function SignupPage() {
                   onChange={() => setRole("creator")}
                   className="sr-only"
                 />
-                <div className={role === "creator" ? "font-semibold text-[#18140f]" : "text-[#6b6153]"}>
+                <div className={role === "creator" ? "font-bold text-[#10141b]" : "text-[#595e66]"}>
                   Creator
                 </div>
               </label>
@@ -108,29 +108,29 @@ export default function SignupPage() {
 
             <div className="space-y-4">
               <label className="block">
-                <span className="text-sm font-medium text-[#3a332a]">Email</span>
+                <span className="text-sm font-bold text-[#10141b]">Email</span>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                  className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
                 />
               </label>
               <label className="block">
-                <span className="text-sm font-medium text-[#3a332a]">Password</span>
+                <span className="text-sm font-bold text-[#10141b]">Password</span>
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  className="mt-2 w-full rounded-sm border border-[#18140f]/15 bg-white px-4 py-3 text-sm text-[#18140f] outline-none transition focus:border-[#c1440e] focus:ring-1 focus:ring-[#c1440e]"
+                  className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
                 />
               </label>
             </div>
 
             {message ? (
-              <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
                 {message}
               </div>
             ) : null}
@@ -138,15 +138,15 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex w-full items-center justify-center rounded-[2px] bg-[#c1440e] px-5 py-3 text-sm font-semibold text-[#fef8f2] transition hover:bg-[#a23a0c] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-[#6b6153]">
+          <p className="mt-8 text-center text-sm text-[#595e66]">
             Already have an account?{" "}
-            <Link href="/login" className="font-semibold text-[#c1440e] hover:underline">
+            <Link href="/login" className="font-bold text-[#1a54f0] hover:underline">
               Log in
             </Link>
           </p>
