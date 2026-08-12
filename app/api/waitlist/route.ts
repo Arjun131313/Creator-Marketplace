@@ -53,6 +53,25 @@ export async function POST(request: NextRequest) {
       subject: "You're on the RealReach Agency creator waitlist",
       html: `<p>Hi ${name},</p><p>Thanks for joining the RealReach Agency creator waitlist. We're onboarding our founding cohort by hand — we'll be in touch personally once there's a spot for you.</p>`,
     })
+
+    const notifyEmail = process.env.WAITLIST_NOTIFY_EMAIL
+    if (notifyEmail) {
+      await sendEmail({
+        to: notifyEmail,
+        subject: `New waitlist signup: ${name}`,
+        html: `
+          <p>New creator waitlist signup:</p>
+          <ul>
+            <li><strong>Name:</strong> ${name}</li>
+            <li><strong>Email:</strong> ${trimmedEmail}</li>
+            <li><strong>Platform:</strong> ${platform}</li>
+            <li><strong>Handle:</strong> ${handle?.trim() || "—"}</li>
+            <li><strong>Followers:</strong> ${followers?.trim() || "—"}</li>
+            <li><strong>Niche:</strong> ${niche?.trim() || "—"}</li>
+          </ul>
+        `,
+      })
+    }
   }
 
   return NextResponse.json({ success: true })
