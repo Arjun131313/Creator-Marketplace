@@ -198,6 +198,14 @@ export default function PublicNav() {
           >
             How it works
           </Link>
+          <Link
+            href="/pricing"
+            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
+              pathname === "/pricing" ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+            }`}
+          >
+            Pricing
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">
