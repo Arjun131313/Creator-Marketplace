@@ -15,9 +15,23 @@ type Lesson = {
   created_at: string
   creator_id: string
   teacher_name: string
+  teacher_avatar: string | null
+  teacher_niche: string | null
 }
 
-const CATEGORIES = ["All", "Pitching", "Content creation", "Negotiation", "Growth", "Other"]
+type CategoryInfo = {
+  name: string
+  description: string
+  icon: string
+}
+
+const CATEGORY_INFO: CategoryInfo[] = [
+  { name: "Pitching", description: "How to apply, what to say, and how to stand out in a brief", icon: "✎" },
+  { name: "Content creation", description: "Shooting, editing, and delivering content brands actually want", icon: "◉" },
+  { name: "Negotiation", description: "Setting your rates and holding them without losing the job", icon: "⇄" },
+  { name: "Growth", description: "Building an audience and a portfolio that gets you hired again", icon: "↗" },
+  { name: "Other", description: "Everything else creators have learned the hard way", icon: "＋" },
+]
 
 export default function AcademyPage() {
   const [lessons, setLessons] = useState<Lesson[]>([])
@@ -43,16 +57,23 @@ export default function AcademyPage() {
       const creatorIds = Array.from(new Set(lessonsList.map((l) => l.creator_id)))
       const { data: profiles } = await supabase
         .from("profiles")
-        .select("id,display_name")
+        .select("id,display_name,avatar_url,niche")
         .in("id", creatorIds)
 
-      const nameById = new Map(profiles?.map((p) => [p.id, p.display_name ?? "Creator"]))
+      const profileById = new Map(
+        profiles?.map((p) => [p.id, { name: p.display_name ?? "Creator", avatar: p.avatar_url, niche: p.niche }]),
+      )
 
       setLessons(
-        lessonsList.map((l) => ({
-          ...l,
-          teacher_name: nameById.get(l.creator_id) ?? "Creator",
-        })),
+        lessonsList.map((l) => {
+          const profile = profileById.get(l.creator_id)
+          return {
+            ...l,
+            teacher_name: profile?.name ?? "Creator",
+            teacher_avatar: profile?.avatar ?? null,
+            teacher_niche: profile?.niche ?? null,
+          }
+        }),
       )
       setLoading(false)
     }
@@ -64,6 +85,20 @@ export default function AcademyPage() {
     if (category === "All") return lessons
     return lessons.filter((l) => l.category === category)
   }, [lessons, category])
+
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    lessons.forEach((l) => {
+      if (l.category) counts.set(l.category, (counts.get(l.category) ?? 0) + 1)
+    })
+    return counts
+  }, [lessons])
+
+  const priceRange = useMemo(() => {
+    if (lessons.length === 0) return null
+    const prices = lessons.map((l) => l.price)
+    return { min: Math.min(...prices), max: Math.max(...prices) }
+  }, [lessons])
 
   return (
     <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
@@ -81,6 +116,14 @@ export default function AcademyPage() {
             <p className="mt-3 max-w-lg text-[#595e66]">
               Paid lessons from real RealReach creators — how to pitch, price, and get hired more.
             </p>
+            {!loading && lessons.length > 0 ? (
+              <p className="mt-3 text-sm font-bold text-[#595e66]">
+                {lessons.length} lesson{lessons.length !== 1 ? "s" : ""}
+                {priceRange ? (
+                  <> · from £{priceRange.min.toLocaleString()}{priceRange.max !== priceRange.min ? ` to £${priceRange.max.toLocaleString()}` : ""}</>
+                ) : null}
+              </p>
+            ) : null}
           </div>
 
           <Link
@@ -91,20 +134,43 @@ export default function AcademyPage() {
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-2">
-          {CATEGORIES.map((c) => (
+        {/* Browse by topic */}
+        <div className="mt-10">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">What can be taught</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <button
-              key={c}
-              onClick={() => setCategory(c)}
-              className={`border-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] transition-colors ${
-                category === c
-                  ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]"
-                  : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]/50 hover:text-[#10141b]"
+              onClick={() => setCategory("All")}
+              className={`border-2 p-4 text-left transition-colors ${
+                category === "All" ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 bg-white hover:border-[#10141b]"
               }`}
             >
-              {c}
+              <p className="font-display text-lg font-extrabold">All topics</p>
+              <p className={`mt-1 text-xs leading-5 ${category === "All" ? "text-[#a8adb6]" : "text-[#595e66]"}`}>
+                Every lesson published, no filter
+              </p>
+              <p className={`mt-2 text-xs font-bold ${category === "All" ? "text-[#f5f3ee]" : "text-[#8b8f96]"}`}>{lessons.length} lessons</p>
             </button>
-          ))}
+            {CATEGORY_INFO.map((c) => (
+              <button
+                key={c.name}
+                onClick={() => setCategory(c.name)}
+                className={`border-2 p-4 text-left transition-colors ${
+                  category === c.name ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 bg-white hover:border-[#10141b]"
+                }`}
+              >
+                <p className="font-display text-lg font-extrabold">
+                  <span className="mr-1.5 text-[#1a54f0]">{c.icon}</span>
+                  {c.name}
+                </p>
+                <p className={`mt-1 text-xs leading-5 ${category === c.name ? "text-[#a8adb6]" : "text-[#595e66]"}`}>
+                  {c.description}
+                </p>
+                <p className={`mt-2 text-xs font-bold ${category === c.name ? "text-[#f5f3ee]" : "text-[#8b8f96]"}`}>
+                  {categoryCounts.get(c.name) ?? 0} lessons
+                </p>
+              </button>
+            ))}
+          </div>
         </div>
 
         {loading ? (
@@ -140,8 +206,18 @@ export default function AcademyPage() {
                   <h2 className="font-display text-xl font-extrabold tracking-tight">{lesson.title}</h2>
                   <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#595e66]">{lesson.description}</p>
                 </div>
-                <div className="border-t-2 border-[#10141b]/10 p-5 text-xs font-bold uppercase tracking-wide text-[#8b8f96]">
-                  By {lesson.teacher_name}
+                <div className="flex items-center gap-2 border-t-2 border-[#10141b]/10 p-5">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#eae8e1]">
+                    {lesson.teacher_avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={lesson.teacher_avatar} alt={lesson.teacher_name} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] font-bold text-[#595e66]">{lesson.teacher_name[0]?.toUpperCase()}</span>
+                    )}
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wide text-[#8b8f96]">
+                    {lesson.teacher_name}{lesson.teacher_niche ? ` · ${lesson.teacher_niche}` : ""}
+                  </span>
                 </div>
               </Link>
             ))}

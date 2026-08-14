@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import PublicNav from "@/components/public-nav"
 import { supabase } from "@/lib/supabase"
+import { getCreatorTier } from "@/lib/creator-tier"
 
 type Lesson = {
   id: string
@@ -14,6 +15,11 @@ type Lesson = {
   category: string | null
   creator_id: string
   teacher_name: string
+  teacher_avatar: string | null
+  teacher_niche: string | null
+  teacher_bio: string | null
+  teacher_review_count: number
+  teacher_avg_rating: number | null
 }
 
 export default function AcademyLessonPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,13 +50,27 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
         return
       }
 
-      const { data: teacherProfile } = await supabase
-        .from("profiles")
-        .select("display_name")
-        .eq("id", lessonRow.creator_id)
-        .maybeSingle()
+      const [{ data: teacherProfile }, { data: reviews }] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("display_name,avatar_url,niche,bio")
+          .eq("id", lessonRow.creator_id)
+          .maybeSingle(),
+        supabase.from("reviews").select("rating").eq("creator_id", lessonRow.creator_id),
+      ])
 
-      setLesson({ ...lessonRow, teacher_name: teacherProfile?.display_name ?? "Creator" })
+      const reviewCount = reviews?.length ?? 0
+      const avgRating = reviewCount > 0 ? reviews!.reduce((sum, r) => sum + r.rating, 0) / reviewCount : null
+
+      setLesson({
+        ...lessonRow,
+        teacher_name: teacherProfile?.display_name ?? "Creator",
+        teacher_avatar: teacherProfile?.avatar_url ?? null,
+        teacher_niche: teacherProfile?.niche ?? null,
+        teacher_bio: teacherProfile?.bio ?? null,
+        teacher_review_count: reviewCount,
+        teacher_avg_rating: avgRating,
+      })
 
       const {
         data: { session },
@@ -161,7 +181,6 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
           {lesson.category ? (
             <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{lesson.category}</span>
           ) : null}
-          <span className="text-xs font-bold uppercase tracking-wide text-[#8b8f96]">By {lesson.teacher_name}</span>
         </div>
 
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight">{lesson.title}</h1>
@@ -169,6 +188,37 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
         <div className="mt-6 border-2 border-[#10141b]/10 bg-white p-6">
           <p className="whitespace-pre-line text-sm leading-7 text-[#10141b]">{lesson.description}</p>
         </div>
+
+        {/* About the teacher */}
+        <Link
+          href={`/creators/${lesson.creator_id}`}
+          className="mt-6 flex items-start gap-4 border-2 border-[#10141b]/10 bg-white p-6 transition-colors hover:bg-[#eae8e1]/40"
+        >
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#eae8e1]">
+            {lesson.teacher_avatar ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={lesson.teacher_avatar} alt={lesson.teacher_name} className="h-full w-full object-cover" />
+            ) : (
+              <span className="text-lg font-bold text-[#595e66]">{lesson.teacher_name[0]?.toUpperCase()}</span>
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-display text-lg font-extrabold text-[#10141b]">{lesson.teacher_name}</p>
+              <span className={`px-2 py-0.5 text-[10px] font-bold uppercase ${getCreatorTier(lesson.teacher_review_count, lesson.teacher_avg_rating).className}`}>
+                {getCreatorTier(lesson.teacher_review_count, lesson.teacher_avg_rating).label}
+              </span>
+            </div>
+            <p className="mt-0.5 text-xs font-bold uppercase tracking-wide text-[#8b8f96]">
+              {lesson.teacher_niche ?? "Content creator"}
+              {lesson.teacher_review_count > 0 ? ` · ${lesson.teacher_avg_rating?.toFixed(1)} ★ (${lesson.teacher_review_count} review${lesson.teacher_review_count !== 1 ? "s" : ""})` : ""}
+            </p>
+            {lesson.teacher_bio ? (
+              <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#595e66]">{lesson.teacher_bio}</p>
+            ) : null}
+            <p className="mt-2 text-xs font-bold text-[#1a54f0]">View full profile →</p>
+          </div>
+        </Link>
 
         {purchaseStatus === "success" && !hasAccess ? (
           <div className="mt-6 border-2 border-[#feb930] bg-[#feb930]/10 p-4 text-sm text-[#2b1d00]">
