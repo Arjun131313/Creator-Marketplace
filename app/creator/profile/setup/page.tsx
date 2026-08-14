@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { NICHES } from "@/lib/niches"
+import type { ContentUrl } from "@/types/database"
 
 type PackageForm = { name: string; description: string; price: string }
 
@@ -16,7 +17,10 @@ type FormState = {
   tiktok: string
   snapchat: string
   packages: [PackageForm, PackageForm, PackageForm]
+  content_urls: ContentUrl[]
 }
+
+const MAX_PORTFOLIO_LINKS = 6
 
 const DEFAULT_PACKAGES: [PackageForm, PackageForm, PackageForm] = [
   { name: "Basic", description: "", price: "" },
@@ -59,6 +63,7 @@ export default function CreatorProfileSetupPage() {
     tiktok: "",
     snapchat: "",
     packages: DEFAULT_PACKAGES,
+    content_urls: [],
   })
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export default function CreatorProfileSetupPage() {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role,display_name,bio,niche,avatar_url,platform_stats,packages,stripe_account_id,stripe_payouts_enabled")
+        .select("role,display_name,bio,niche,avatar_url,platform_stats,packages,content_urls,stripe_account_id,stripe_payouts_enabled")
         .eq("id", session.user.id)
         .single()
 
@@ -107,6 +112,7 @@ export default function CreatorProfileSetupPage() {
                 price: p.price.toString(),
               })) as [PackageForm, PackageForm, PackageForm])
             : DEFAULT_PACKAGES,
+        content_urls: Array.isArray(profile.content_urls) ? (profile.content_urls as ContentUrl[]) : [],
       })
 
       setLoading(false)
@@ -187,6 +193,28 @@ export default function CreatorProfileSetupPage() {
     })
   }
 
+  function addPortfolioLink() {
+    setForm((prev) => ({
+      ...prev,
+      content_urls: [...prev.content_urls, { platform: "tiktok", url: "" }],
+    }))
+  }
+
+  function updatePortfolioLink(index: number, field: keyof ContentUrl, value: string) {
+    setForm((prev) => {
+      const updated = [...prev.content_urls]
+      updated[index] = { ...updated[index], [field]: value } as ContentUrl
+      return { ...prev, content_urls: updated }
+    })
+  }
+
+  function removePortfolioLink(index: number) {
+    setForm((prev) => ({
+      ...prev,
+      content_urls: prev.content_urls.filter((_, i) => i !== index),
+    }))
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
@@ -222,6 +250,9 @@ export default function CreatorProfileSetupPage() {
           description: pkg.description.trim(),
           price: parseFloat(pkg.price) || 0,
         })),
+        content_urls: form.content_urls
+          .filter((cu) => cu.url.trim())
+          .map((cu) => ({ platform: cu.platform, url: cu.url.trim() })),
       }),
     })
 
@@ -300,9 +331,8 @@ export default function CreatorProfileSetupPage() {
             </div>
 
             <div className="sm:col-span-2">
-              <label className={labelClass}>Bio *</label>
+              <label className={labelClass}>Introduction (optional)</label>
               <textarea
-                required
                 rows={4}
                 value={form.bio}
                 onChange={(e) => setForm((p) => ({ ...p, bio: e.target.value }))}
@@ -465,6 +495,54 @@ export default function CreatorProfileSetupPage() {
                 </div>
               )
             })}
+          </div>
+        </section>
+
+        {/* Portfolio */}
+        <section className="border-2 border-[#10141b] bg-white p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Portfolio (optional)</h2>
+          <p className="mt-1 text-sm text-[#595e66]">
+            Link to your best TikTok or Instagram posts so brands can see your actual work. Up to {MAX_PORTFOLIO_LINKS} links.
+          </p>
+
+          <div className="mt-6 space-y-4">
+            {form.content_urls.map((cu, index) => (
+              <div key={index} className="flex flex-col gap-3 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-4 sm:flex-row sm:items-center">
+                <select
+                  value={cu.platform}
+                  onChange={(e) => updatePortfolioLink(index, "platform", e.target.value)}
+                  className={inputClass + " cursor-pointer sm:w-40"}
+                >
+                  <option value="tiktok">TikTok</option>
+                  <option value="instagram">Instagram</option>
+                </select>
+                <input
+                  type="url"
+                  required
+                  placeholder="https://..."
+                  value={cu.url}
+                  onChange={(e) => updatePortfolioLink(index, "url", e.target.value)}
+                  className={inputClass + " flex-1"}
+                />
+                <button
+                  type="button"
+                  onClick={() => removePortfolioLink(index)}
+                  className="shrink-0 border-2 border-[#10141b]/20 px-4 py-3 text-sm font-bold text-[#ff534b] transition-colors hover:border-[#ff534b]"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+
+            {form.content_urls.length < MAX_PORTFOLIO_LINKS ? (
+              <button
+                type="button"
+                onClick={addPortfolioLink}
+                className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-5 py-2.5 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b]"
+              >
+                + Add a link
+              </button>
+            ) : null}
           </div>
         </section>
 
