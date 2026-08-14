@@ -38,6 +38,7 @@ export default function PublicNav() {
     { href: "/", label: "Home" },
     { href: "/creators", label: "Creators" },
     { href: "/campaigns", label: "Campaigns" },
+    { href: "/academy", label: "Academy" },
     { href: "/how-it-works", label: "How it works" },
   ]
 

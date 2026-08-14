@@ -26,6 +26,44 @@ async function maybeCompleteJob(adminClient: AdminClient, jobId: string) {
     .eq("status", "in_progress")
 }
 
+// Shared by both job-payment release and academy-purchase payout — transfers
+// the recipient's share (amount minus platform fee) to their connected
+// Stripe account, if they've finished Connect onboarding.
+async function transferPayout(
+  adminClient: AdminClient,
+  args: {
+    recipientId: string
+    amount: number
+    platformFee: number | null
+    currency: string
+    latestCharge: Stripe.PaymentIntent["latest_charge"]
+    logLabel: string
+  },
+) {
+  const { data: recipientProfile } = await adminClient
+    .from("profiles")
+    .select("stripe_account_id")
+    .eq("id", args.recipientId)
+    .maybeSingle()
+
+  if (!recipientProfile?.stripe_account_id) {
+    console.warn(`${args.logLabel} but recipient ${args.recipientId} has no connected Stripe account yet — payout not sent.`)
+    return
+  }
+
+  const payoutAmount = Math.round((args.amount - (args.platformFee ?? 0)) * 100)
+  try {
+    await stripe.transfers.create({
+      amount: payoutAmount,
+      currency: args.currency,
+      destination: recipientProfile.stripe_account_id,
+      source_transaction: typeof args.latestCharge === "string" ? args.latestCharge : undefined,
+    })
+  } catch (err) {
+    console.error(`Failed to transfer payout — ${args.logLabel}:`, err)
+  }
+}
+
 // Stripe webhook endpoint. Register this URL (https://<your-domain>/api/webhooks/stripe)
 // in the Stripe Dashboard once deployed, and set STRIPE_WEBHOOK_SECRET to the signing
 // secret it gives you. Payment status in the database is driven entirely by these
@@ -54,10 +92,21 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session
-      const paymentId = session.metadata?.payment_id
       const paymentIntentId =
         typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id
 
+      if (session.metadata?.type === "academy") {
+        const purchaseId = session.metadata.academy_purchase_id
+        if (purchaseId && paymentIntentId) {
+          await adminClient
+            .from("academy_purchases")
+            .update({ stripe_payment_intent_id: paymentIntentId })
+            .eq("id", purchaseId)
+        }
+        break
+      }
+
+      const paymentId = session.metadata?.payment_id
       if (paymentId && paymentIntentId) {
         await adminClient
           .from("payments")
@@ -73,14 +122,41 @@ export async function POST(request: NextRequest) {
         .from("payments")
         .update({ status: "refunded" })
         .eq("stripe_payment_intent_id", intent.id)
+      await adminClient
+        .from("academy_purchases")
+        .update({ status: "refunded" })
+        .eq("stripe_payment_intent_id", intent.id)
       break
     }
 
     case "payment_intent.succeeded": {
-      // Fires after a manual capture (our escrow release). Mark released, then
-      // transfer the creator's share if they've completed Stripe Connect onboarding.
       const intent = event.data.object as Stripe.PaymentIntent
 
+      if (intent.metadata?.type === "academy") {
+        // Auto-captured (no manual hold step) — this is the first and only
+        // "succeeded" signal, so mark paid and pay out the teacher right away.
+        const { data: purchase } = await adminClient
+          .from("academy_purchases")
+          .update({ status: "paid" })
+          .eq("stripe_payment_intent_id", intent.id)
+          .select("id,teacher_id,amount,platform_fee,currency")
+          .maybeSingle()
+
+        if (purchase) {
+          await transferPayout(adminClient, {
+            recipientId: purchase.teacher_id,
+            amount: purchase.amount,
+            platformFee: purchase.platform_fee,
+            currency: purchase.currency,
+            latestCharge: intent.latest_charge,
+            logLabel: `Academy purchase ${purchase.id} paid`,
+          })
+        }
+        break
+      }
+
+      // Fires after a manual capture (our escrow release). Mark released, then
+      // transfer the creator's share if they've completed Stripe Connect onboarding.
       const { data: payment } = await adminClient
         .from("payments")
         .update({ status: "released" })
@@ -89,32 +165,14 @@ export async function POST(request: NextRequest) {
         .maybeSingle()
 
       if (payment) {
-        const { data: creatorProfile } = await adminClient
-          .from("profiles")
-          .select("stripe_account_id")
-          .eq("id", payment.creator_id)
-          .maybeSingle()
-
-        if (creatorProfile?.stripe_account_id) {
-          const payoutAmount = Math.round((payment.amount - (payment.platform_fee ?? 0)) * 100)
-          try {
-            await stripe.transfers.create({
-              amount: payoutAmount,
-              currency: payment.currency,
-              destination: creatorProfile.stripe_account_id,
-              source_transaction:
-                typeof intent.latest_charge === "string" ? intent.latest_charge : undefined,
-            })
-          } catch (err) {
-            // Don't fail the webhook (Stripe will retry the whole event) if the
-            // transfer fails — log it for manual follow-up instead.
-            console.error(`Failed to transfer payout for payment ${payment.id}:`, err)
-          }
-        } else {
-          console.warn(
-            `Payment ${payment.id} released but creator ${payment.creator_id} has no connected Stripe account yet — payout not sent.`,
-          )
-        }
+        await transferPayout(adminClient, {
+          recipientId: payment.creator_id,
+          amount: payment.amount,
+          platformFee: payment.platform_fee,
+          currency: payment.currency,
+          latestCharge: intent.latest_charge,
+          logLabel: `Payment ${payment.id} released`,
+        })
 
         await maybeCompleteJob(adminClient, payment.job_id)
       }
@@ -129,6 +187,10 @@ export async function POST(request: NextRequest) {
       if (paymentIntentId) {
         await adminClient
           .from("payments")
+          .update({ status: "refunded" })
+          .eq("stripe_payment_intent_id", paymentIntentId)
+        await adminClient
+          .from("academy_purchases")
           .update({ status: "refunded" })
           .eq("stripe_payment_intent_id", paymentIntentId)
       }

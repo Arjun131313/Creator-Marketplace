@@ -35,6 +35,12 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
               Applications
             </Link>
             <Link
+              className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+              href="/creator/academy"
+            >
+              Academy
+            </Link>
+            <Link
               className="border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-white transition-opacity hover:opacity-90"
               href="/creator/profile/setup"
             >

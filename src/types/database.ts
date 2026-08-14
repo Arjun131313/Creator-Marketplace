@@ -442,6 +442,102 @@ export type Database = {
         }
         Relationships: []
       }
+      academy_lessons: {
+        Row: {
+          id: string
+          creator_id: string
+          title: string
+          description: string
+          price: number
+          currency: string
+          category: string | null
+          status: "draft" | "published" | "archived"
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          creator_id: string
+          title: string
+          description: string
+          price: number
+          currency?: string
+          category?: string | null
+          status?: "draft" | "published" | "archived"
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          creator_id?: string
+          title?: string
+          description?: string
+          price?: number
+          currency?: string
+          category?: string | null
+          status?: "draft" | "published" | "archived"
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      academy_lesson_content: {
+        Row: {
+          lesson_id: string
+          content_url: string
+        }
+        Insert: {
+          lesson_id: string
+          content_url: string
+        }
+        Update: {
+          lesson_id?: string
+          content_url?: string
+        }
+        Relationships: []
+      }
+      academy_purchases: {
+        Row: {
+          id: string
+          lesson_id: string
+          buyer_id: string
+          teacher_id: string
+          stripe_payment_intent_id: string | null
+          amount: number
+          currency: string
+          platform_fee: number | null
+          status: "pending" | "paid" | "refunded"
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          lesson_id: string
+          buyer_id: string
+          teacher_id: string
+          stripe_payment_intent_id?: string | null
+          amount: number
+          currency?: string
+          platform_fee?: number | null
+          status?: "pending" | "paid" | "refunded"
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          lesson_id?: string
+          buyer_id?: string
+          teacher_id?: string
+          stripe_payment_intent_id?: string | null
+          amount?: number
+          currency?: string
+          platform_fee?: number | null
+          status?: "pending" | "paid" | "refunded"
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: {
