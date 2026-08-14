@@ -122,6 +122,12 @@ export type Database = {
           currency: string
           status: "open" | "in_progress" | "completed" | "cancelled"
           deadline: string | null
+          content_type: string | null
+          platform: string | null
+          video_duration: string | null
+          language: string | null
+          talking_points: string | null
+          requires_shipping: boolean
           created_at: string
           updated_at: string
         }
@@ -134,6 +140,12 @@ export type Database = {
           currency?: string
           status?: "open" | "in_progress" | "completed" | "cancelled"
           deadline?: string | null
+          content_type?: string | null
+          platform?: string | null
+          video_duration?: string | null
+          language?: string | null
+          talking_points?: string | null
+          requires_shipping?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -146,6 +158,12 @@ export type Database = {
           currency?: string
           status?: "open" | "in_progress" | "completed" | "cancelled"
           deadline?: string | null
+          content_type?: string | null
+          platform?: string | null
+          video_duration?: string | null
+          language?: string | null
+          talking_points?: string | null
+          requires_shipping?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -159,6 +177,7 @@ export type Database = {
           status: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch: string
           proposed_rate: number | null
+          shipping_address: string | null
           created_at: string
           updated_at: string
         }
@@ -169,6 +188,7 @@ export type Database = {
           status?: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch: string
           proposed_rate?: number | null
+          shipping_address?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -179,6 +199,7 @@ export type Database = {
           status?: "pending" | "accepted" | "rejected" | "withdrawn"
           pitch?: string
           proposed_rate?: number | null
+          shipping_address?: string | null
           created_at?: string
           updated_at?: string
         }

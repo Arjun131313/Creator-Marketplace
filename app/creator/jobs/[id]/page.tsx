@@ -12,6 +12,12 @@ type JobDetail = {
   deadline: string | null
   status: string
   created_at: string
+  content_type: string | null
+  platform: string | null
+  video_duration: string | null
+  language: string | null
+  talking_points: string | null
+  requires_shipping: boolean
 }
 
 export default function CreatorJobDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
@@ -48,7 +54,9 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
 
       const { data, error } = await supabase
         .from("jobs")
-        .select("id,title,description,budget,deadline,status,created_at,brand_id")
+        .select(
+          "id,title,description,budget,deadline,status,created_at,brand_id,content_type,platform,video_duration,language,talking_points,requires_shipping",
+        )
         .eq("id", id)
         .single()
 
@@ -139,9 +147,36 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
           </div>
         </div>
 
-        <div className="mt-8 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
+        {job?.content_type || job?.platform || job?.video_duration || job?.language || job?.requires_shipping ? (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {job.platform ? (
+              <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{job.platform}</span>
+            ) : null}
+            {job.content_type ? (
+              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.content_type}</span>
+            ) : null}
+            {job.video_duration ? (
+              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.video_duration}</span>
+            ) : null}
+            {job.language ? (
+              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.language}</span>
+            ) : null}
+            {job.requires_shipping ? (
+              <span className="bg-[#feb930] px-2.5 py-1 text-[11px] font-bold uppercase text-[#2b1d00]">Ships product</span>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="mt-6 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
           <p className="text-sm leading-7 text-[#10141b]">{job?.description}</p>
         </div>
+
+        {job?.talking_points ? (
+          <div className="mt-4">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">Key talking points</p>
+            <p className="mt-2 text-sm leading-6 text-[#10141b]">{job.talking_points}</p>
+          </div>
+        ) : null}
       </section>
 
       <section className="border-2 border-[#10141b] bg-white p-8">

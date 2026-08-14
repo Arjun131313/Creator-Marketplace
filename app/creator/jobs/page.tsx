@@ -13,6 +13,9 @@ type JobCard = {
   deadline: string | null
   status: string
   created_at: string
+  content_type: string | null
+  platform: string | null
+  requires_shipping: boolean
 }
 
 export default function CreatorJobsPage() {
@@ -45,7 +48,7 @@ export default function CreatorJobsPage() {
 
       const { data, error } = await supabase
         .from("jobs")
-        .select("id,title,description,budget,deadline,status,created_at")
+        .select("id,title,description,budget,deadline,status,created_at,content_type,platform,requires_shipping")
         .eq("status", "open")
         .order("created_at", { ascending: false })
 
@@ -113,6 +116,15 @@ export default function CreatorJobsPage() {
               </div>
               <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-[#8b8f96]">
                 <span className="bg-[#c8f23c] px-2 py-0.5 text-[10px] font-bold uppercase text-[#182704]">{job.status}</span>
+                {job.content_type ? (
+                  <span className="bg-[#10141b]/10 px-2 py-0.5 text-[10px] font-bold uppercase text-[#595e66]">{job.content_type}</span>
+                ) : null}
+                {job.platform ? (
+                  <span className="bg-[#10141b]/10 px-2 py-0.5 text-[10px] font-bold uppercase text-[#595e66]">{job.platform}</span>
+                ) : null}
+                {job.requires_shipping ? (
+                  <span className="bg-[#feb930] px-2 py-0.5 text-[10px] font-bold uppercase text-[#2b1d00]">Ships product</span>
+                ) : null}
                 <span>{new Date(job.created_at).toLocaleDateString("en-GB")}</span>
               </div>
             </Link>

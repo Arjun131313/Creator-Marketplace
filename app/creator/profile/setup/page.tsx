@@ -380,7 +380,7 @@ export default function CreatorProfileSetupPage() {
         <section className="border-2 border-[#10141b] bg-white p-8">
           <h2 className="font-display text-lg font-extrabold text-[#10141b]">Platform stats</h2>
           <p className="mt-1 text-sm text-[#595e66]">
-            Add your follower counts so brands can evaluate your reach.
+            Add your follower counts so brands can evaluate your reach. There&apos;s no minimum required to join — brands hire based on fit, not just follower count.
           </p>
 
           <div className="mt-6 grid gap-5 sm:grid-cols-3">

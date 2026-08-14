@@ -13,6 +13,8 @@ type ApplicationItem = {
   proposed_rate: number | null
   created_at: string
   job_title: string
+  requires_shipping: boolean
+  shipping_address: string | null
 }
 
 type SubmissionStatus = "pending" | "approved" | "rejected" | "revision_requested"
@@ -91,6 +93,8 @@ export default function CreatorApplicationsPage() {
   const [disputeReasons, setDisputeReasons] = useState<Record<string, string>>({})
   const [raisingDisputeFor, setRaisingDisputeFor] = useState<string | null>(null)
   const [formState, setFormState] = useState<Record<string, { content_url: string; notes: string }>>({})
+  const [shippingAddressInput, setShippingAddressInput] = useState<Record<string, string>>({})
+  const [savingShippingFor, setSavingShippingFor] = useState<string | null>(null)
   const [submittingId, setSubmittingId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -119,7 +123,7 @@ export default function CreatorApplicationsPage() {
 
       const { data, error } = await supabase
         .from("applications")
-        .select("id,job_id,status,pitch,proposed_rate,created_at,jobs(title)")
+        .select("id,job_id,status,pitch,proposed_rate,created_at,shipping_address,jobs(title,requires_shipping)")
         .eq("creator_id", session.user.id)
         .order("created_at", { ascending: false })
 
@@ -136,7 +140,8 @@ export default function CreatorApplicationsPage() {
         pitch: string
         proposed_rate: number | null
         created_at: string
-        jobs: { title: string } | null
+        shipping_address: string | null
+        jobs: { title: string; requires_shipping: boolean } | null
       }>
 
       const applicationItems = rows.map((item) => ({
@@ -147,6 +152,8 @@ export default function CreatorApplicationsPage() {
         proposed_rate: item.proposed_rate,
         created_at: item.created_at,
         job_title: item.jobs?.title ?? "Job",
+        requires_shipping: item.jobs?.requires_shipping ?? false,
+        shipping_address: item.shipping_address,
       }))
 
       setApplications(applicationItems)
@@ -275,6 +282,30 @@ export default function CreatorApplicationsPage() {
     setSubmittingId(null)
   }
 
+  async function handleSaveShippingAddress(application: ApplicationItem) {
+    const address = shippingAddressInput[application.id]?.trim()
+    if (!address) return
+
+    setSavingShippingFor(application.id)
+    setError(null)
+
+    const { error: updateError } = await supabase
+      .from("applications")
+      .update({ shipping_address: address })
+      .eq("id", application.id)
+
+    if (updateError) {
+      setError(updateError.message)
+      setSavingShippingFor(null)
+      return
+    }
+
+    setApplications((prev) =>
+      prev.map((a) => (a.id === application.id ? { ...a, shipping_address: address } : a)),
+    )
+    setSavingShippingFor(null)
+  }
+
   async function handleRaiseDispute(application: ApplicationItem) {
     const payment = paymentsByApplication[application.id]
     const reason = disputeReasons[application.id]?.trim()
@@ -384,6 +415,34 @@ export default function CreatorApplicationsPage() {
 
                 {application.status === "accepted" ? (
                   <div className="mt-5 border-t-2 border-[#10141b]/10 pt-5">
+                    {application.requires_shipping ? (
+                      <div className="mb-4 border-2 border-[#feb930]/40 bg-[#feb930]/10 p-4">
+                        <p className="text-sm font-bold text-[#2b1d00]">This job ships a physical product</p>
+                        {application.shipping_address ? (
+                          <p className="mt-1 whitespace-pre-line text-sm text-[#10141b]">
+                            {application.shipping_address}
+                          </p>
+                        ) : (
+                          <div className="mt-3 space-y-2">
+                            <textarea
+                              rows={3}
+                              placeholder="Your full shipping address"
+                              value={shippingAddressInput[application.id] ?? ""}
+                              onChange={(e) => setShippingAddressInput((prev) => ({ ...prev, [application.id]: e.target.value }))}
+                              className="w-full border-2 border-[#10141b]/20 bg-white px-3 py-2 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                            />
+                            <button
+                              disabled={savingShippingFor === application.id || !shippingAddressInput[application.id]?.trim()}
+                              onClick={() => handleSaveShippingAddress(application)}
+                              className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                            >
+                              {savingShippingFor === application.id ? "Saving…" : "Save shipping address"}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ) : null}
+
                     {paymentsByApplication[application.id] ? (
                       <div className="mb-4 flex flex-wrap items-center gap-3">
                         <span
@@ -413,6 +472,12 @@ export default function CreatorApplicationsPage() {
                           )
                         })()}
                       </div>
+                    ) : null}
+
+                    {paymentsByApplication[application.id]?.status === "held" ? (
+                      <p className="mb-4 text-xs text-[#8b8f96]">
+                        Paid automatically once the brand approves your work — or automatically within 7 days if they don&apos;t respond. No invoicing needed.
+                      </p>
                     ) : null}
 
                     {disputeFormOpenFor === application.id ? (

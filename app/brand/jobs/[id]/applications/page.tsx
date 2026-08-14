@@ -13,6 +13,7 @@ type JobDetails = {
   budget: number
   deadline: string | null
   created_at: string
+  requires_shipping: boolean
 }
 
 type ApplicationRow = {
@@ -22,6 +23,7 @@ type ApplicationRow = {
   pitch: string
   proposed_rate: number | null
   created_at: string
+  shipping_address: string | null
   creator_name?: string | null
 }
 
@@ -140,7 +142,7 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
       const { data: jobData, error: jobError } = await supabase
         .from("jobs")
-        .select("id,title,description,status,budget,deadline,created_at")
+        .select("id,title,description,status,budget,deadline,created_at,requires_shipping")
         .eq("id", jobId)
         .eq("brand_id", session.user.id)
         .single()
@@ -153,7 +155,7 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
       const { data: applicationData, error: applicationError } = await supabase
         .from("applications")
-        .select("id,creator_id,status,pitch,proposed_rate,created_at")
+        .select("id,creator_id,status,pitch,proposed_rate,created_at,shipping_address")
         .eq("job_id", jobId)
         .order("created_at", { ascending: false })
 
@@ -566,6 +568,17 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                       >
                         Reject
                       </button>
+                    </div>
+                  ) : null}
+
+                  {application.status === "accepted" && job?.requires_shipping ? (
+                    <div className="mt-5 border-2 border-[#feb930]/40 bg-[#feb930]/10 p-4">
+                      <p className="text-sm font-bold text-[#2b1d00]">Shipping address</p>
+                      {application.shipping_address ? (
+                        <p className="mt-1 whitespace-pre-line text-sm text-[#10141b]">{application.shipping_address}</p>
+                      ) : (
+                        <p className="mt-1 text-sm text-[#595e66]">Waiting for the creator to add their shipping address.</p>
+                      )}
                     </div>
                   ) : null}
 

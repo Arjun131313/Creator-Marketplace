@@ -13,6 +13,9 @@ type CampaignJob = {
   budget: number
   deadline: string | null
   created_at: string
+  content_type: string | null
+  platform: string | null
+  requires_shipping: boolean
 }
 
 type SortKey = "newest" | "highest_fee" | "closing_soon"
@@ -33,7 +36,7 @@ export default function CampaignsPage() {
     async function load() {
       const { data } = await supabase
         .from("jobs")
-        .select("id,title,description,budget,deadline,created_at")
+        .select("id,title,description,budget,deadline,created_at,content_type,platform,requires_shipping")
         .eq("status", "open")
         .order("created_at", { ascending: false })
 
@@ -122,6 +125,25 @@ export default function CampaignsPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {sortedJobs.map((job) => (
               <article key={job.id} className="flex flex-col border-2 border-[#10141b] bg-white">
+                {job.platform || job.content_type ? (
+                  <div className="flex flex-wrap gap-1.5 border-b-2 border-[#10141b]/10 p-5 pb-0">
+                    {job.platform ? (
+                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                        {job.platform}
+                      </span>
+                    ) : null}
+                    {job.content_type ? (
+                      <span className="bg-[#10141b]/10 px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#595e66]">
+                        {job.content_type}
+                      </span>
+                    ) : null}
+                    {job.requires_shipping ? (
+                      <span className="bg-[#feb930] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#2b1d00]">
+                        Ships product
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
                 <div className="flex items-center justify-between border-b-2 border-[#10141b]/10 p-5">
                   <span className="font-display text-3xl font-extrabold text-[#1a54f0]">
                     £{job.budget.toLocaleString()}
