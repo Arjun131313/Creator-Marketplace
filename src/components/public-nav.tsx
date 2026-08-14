@@ -44,7 +44,21 @@ function AcademyIcon() {
   )
 }
 
+function OverviewIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+    </svg>
+  )
+}
+
 const BRAND_MENU: MenuItem[] = [
+  {
+    href: "/for-brands",
+    title: "Why Brands Choose Us",
+    description: "No subscription, escrow protection, real creator numbers",
+    icon: <OverviewIcon />,
+  },
   {
     href: "/creators",
     title: "Browse Creators",
@@ -60,6 +74,12 @@ const BRAND_MENU: MenuItem[] = [
 ]
 
 const CREATOR_MENU: MenuItem[] = [
+  {
+    href: "/for-creators",
+    title: "Why Creators Choose Us",
+    description: "No follower minimum, paid automatically, no chasing",
+    icon: <OverviewIcon />,
+  },
   {
     href: "/campaigns",
     title: "Browse Campaigns",
