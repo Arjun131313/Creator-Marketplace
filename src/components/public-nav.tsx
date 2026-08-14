@@ -206,6 +206,14 @@ export default function PublicNav() {
           >
             Pricing
           </Link>
+          <Link
+            href="/blog"
+            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
+              pathname.startsWith("/blog") ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+            }`}
+          >
+            Resources
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">
