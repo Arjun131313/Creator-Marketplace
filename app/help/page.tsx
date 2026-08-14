@@ -17,14 +17,18 @@ const SECTIONS = [
         q: "What types of content can I commission?",
         a: "Sponsored posts, UGC videos, product reviews, Reels, Stories, live streams, brand partnerships, and affiliate campaigns — across Instagram, TikTok, and Snapchat.",
       },
+      {
+        q: "What's the Creator Academy?",
+        a: "Any creator can publish a paid lesson for other creators — pitching, pricing, content strategy, whatever's worked for them. It's a separate marketplace from job briefs, using the same payout account.",
+      },
     ],
   },
   {
     title: "Payments & pricing",
     items: [
       {
-        q: "Is RealReach Agency free to use?",
-        a: "Browsing and messaging creators is free. A platform fee applies only when a job is successfully completed. There's no monthly subscription.",
+        q: "Is RealReach free to use?",
+        a: "Yes. Browsing, posting a brief, and messaging creators are all free — no subscription, no minimum spend. We only take a fee on jobs that actually pay out.",
       },
       {
         q: "How does pricing work for creators?",
@@ -36,7 +40,7 @@ const SECTIONS = [
       },
       {
         q: "What if I'm not happy with the content?",
-        a: "You can request revisions before approving. If you and the creator can't agree, either of you can raise a dispute and our team will make a determination based on the original brief.",
+        a: "Request as many revisions as you need, at no extra charge, before approving. If you and the creator genuinely can't agree, either of you can raise a dispute — it immediately freezes the payment and we'll make a determination based on the original brief.",
       },
     ],
   },

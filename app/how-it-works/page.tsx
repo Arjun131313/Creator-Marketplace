@@ -6,14 +6,14 @@ const steps = [
   {
     number: "01",
     title: "Post a brief",
-    subtitle: "Tell creators what you need",
+    subtitle: "Say what you need, say what it pays",
     description:
-      "Create a detailed job brief with your campaign goals, target audience, deliverables, budget, and timeline. The more detail you provide, the better proposals you'll receive.",
+      "Fill in a structured brief — platform, content type, duration, key talking points — and a fixed fee. Skip the writing and let AI draft it from your inputs if you're stuck. No brief goes live without a number attached.",
     points: [
-      "Specify the platform — Instagram, TikTok, Snapchat, or multiple",
+      "Structured fields, not a blank text box — platform, format, duration, tone",
       "Set your budget and deadline upfront",
-      "Describe your brand, product, and campaign objectives",
-      "Get matched to creators who fit your niche",
+      "Optional AI draft if you're short on time",
+      "Flag it as a physical-product job and we'll collect shipping details for you",
     ],
     icon: (
       <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -24,14 +24,14 @@ const steps = [
   {
     number: "02",
     title: "Browse & hire creators",
-    subtitle: "Find your perfect match",
+    subtitle: "Real numbers, not a highlight reel",
     description:
-      "Explore our curated marketplace of verified creators. Filter by niche, platform, follower count, content type, availability, and budget. Review portfolios, past work, and brand reviews before reaching out.",
+      "Every profile shows real follower counts, real ratings from past jobs, and real portfolio content — not a sales pitch. No minimum follower count to join, so you're judging fit, not just reach. Filter by niche, platform, and price, then message before you commit to anything.",
     points: [
-      "Filter by Instagram, TikTok, or Snapchat creators",
-      "Read genuine reviews from other brands",
-      "View portfolio content directly on profiles",
-      "Message creators before committing",
+      "Real follower counts and platform stats, self-reported and visible either way",
+      "Ratings and reviews from brands who've actually hired them",
+      "Portfolio content on every profile, no gatekeeping",
+      "Message a creator before you hire — no cold applications",
     ],
     icon: (
       <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -41,15 +41,15 @@ const steps = [
   },
   {
     number: "03",
-    title: "Hire & pay securely",
-    subtitle: "Protected payments, every time",
+    title: "Hire & pay into escrow",
+    subtitle: "The money's locked before the work starts",
     description:
-      "Once you've found the right creator, accept their application and make payment through our secure escrow system. Funds are held safely until you approve the delivered content.",
+      "Accept an application and pay through Stripe — funds sit in escrow, not in the creator's account, until you approve what they deliver. Neither side can touch it unilaterally once it's disputed.",
     points: [
-      "Payments held in escrow until work is approved",
-      "No money leaves until you're satisfied",
-      "Dispute resolution support if needed",
-      "Creator paid instantly on approval",
+      "Payment held in escrow the moment you hire, not after delivery",
+      "Nothing releases until you approve — or automatically after 7 days if you go quiet",
+      "Either side can raise a dispute, which freezes the payment until it's resolved",
+      "Creator paid out the moment you approve, no invoicing back and forth",
     ],
     icon: (
       <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -59,15 +59,15 @@ const steps = [
   },
   {
     number: "04",
-    title: "Review & approve content",
-    subtitle: "Quality control built in",
+    title: "Review & approve",
+    subtitle: "You see it before anyone else does",
     description:
-      "Creators submit their content through the platform. You review everything before it goes live — request revisions if needed, then approve and release payment. Leave a review to help future brands.",
+      "Creators submit their work through the platform, not over email. Ask for as many revisions as you need at no extra charge, then approve to release payment — or reject it and the funds bounce back to you.",
     points: [
-      "Review content before it's published",
-      "Request revisions with clear feedback",
-      "Approve and release payment in one click",
-      "Leave a review to build creator accountability",
+      "Nothing goes live until you've seen and signed off on it",
+      "Unlimited revision requests, same fee either way",
+      "One click to approve and release payment",
+      "Leave a review — it's the only reputation system creators have here",
     ],
     icon: (
       <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -84,15 +84,15 @@ const faqs = [
   },
   {
     q: "What if I'm not happy with the content?",
-    a: "You can request revisions before approving. If a dispute arises, our support team steps in. Payment is never released until you're satisfied.",
+    a: "Request revisions — as many as you need, no extra charge — before approving anything. If you genuinely can't agree, either side can raise a dispute, which freezes the payment until it's sorted. Money never releases automatically to a creator whose work you've rejected.",
   },
   {
     q: "How does pricing work for creators?",
-    a: "Creators set their own packages starting from Basic, Standard, and Premium tiers. You can also negotiate custom rates directly in the app.",
+    a: "Creators set their own Basic, Standard, and Premium packages, or you negotiate a custom rate directly in the app. No hidden per-revision or per-usage fees on top.",
   },
   {
-    q: "Is RealReach Agency free to use?",
-    a: "Browsing and messaging creators is free. A platform fee applies only when a job is successfully completed. No monthly subscription needed.",
+    q: "Is RealReach free to use?",
+    a: "Yes — genuinely. No subscription to browse, post briefs, or message creators. We only take a fee on jobs that actually get paid out. Compare that to platforms that charge you monthly before you've hired anyone.",
   },
   {
     q: "What types of content can I commission?",
@@ -109,13 +109,13 @@ export default function HowItWorksPage() {
       <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">
-            Simple. Transparent. Effective.
+            No subscription. No agency cut. No guessing.
           </p>
           <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
             How RealReach works.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
-            From posting a brief to approving content — we handle everything in between. Here&apos;s exactly how brands and microinfluencers work together on RealReach.
+            Four steps, start to finish — no discovery calls, no back-and-forth about budget nobody wants to say out loud. Here&apos;s exactly what happens between posting a brief and paying a creator.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -217,7 +217,7 @@ export default function HowItWorksPage() {
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Ready to get started?</h2>
           <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
-            Join brands who use RealReach to find and work with the best microinfluencers.
+            No subscription to sign up for. Post a brief or build a profile and see who&apos;s actually out there.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link

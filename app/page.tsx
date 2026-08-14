@@ -28,6 +28,8 @@ type OpenJob = {
   brand_name: string
 }
 
+const MIN_REVIEWS_FOR_RATING = 3
+
 function getStartingPrice(packages: CreatorPackage[] | null): number | null {
   if (!packages?.length) return null
   const prices = packages.map((p) => p.price).filter((p): p is number => typeof p === "number" && p > 0)
@@ -40,6 +42,7 @@ export default function Home() {
   const [creatorCount, setCreatorCount] = useState<number | null>(null)
   const [openJobs, setOpenJobs] = useState<OpenJob[]>([])
   const [openJobCount, setOpenJobCount] = useState<number | null>(null)
+  const [platformRating, setPlatformRating] = useState<{ avg: number; count: number } | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -83,6 +86,11 @@ export default function Home() {
           const s = statsById.get(r.creator_id) ?? { count: 0, total: 0 }
           statsById.set(r.creator_id, { count: s.count + 1, total: s.total + r.rating })
         })
+
+        if (reviews && reviews.length >= MIN_REVIEWS_FOR_RATING) {
+          const total = reviews.reduce((sum, r) => sum + r.rating, 0)
+          if (mounted) setPlatformRating({ avg: total / reviews.length, count: reviews.length })
+        }
 
         const result: Creator[] = rawProfiles
           .map((p) => {
@@ -143,6 +151,12 @@ export default function Home() {
       <section className="mx-auto max-w-[1400px] px-5 py-16 md:py-16">
         <div className="grid items-center gap-8 lg:grid-cols-[782fr_578fr]">
           <div>
+            {platformRating ? (
+              <div className="mb-4 inline-flex items-center gap-2 border-2 border-[#10141b] bg-[#c8f23c] px-3 py-1.5">
+                <span className="font-display text-sm font-extrabold text-[#182704]">{platformRating.avg.toFixed(1)} ★</span>
+                <span className="text-xs font-bold text-[#182704]/70">{platformRating.count} reviews from real brands</span>
+              </div>
+            ) : null}
             <h1 className="font-display text-[15vw] font-extrabold leading-[0.95] tracking-[-0.035em] sm:text-[80px] lg:text-[120px] lg:leading-[0.95]">
               Small
               <br />
@@ -151,7 +165,7 @@ export default function Home() {
               <span className="text-[#1a54f0]">Serious money.</span>
             </h1>
             <p className="mt-6 max-w-[512px] text-lg leading-7 text-[#595e66]">
-              RealReach Agency pairs UK brands with micro-influencers who actually get replies. Fixed fees in pounds, paid on delivery, no agency taking a third.
+              Stop chasing agencies and waiting on discovery calls. Post a brief with a real fee attached, get matched with UK micro-influencers who actually reply, and pay only when the work lands.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -168,7 +182,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="mt-14 grid grid-cols-3 gap-6 border-t border-[#10141b]/10 pt-8">
+            <div className="mt-14 grid grid-cols-2 gap-6 border-t border-[#10141b]/10 pt-8 sm:grid-cols-4">
               <div>
                 <p className="font-display text-2xl font-extrabold sm:text-3xl">100%</p>
                 <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Escrow protected</p>
@@ -176,6 +190,10 @@ export default function Home() {
               <div>
                 <p className="font-display text-2xl font-extrabold sm:text-3xl">£0</p>
                 <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Subscription fees</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl font-extrabold sm:text-3xl">∞</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Revisions, no extra charge</p>
               </div>
               <div>
                 <p className="font-display text-2xl font-extrabold sm:text-3xl">UK</p>
@@ -227,9 +245,9 @@ export default function Home() {
         <h2 className="font-display text-3xl font-extrabold sm:text-4xl">How it runs</h2>
         <div className="mt-10 grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 md:grid-cols-3">
           {[
-            { n: "01", title: "Brief or profile", body: "Brands post a brief with a fixed fee. Creators build a profile that reads like a portfolio, not a form." },
-            { n: "02", title: "Match & message", body: "Apply in two taps, or invite a creator directly. Everything happens in one DM thread." },
-            { n: "03", title: "Deliver & get paid", body: "Funds are held on acceptance and released the day content goes live." },
+            { n: "01", title: "Post it or profile it", body: "Brands write a brief with a real fee attached — no vague budgets. Creators build a profile that shows their actual work, not a CV." },
+            { n: "02", title: "Match, no middlemen", body: "Apply in two taps, or a brand invites you directly. No discovery calls, no agency in the middle taking a cut of the conversation." },
+            { n: "03", title: "Escrow, then paid", body: "Funds are locked in the moment you're hired and released automatically once the work's approved — or on a fixed timer if nobody's around to click approve." },
           ].map((step) => (
             <div key={step.n} className="bg-[#f5f3ee] p-7">
               <p className="font-display text-sm font-extrabold text-[#1a54f0]">{step.n}</p>
@@ -304,7 +322,7 @@ export default function Home() {
               right now
             </h2>
             <p className="mt-6 max-w-md text-base leading-6 text-[#a8adb6]">
-              Every brief lists the fee before you apply. No &quot;exposure&quot;, no gifting-only, no discovery calls.
+              Every brief shows the fee before you apply — not after a call, not after a DM. If it doesn&apos;t say the price, it&apos;s not on RealReach.
             </p>
             <Link href="/signup" className="mt-8 inline-block text-xs font-extrabold tracking-wide text-[#f5f3ee] underline decoration-2 underline-offset-4">
               BROWSE ALL{openJobCount !== null && openJobCount > 0 ? ` ${openJobCount}` : ""} BRIEFS
