@@ -30,6 +30,12 @@ export default function BrandLayout({ children }: { children: React.ReactNode })
             </Link>
             <Link
               className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+              href="/brand/events"
+            >
+              Events
+            </Link>
+            <Link
+              className="border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
               href="/creators"
             >
               Browse creators

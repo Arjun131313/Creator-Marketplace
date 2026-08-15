@@ -442,6 +442,81 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          id: string
+          brand_id: string
+          title: string
+          description: string
+          venue: string | null
+          city: string
+          starts_at: string
+          capacity: number | null
+          perks: string | null
+          status: "draft" | "published" | "cancelled" | "completed"
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          brand_id: string
+          title: string
+          description: string
+          venue?: string | null
+          city: string
+          starts_at: string
+          capacity?: number | null
+          perks?: string | null
+          status?: "draft" | "published" | "cancelled" | "completed"
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          brand_id?: string
+          title?: string
+          description?: string
+          venue?: string | null
+          city?: string
+          starts_at?: string
+          capacity?: number | null
+          perks?: string | null
+          status?: "draft" | "published" | "cancelled" | "completed"
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      event_applications: {
+        Row: {
+          id: string
+          event_id: string
+          creator_id: string
+          status: "pending" | "accepted" | "rejected" | "withdrawn"
+          message: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          event_id: string
+          creator_id: string
+          status?: "pending" | "accepted" | "rejected" | "withdrawn"
+          message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          event_id?: string
+          creator_id?: string
+          status?: "pending" | "accepted" | "rejected" | "withdrawn"
+          message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       academy_lessons: {
         Row: {
           id: string
@@ -544,6 +619,10 @@ export type Database = {
       job_application_counts: {
         Args: { job_ids: string[] }
         Returns: { job_id: string; application_count: number }[]
+      }
+      event_application_counts: {
+        Args: { event_ids: string[] }
+        Returns: { event_id: string; application_count: number }[]
       }
     }
     Enums: Record<string, never>
