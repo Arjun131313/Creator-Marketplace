@@ -283,16 +283,36 @@ function BrowseCreatorsPageInner() {
         {loading ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-[500px] animate-pulse border-2 border-[#10141b]/10 bg-white" />
+              <div key={i} className="surface-card h-[500px] animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="border-2 border-[#10141b] bg-white p-16 text-center">
-            <p className="font-display text-2xl font-extrabold">No creators found</p>
-            <p className="mt-2 text-[#595e66]">Try adjusting your filters or search query.</p>
-            <button onClick={clearAll} className="mt-6 bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white">
-              Clear filters
-            </button>
+          <div className="surface-card relative overflow-hidden px-6 py-16 text-center sm:px-12">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-70"
+              style={{
+                backgroundImage:
+                  "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(26,84,240,0.07), transparent 70%)",
+              }}
+            />
+            <div className="relative">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#10141b]/10 bg-[#f5f3ee] text-[#1a54f0] shadow-[var(--elev-1)]">
+                <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+              </div>
+              <h3 className="mt-5 font-display text-xl font-extrabold">Nothing matches those filters</h3>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#595e66]">
+                Try widening the niche or price range — the roster is still growing, so narrow searches can come up short.
+              </p>
+              <button
+                onClick={clearAll}
+                className="mt-6 rounded-[var(--radius-sm)] border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white shadow-[var(--elev-1)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--elev-2)]"
+              >
+                Clear filters
+              </button>
+            </div>
           </div>
         ) : (
           <>
@@ -332,7 +352,7 @@ function CreatorCard({ creator }: { creator: Creator }) {
   const price = creator.startingPrice
 
   return (
-    <Link href={`/creators/${creator.id}`} className="group block border-2 border-[#10141b] bg-white">
+    <Link href={`/creators/${creator.id}`} className="surface-card surface-card-hover group block overflow-hidden">
       <div className="relative aspect-[4/5] overflow-hidden bg-[#eae8e1]">
         <img
           src={creator.avatar_url ?? getNicheImage(creator.niche)}

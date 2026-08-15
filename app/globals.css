@@ -113,26 +113,98 @@
   --font-serif:              var(--font-bricolage), sans-serif;
 }
 
-/* ── Utility classes ───────────────────────────────────────────────────────── */
-/* Flat, sharp-cornered card — no radius, no blur, no glow. */
-.paper-card {
-  background: #ffffff;
-  border: 1px solid rgba(16, 20, 27, 0.14);
-  border-radius: 0;
-  transition: border-color 0.15s ease;
+/* ── Depth layer ───────────────────────────────────────────────────────────── */
+/* The original system was deliberately flat — 2px ink borders, zero radius,
+   no elevation. Coherent, but it read as unfinished rather than editorial.
+   These tokens add craft without abandoning the identity: shadows are tinted
+   with the ink colour (pure black goes muddy over warm paper), and the radius
+   is small enough to soften an edge without turning into generic rounded SaaS. */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  --elev-1:
+    0 1px 2px rgba(16, 20, 27, 0.04),
+    0 2px 6px rgba(16, 20, 27, 0.04);
+  --elev-2:
+    0 2px 4px rgba(16, 20, 27, 0.05),
+    0 6px 16px rgba(16, 20, 27, 0.07);
+  --elev-3:
+    0 4px 8px rgba(16, 20, 27, 0.06),
+    0 14px 34px rgba(16, 20, 27, 0.10);
+  /* Deliberate accent shadow, kept from the original brutalist treatment. */
+  --elev-hard: 6px 6px 0 #10141b;
 }
-.paper-card:hover {
-  border-color: #1a54f0;
+
+/* Resting content card: hairline border does the structural work, elevation
+   does the visual work, so it reads as a physical object rather than an outline. */
+.surface-card {
+  background: #ffffff;
+  border: 1px solid rgba(16, 20, 27, 0.10);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev-1);
+  transition:
+    box-shadow 0.22s cubic-bezier(0.2, 0.6, 0.3, 1),
+    transform 0.22s cubic-bezier(0.2, 0.6, 0.3, 1),
+    border-color 0.22s ease;
+}
+
+/* Interactive variant — lifts toward the cursor. */
+.surface-card-hover:hover {
+  box-shadow: var(--elev-3);
+  transform: translateY(-3px);
+  border-color: rgba(16, 20, 27, 0.16);
 }
 
 .ink-card {
   background: #1b2028;
   border: 1px solid rgba(245, 243, 238, 0.12);
-  border-radius: 0;
-  transition: border-color 0.15s ease;
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, transform 0.22s ease;
 }
 .ink-card:hover {
   border-color: #6b8ff5;
+}
+
+/* Legacy alias — older pages still reference this. */
+.paper-card {
+  background: #ffffff;
+  border: 1px solid rgba(16, 20, 27, 0.10);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev-1);
+  transition: box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.paper-card:hover {
+  box-shadow: var(--elev-2);
+}
+
+/* ── Scroll reveal ─────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s cubic-bezier(0.2, 0.6, 0.3, 1),
+    transform 0.55s cubic-bezier(0.2, 0.6, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Anyone who's asked their OS to reduce motion gets the end state immediately. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .surface-card,
+  .surface-card-hover:hover {
+    transition: none;
+    transform: none;
+  }
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────────── */
@@ -143,7 +215,13 @@
 
 /* ── Body defaults ─────────────────────────────────────────────────────────── */
 body {
+  /* A very slight tonal wash rather than one flat fill — stops large empty
+     areas of paper from reading as an unstyled background. */
   background-color: #f5f3ee;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(26, 84, 240, 0.05), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(200, 242, 60, 0.06), transparent 70%);
+  background-attachment: fixed;
   color: #10141b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

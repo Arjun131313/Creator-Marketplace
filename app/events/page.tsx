@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import EmptyState from "@/components/empty-state"
+import Reveal from "@/components/reveal"
 import { supabase } from "@/lib/supabase"
 
 type EventRow = {
@@ -158,27 +160,37 @@ export default function EventsPage() {
         {loading ? (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-64 animate-pulse border-2 border-[#10141b]/10 bg-white" />
+              <div key={i} className="surface-card h-64 animate-pulse" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="mt-10 border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-            <p className="text-[#595e66]">
-              {events.length === 0
-                ? "No upcoming events yet — brands are just getting started."
-                : `No upcoming events in ${city} right now.`}
-            </p>
-            <Link href="/brand/events/new" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
-              Host the first one →
-            </Link>
+          <div className="mt-10">
+            <EmptyState
+              title={events.length === 0 ? "No events on the calendar yet" : `Nothing in ${city} just now`}
+              body={
+                events.length === 0
+                  ? "Brand events — launches, press days, shoots — get listed here as they're announced. Creators apply to attend, and there's no follower minimum to get in the room."
+                  : "Try another location, or check back — new events go up as brands announce them."
+              }
+              action={
+                events.length === 0
+                  ? { label: "Host an event", href: "/brand/events/new" }
+                  : { label: "See all locations", href: "/events" }
+              }
+              secondary={
+                events.length === 0
+                  ? { label: "Browse paid briefs instead →", href: "/campaigns" }
+                  : undefined
+              }
+            />
           </div>
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((event) => (
+            {filtered.map((event, i) => (
+              <Reveal key={event.id} delay={Math.min(i, 5) * 60} className="h-full">
               <Link
-                key={event.id}
                 href={`/events/${event.id}`}
-                className="flex flex-col border-2 border-[#10141b] bg-white transition-colors hover:bg-[#eae8e1]/40"
+                className="surface-card surface-card-hover flex h-full flex-col overflow-hidden"
               >
                 <div className="flex items-start justify-between gap-3 border-b-2 border-[#10141b]/10 p-5">
                   <div>
@@ -208,6 +220,7 @@ export default function EventsPage() {
                   {event.venue ? <span className="truncate">{event.venue}</span> : null}
                 </div>
               </Link>
+              </Reveal>
             ))}
           </div>
         )}

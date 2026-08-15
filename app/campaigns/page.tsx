@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import EmptyState from "@/components/empty-state"
+import Reveal from "@/components/reveal"
 import { supabase } from "@/lib/supabase"
 
 type CampaignJob = {
@@ -114,17 +116,23 @@ export default function CampaignsPage() {
         {loading ? (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-64 animate-pulse border-2 border-[#10141b]/10 bg-white" />
+              <div key={i} className="surface-card h-64 animate-pulse" />
             ))}
           </div>
         ) : sortedJobs.length === 0 ? (
-          <div className="mt-8 border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-            <p className="text-[#595e66]">No open briefs right now. Check back soon.</p>
+          <div className="mt-8">
+            <EmptyState
+              title="No live briefs at this moment"
+              body="Briefs come and go quickly — new ones are posted most weeks. Set up a profile now so you can apply the moment one lands in your niche."
+              action={{ label: "Create a creator profile", href: "/signup" }}
+              secondary={{ label: "Are you a brand? Post the first brief →", href: "/brand/jobs/new" }}
+            />
           </div>
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {sortedJobs.map((job) => (
-              <article key={job.id} className="flex flex-col border-2 border-[#10141b] bg-white">
+            {sortedJobs.map((job, i) => (
+              <Reveal key={job.id} delay={Math.min(i, 5) * 60} className="h-full">
+              <article className="surface-card surface-card-hover flex h-full flex-col overflow-hidden">
                 {job.platform || job.content_type ? (
                   <div className="flex flex-wrap gap-1.5 border-b-2 border-[#10141b]/10 p-5 pb-0">
                     {job.platform ? (
@@ -173,12 +181,13 @@ export default function CampaignsPage() {
                   </span>
                   <Link
                     href={`/creator/jobs/${job.id}`}
-                    className="border-2 border-[#10141b] bg-[#10141b] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#f5f3ee] transition-opacity hover:opacity-90"
+                    className="rounded-[var(--radius-sm)] border-2 border-[#10141b] bg-[#10141b] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#f5f3ee] transition-opacity hover:opacity-90"
                   >
                     Apply
                   </Link>
                 </div>
               </article>
+              </Reveal>
             ))}
           </div>
         )}

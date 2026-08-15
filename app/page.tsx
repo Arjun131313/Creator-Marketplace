@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import EmptyState from "@/components/empty-state"
+import Reveal from "@/components/reveal"
 import { supabase } from "@/lib/supabase"
 import { getPlatformFollowers } from "@/types/database"
 import type { PlatformStats, CreatorPackage } from "@/types/database"
@@ -243,17 +245,19 @@ export default function Home() {
       {/* ── HOW IT RUNS ───────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-[1400px] px-5 py-20">
         <h2 className="font-display text-3xl font-extrabold sm:text-4xl">How it runs</h2>
-        <div className="mt-10 grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
             { n: "01", title: "Post it or profile it", body: "Brands write a brief with a real fee attached — no vague budgets. Creators build a profile that shows their actual work, not a CV." },
             { n: "02", title: "Match, no middlemen", body: "Apply in two taps, or a brand invites you directly. No discovery calls, no agency in the middle taking a cut of the conversation." },
             { n: "03", title: "Escrow, then paid", body: "Funds are locked in the moment you're hired and released automatically once the work's approved — or on a fixed timer if nobody's around to click approve." },
-          ].map((step) => (
-            <div key={step.n} className="bg-[#f5f3ee] p-7">
-              <p className="font-display text-sm font-extrabold text-[#1a54f0]">{step.n}</p>
-              <h3 className="mt-3 font-display text-xl font-extrabold">{step.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-[#595e66]">{step.body}</p>
-            </div>
+          ].map((step, i) => (
+            <Reveal key={step.n} delay={i * 90} className="h-full">
+              <div className="surface-card surface-card-hover h-full p-7">
+                <p className="font-display text-sm font-extrabold text-[#1a54f0]">{step.n}</p>
+                <h3 className="mt-3 font-display text-xl font-extrabold">{step.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#595e66]">{step.body}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -267,22 +271,25 @@ export default function Home() {
           </Link>
         </div>
         {loading ? (
-          <div className="grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 sm:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-72 animate-pulse bg-[#f5f3ee]" />)}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => <div key={i} className="surface-card h-72 animate-pulse" />)}
           </div>
         ) : creators.length === 0 ? (
-          <div className="border border-[#10141b]/10 bg-white p-16 text-center">
-            <p className="text-[#595e66]">No creators yet. Be the first to join.</p>
-            <Link href="/signup" className="mt-4 inline-block bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white">Join as a creator</Link>
-          </div>
+          <EmptyState
+            title="The founding cohort is being built"
+            body="We're onboarding the first UK creators by hand right now. Join early and your profile is one of the first a brand sees."
+            action={{ label: "Join as a creator", href: "/signup" }}
+            secondary={{ label: "Hiring instead? Post a brief →", href: "/brand/jobs/new" }}
+          />
         ) : (
-          <div className="grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 sm:grid-cols-2 lg:grid-cols-4">
-            {creators.map((creator) => {
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {creators.map((creator, i) => {
               const price = getStartingPrice(creator.packages)
               const tier = getCreatorTier(creator.reviewCount, creator.avgRating)
               const igFollowers = getPlatformFollowers(creator.platform_stats, "instagram")
               return (
-                <Link key={creator.id} href={`/creators/${creator.id}`} className="group block bg-white">
+                <Reveal key={creator.id} delay={Math.min(i, 4) * 70} className="h-full">
+                <Link href={`/creators/${creator.id}`} className="surface-card surface-card-hover group block h-full overflow-hidden">
                   <div className="relative aspect-square overflow-hidden bg-[#eae8e1]">
                     <img
                       src={creator.avatar_url ?? getNicheImage(creator.niche)}
@@ -306,6 +313,7 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
+                </Reveal>
               )
             })}
           </div>
@@ -331,9 +339,34 @@ export default function Home() {
 
           <div>
             {openJobs.length === 0 ? (
-              <div className="border border-[#f5f3ee]/15 p-10 text-center">
-                <p className="text-[#a8adb6]">No open briefs yet — we&apos;re onboarding our founding brands.</p>
-                <Link href="/signup" className="mt-4 inline-block bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white">Post a brief</Link>
+              <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-[#f5f3ee]/15 bg-[#1b2028] px-6 py-12 text-center">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(26,84,240,0.18), transparent 70%)",
+                  }}
+                />
+                <div className="relative">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#f5f3ee]/15 bg-[#10141b] text-[#c8f23c]">
+                    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p className="mt-5 font-display text-xl font-extrabold text-[#f5f3ee]">
+                    Founding brands are being onboarded
+                  </p>
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#a8adb6]">
+                    The first briefs go live shortly. Get a profile up now so you&apos;re in the pool when they do.
+                  </p>
+                  <Link
+                    href="/signup"
+                    className="mt-6 inline-block rounded-[var(--radius-sm)] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5"
+                  >
+                    Post a brief
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="divide-y divide-[#f5f3ee]/12 border-t border-[#f5f3ee]/12">

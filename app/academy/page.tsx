@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
+import EmptyState from "@/components/empty-state"
+import Reveal from "@/components/reveal"
 import { supabase } from "@/lib/supabase"
 
 type Lesson = {
@@ -176,23 +178,29 @@ export default function AcademyPage() {
         {loading ? (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-56 animate-pulse border-2 border-[#10141b]/10 bg-white" />
+              <div key={i} className="surface-card h-56 animate-pulse" />
             ))}
           </div>
         ) : filteredLessons.length === 0 ? (
-          <div className="mt-8 border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-            <p className="text-[#595e66]">No lessons here yet.</p>
-            <Link href="/creator/academy/new" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
-              Be the first to teach one →
-            </Link>
+          <div className="mt-8">
+            <EmptyState
+              title={category === "All" ? "The first lessons are being written" : `Nothing under ${category} yet`}
+              body={
+                category === "All"
+                  ? "Academy is new. If you've landed paid work as a creator, you already know something worth charging for — publish it and keep 90% of every sale."
+                  : "No one has published in this topic yet. Pick another topic, or write the one you wish existed."
+              }
+              action={{ label: "Teach a lesson", href: "/creator/academy/new" }}
+              secondary={category === "All" ? undefined : { label: "See all topics →", href: "/academy" }}
+            />
           </div>
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredLessons.map((lesson) => (
+            {filteredLessons.map((lesson, i) => (
+              <Reveal key={lesson.id} delay={Math.min(i, 5) * 60} className="h-full">
               <Link
-                key={lesson.id}
                 href={`/academy/${lesson.id}`}
-                className="flex flex-col border-2 border-[#10141b] bg-white transition-colors hover:bg-[#eae8e1]/40"
+                className="surface-card surface-card-hover flex h-full flex-col overflow-hidden"
               >
                 <div className="flex items-center justify-between border-b-2 border-[#10141b]/10 p-5">
                   <span className="font-display text-2xl font-extrabold text-[#1a54f0]">£{lesson.price.toLocaleString()}</span>
@@ -220,6 +228,7 @@ export default function AcademyPage() {
                   </span>
                 </div>
               </Link>
+              </Reveal>
             ))}
           </div>
         )}
