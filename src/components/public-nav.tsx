@@ -145,7 +145,7 @@ function NavDropdown({ label, items }: { label: string; items: MenuItem[] }) {
     <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <button
         className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-          open ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+          open ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
         }`}
       >
         {label}
@@ -155,17 +155,17 @@ function NavDropdown({ label, items }: { label: string; items: MenuItem[] }) {
       </button>
 
       {open ? (
-        <div className="absolute left-0 top-full w-80 border-2 border-[#10141b] bg-white pt-1 shadow-[6px_6px_0_#10141b]">
+        <div className="absolute left-0 top-full w-80 rounded-[14px] bg-white pt-2 pb-2 shadow-[0_4px_10px_rgba(13,17,23,0.06),0_16px_40px_rgba(13,17,23,0.12)] ring-1 ring-[#0d1117]/[0.06]">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-start gap-3 border-t-2 border-[#10141b]/10 p-4 transition-colors first:border-t-0 hover:bg-[#eae8e1]/40"
+              className="mx-2 flex items-start gap-3 rounded-[10px] p-3.5 transition-colors hover:bg-[#0d1117]/[0.04]"
             >
-              <span className="mt-0.5 text-[#1a54f0]">{item.icon}</span>
+              <span className="mt-0.5 text-[#16255c]">{item.icon}</span>
               <span>
-                <span className="block font-display text-sm font-extrabold text-[#10141b]">{item.title}</span>
-                <span className="mt-0.5 block text-xs leading-5 text-[#595e66]">{item.description}</span>
+                <span className="block font-display text-sm font-extrabold text-[#0d1117]">{item.title}</span>
+                <span className="mt-0.5 block text-xs leading-5 text-[#5b6472]">{item.description}</span>
               </span>
             </Link>
           ))}
@@ -205,10 +205,10 @@ export default function PublicNav() {
         : "/login"
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#10141b]/10 bg-[#f5f3ee]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[#0d1117]/[0.07] bg-[#f1f3f7]/90 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-6 px-5 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-display text-xl font-extrabold tracking-tight text-[#10141b]">
+          <span className="font-display text-xl font-extrabold tracking-tight text-[#0d1117]">
             RealReach.
           </span>
         </Link>
@@ -217,7 +217,7 @@ export default function PublicNav() {
           <Link
             href="/"
             className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname === "/" ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+              pathname === "/" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
             }`}
           >
             Home
@@ -227,7 +227,7 @@ export default function PublicNav() {
           <Link
             href="/how-it-works"
             className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname === "/how-it-works" ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+              pathname === "/how-it-works" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
             }`}
           >
             How it works
@@ -235,7 +235,7 @@ export default function PublicNav() {
           <Link
             href="/pricing"
             className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname === "/pricing" ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+              pathname === "/pricing" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
             }`}
           >
             Pricing
@@ -243,7 +243,7 @@ export default function PublicNav() {
           <Link
             href="/blog"
             className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname.startsWith("/blog") ? "text-[#10141b]" : "text-[#595e66] hover:text-[#10141b]"
+              pathname.startsWith("/blog") ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
             }`}
           >
             Resources
@@ -257,7 +257,7 @@ export default function PublicNav() {
             <>
               <Link
                 href="/messages"
-                className="hidden text-sm font-medium text-[#595e66] transition-colors hover:text-[#10141b] sm:inline"
+                className="hidden text-sm font-medium text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
               >
                 Inbox
               </Link>
@@ -266,7 +266,7 @@ export default function PublicNav() {
                   {avatarUrl ? (
                     <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
                   ) : (
-                    <span className="text-xs font-bold text-[#595e66]">·</span>
+                    <span className="text-xs font-bold text-[#5b6472]">·</span>
                   )}
                 </div>
               </Link>
@@ -275,13 +275,13 @@ export default function PublicNav() {
             <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="hidden text-sm font-medium text-[#595e66] transition-colors hover:text-[#10141b] sm:inline"
+                className="hidden text-sm font-medium text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
               >
                 Log in
               </Link>
               <Link
                 href="/signup"
-                className="bg-[#10141b] px-4 py-2 text-sm font-bold text-[#f5f3ee] transition-opacity hover:opacity-85"
+                className="rounded-[9px] bg-[#16255c] px-4 py-2 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1d3078]"
               >
                 Join free
               </Link>
