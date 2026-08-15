@@ -12,6 +12,11 @@ type MenuItem = {
   icon: React.ReactNode
 }
 
+type MenuColumn = {
+  heading: string
+  items: MenuItem[]
+}
+
 function SearchIcon() {
   return (
     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -68,107 +73,265 @@ function MessagesMenuIcon() {
   )
 }
 
-const BRAND_MENU: MenuItem[] = [
+function EscrowIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+}
+
+function BookIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+    </svg>
+  )
+}
+
+function HelpIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+    </svg>
+  )
+}
+
+function StepsIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+    </svg>
+  )
+}
+
+/* Every destination below is a page that exists. Sections a bigger platform
+   would carry here — managed services, case studies, partner programme,
+   podcast, mobile app — are deliberately absent rather than stubbed, so no
+   nav item leads somewhere that overpromises. */
+const PLATFORM_COLUMNS: MenuColumn[] = [
   {
-    href: "/for-brands",
-    title: "Why Brands Choose Us",
-    description: "Escrow protection, real creator numbers, plans from £49.99",
-    icon: <OverviewIcon />,
+    heading: "For brands",
+    items: [
+      {
+        href: "/creators",
+        title: "Creator Marketplace",
+        description: "Filter UK creators by niche, platform and rate",
+        icon: <SearchIcon />,
+      },
+      {
+        href: "/brand/jobs/new",
+        title: "Post a Brief",
+        description: "Set a fixed fee and get matched",
+        icon: <BriefIcon />,
+      },
+      {
+        href: "/brand/events/new",
+        title: "Host an Event",
+        description: "Run a launch or press day and pick who attends",
+        icon: <EventsIcon />,
+      },
+      {
+        href: "/for-brands",
+        title: "Why brands choose us",
+        description: "Escrow, real numbers, plans from £49.99",
+        icon: <OverviewIcon />,
+      },
+    ],
   },
   {
-    href: "/creators",
-    title: "Browse Creators",
-    description: "Filter UK creators by niche, platform, and price",
-    icon: <SearchIcon />,
+    heading: "For creators",
+    items: [
+      {
+        href: "/campaigns",
+        title: "Browse Campaigns",
+        description: "Open briefs with the fee shown upfront",
+        icon: <CampaignIcon />,
+      },
+      {
+        href: "/events",
+        title: "Upcoming Events",
+        description: "Brand launches near you — apply to attend",
+        icon: <EventsIcon />,
+      },
+      {
+        href: "/academy",
+        title: "Creator Academy",
+        description: "Learn from creators, or teach your own lesson",
+        icon: <AcademyIcon />,
+      },
+      {
+        href: "/for-creators",
+        title: "Why creators choose us",
+        description: "No follower minimum, paid automatically",
+        icon: <OverviewIcon />,
+      },
+    ],
   },
   {
-    href: "/signup",
-    title: "Post a Brief",
-    description: "Set a fixed fee, get matched with creators",
-    icon: <BriefIcon />,
-  },
-  {
-    href: "/features/messages",
-    title: "Messages",
-    description: "Every conversation and its escrow status in one thread",
-    icon: <MessagesMenuIcon />,
-  },
-  {
-    href: "/brand/events/new",
-    title: "Host an Event",
-    description: "Run a launch or press day and pick who attends",
-    icon: <EventsIcon />,
+    heading: "How it works",
+    items: [
+      {
+        href: "/features/messages",
+        title: "Messages",
+        description: "Conversations and escrow status in one thread",
+        icon: <MessagesMenuIcon />,
+      },
+      {
+        href: "/how-it-works",
+        title: "Payments & Escrow",
+        description: "Held on hire, released on approval",
+        icon: <EscrowIcon />,
+      },
+      {
+        href: "/how-it-works",
+        title: "The full process",
+        description: "Four steps, brief to payout",
+        icon: <StepsIcon />,
+      },
+    ],
   },
 ]
 
-const CREATOR_MENU: MenuItem[] = [
+const RESOURCE_ITEMS: MenuItem[] = [
   {
-    href: "/for-creators",
-    title: "Why Creators Choose Us",
-    description: "No follower minimum, paid automatically, no chasing",
-    icon: <OverviewIcon />,
+    href: "/blog",
+    title: "Resources",
+    description: "Practical writing on pricing, briefs and UK rules",
+    icon: <BookIcon />,
   },
   {
-    href: "/campaigns",
-    title: "Browse Campaigns",
-    description: "Open briefs with a fee attached — apply directly",
-    icon: <CampaignIcon />,
-  },
-  {
-    href: "/academy",
-    title: "Creator Academy",
-    description: "Learn from creators who've done it, or teach your own lesson",
-    icon: <AcademyIcon />,
-  },
-  {
-    href: "/events",
-    title: "Upcoming Events",
-    description: "Brand launches and press days near you — apply to attend",
-    icon: <EventsIcon />,
+    href: "/help",
+    title: "Help Centre",
+    description: "Answers for brands and creators",
+    icon: <HelpIcon />,
   },
 ]
 
-function NavDropdown({ label, items }: { label: string; items: MenuItem[] }) {
+/** Shared open/close timing so menus don't flicker when moving between them. */
+function useHoverMenu() {
   const [open, setOpen] = useState(false)
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  function handleEnter() {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setOpen(true)
+  return {
+    open,
+    handlers: {
+      onMouseEnter: () => {
+        if (timer.current) clearTimeout(timer.current)
+        setOpen(true)
+      },
+      onMouseLeave: () => {
+        timer.current = setTimeout(() => setOpen(false), 120)
+      },
+    },
+    close: () => setOpen(false),
   }
+}
 
-  function handleLeave() {
-    closeTimer.current = setTimeout(() => setOpen(false), 120)
-  }
+function MenuLink({ item, onNavigate }: { item: MenuItem; onNavigate: () => void }) {
+  return (
+    <Link
+      href={item.href}
+      onClick={onNavigate}
+      className="group flex items-start gap-3 rounded-[10px] p-3 transition-colors hover:bg-[#0d1117]/[0.04]"
+    >
+      <span className="mt-0.5 shrink-0 text-[#16255c] transition-colors group-hover:text-[#1d3078]">
+        {item.icon}
+      </span>
+      <span className="min-w-0">
+        <span className="block text-sm font-bold text-[#0d1117]">{item.title}</span>
+        <span className="mt-0.5 block text-xs leading-5 text-[#5b6472]">{item.description}</span>
+      </span>
+    </Link>
+  )
+}
+
+function PlatformMenu() {
+  const { open, handlers, close } = useHoverMenu()
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div {...handlers} className="static">
       <button
-        className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors ${
           open ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
         }`}
       >
-        {label}
-        <svg className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        Platform
+        <svg
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2.2}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
         </svg>
       </button>
 
       {open ? (
-        <div className="absolute left-0 top-full w-80 rounded-[14px] bg-white pt-2 pb-2 shadow-[0_4px_10px_rgba(13,17,23,0.06),0_16px_40px_rgba(13,17,23,0.12)] ring-1 ring-[#0d1117]/[0.06]">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="mx-2 flex items-start gap-3 rounded-[10px] p-3.5 transition-colors hover:bg-[#0d1117]/[0.04]"
-            >
-              <span className="mt-0.5 text-[#16255c]">{item.icon}</span>
-              <span>
-                <span className="block font-display text-sm font-extrabold text-[#0d1117]">{item.title}</span>
-                <span className="mt-0.5 block text-xs leading-5 text-[#5b6472]">{item.description}</span>
-              </span>
-            </Link>
-          ))}
+        <div className="absolute left-0 right-0 top-full px-5">
+          <div className="mx-auto max-w-[1100px] overflow-hidden rounded-[16px] bg-white shadow-[0_6px_14px_rgba(13,17,23,0.06),0_24px_60px_rgba(13,17,23,0.14)] ring-1 ring-[#0d1117]/[0.06]">
+            <div className="grid gap-x-6 gap-y-2 p-5 md:grid-cols-3">
+              {PLATFORM_COLUMNS.map((column) => (
+                <div key={column.heading}>
+                  <p className="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#8b93a3]">
+                    {column.heading}
+                  </p>
+                  {column.items.map((item) => (
+                    <MenuLink key={item.title} item={item} onNavigate={close} />
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[#0d1117]/[0.07] bg-[#f7f8fa] px-8 py-4">
+              <p className="text-sm text-[#5b6472]">
+                Creators join free. Brands only pay once they&apos;re hiring.
+              </p>
+              <Link
+                href="/pricing"
+                onClick={close}
+                className="text-sm font-bold text-[#16255c] hover:underline"
+              >
+                See pricing →
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+function ResourcesMenu() {
+  const { open, handlers, close } = useHoverMenu()
+
+  return (
+    <div {...handlers} className="relative">
+      <button
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors ${
+          open ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
+        }`}
+      >
+        Resources
+        <svg
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2.2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+
+      {open ? (
+        <div className="absolute left-0 top-full w-80 pt-2">
+          <div className="rounded-[14px] bg-white p-2 shadow-[0_4px_10px_rgba(13,17,23,0.06),0_16px_40px_rgba(13,17,23,0.12)] ring-1 ring-[#0d1117]/[0.06]">
+            {RESOURCE_ITEMS.map((item) => (
+              <MenuLink key={item.href} item={item} onNavigate={close} />
+            ))}
+          </div>
         </div>
       ) : null}
     </div>
@@ -206,64 +369,41 @@ export default function PublicNav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#0d1117]/[0.07] bg-[#f1f3f7]/90 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-6 px-5 py-3">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="relative mx-auto flex w-full max-w-[1400px] items-center justify-between gap-6 px-5 py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <span className="font-display text-xl font-extrabold tracking-tight text-[#0d1117]">
             RealReach.
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          <Link
-            href="/"
-            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname === "/" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
-            }`}
-          >
-            Home
-          </Link>
-          <NavDropdown label="For Brands" items={BRAND_MENU} />
-          <NavDropdown label="For Creators" items={CREATOR_MENU} />
-          <Link
-            href="/how-it-works"
-            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname === "/how-it-works" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
-            }`}
-          >
-            How it works
-          </Link>
+        <nav className="hidden items-center gap-0.5 md:flex">
+          <PlatformMenu />
           <Link
             href="/pricing"
-            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
+            className={`px-3 py-2 text-sm font-semibold transition-colors ${
               pathname === "/pricing" ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
             }`}
           >
             Pricing
           </Link>
-          <Link
-            href="/blog"
-            className={`px-2.5 py-1.5 text-[11px] font-extrabold transition-colors ${
-              pathname.startsWith("/blog") ? "text-[#0d1117]" : "text-[#5b6472] hover:text-[#0d1117]"
-            }`}
-          >
-            Resources
-          </Link>
+          <ResourcesMenu />
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-4">
           {!checked ? (
-            <div className="h-8 w-8 animate-pulse bg-[#eae8e1]" />
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#0d1117]/[0.06]" />
           ) : userRole ? (
             <>
               <Link
                 href="/messages"
-                className="hidden text-sm font-medium text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
+                className="hidden text-sm font-semibold text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
               >
                 Inbox
               </Link>
               <Link href={dashHref}>
-                <div className="flex h-9 w-9 items-center justify-center overflow-hidden border border-[#10141b]/15 bg-[#eae8e1]">
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-[#e4e7ee] ring-1 ring-[#0d1117]/10">
                   {avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
                   ) : (
                     <span className="text-xs font-bold text-[#5b6472]">·</span>
@@ -275,15 +415,15 @@ export default function PublicNav() {
             <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="hidden text-sm font-medium text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
+                className="hidden text-sm font-semibold text-[#5b6472] transition-colors hover:text-[#0d1117] sm:inline"
               >
                 Log in
               </Link>
               <Link
                 href="/signup"
-                className="rounded-[9px] bg-[#16255c] px-4 py-2 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1d3078]"
+                className="rounded-[9px] bg-[#16255c] px-4 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1d3078]"
               >
-                Join free
+                Get started
               </Link>
             </div>
           )}
