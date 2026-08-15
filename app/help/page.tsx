@@ -27,8 +27,8 @@ const SECTIONS = [
     title: "Payments & pricing",
     items: [
       {
-        q: "Is RealReach free to use?",
-        a: "Yes. Browsing, posting a brief, and messaging creators are all free — no subscription, no minimum spend. We only take a fee on jobs that actually pay out.",
+        q: "What does RealReach cost?",
+        a: "It depends which side you're on. Creators pay nothing to join and only a flat 10% on what they earn. Brands choose a monthly plan starting at £49.99, based on how many creators they hire per month — browsing, posting briefs, and messaging are free either way.",
       },
       {
         q: "How does pricing work for creators?",

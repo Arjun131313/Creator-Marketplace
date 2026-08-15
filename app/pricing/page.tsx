@@ -3,27 +3,87 @@ import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { PLATFORM_FEE_BPS } from "@/lib/stripe"
 
-const FEE_PERCENT = PLATFORM_FEE_BPS / 100
+const CREATOR_FEE_PERCENT = PLATFORM_FEE_BPS / 100
 const EXAMPLE_BUDGET = 300
 const EXAMPLE_FEE = Math.round((EXAMPLE_BUDGET * PLATFORM_FEE_BPS) / 10_000)
 const EXAMPLE_PAYOUT = EXAMPLE_BUDGET - EXAMPLE_FEE
 
+type Tier = {
+  name: string
+  price: string
+  unit?: string
+  accent: string
+  hires: string
+  cta: string
+  ctaHref: string
+}
+
+const TIERS: Tier[] = [
+  {
+    name: "Starter",
+    price: "£49.99",
+    unit: "/month",
+    accent: "bg-[#feb930] text-[#2b1d00]",
+    hires: "5 creator hires",
+    cta: "Get started",
+    ctaHref: "/signup",
+  },
+  {
+    name: "Basic",
+    price: "£149.99",
+    unit: "/month",
+    accent: "bg-[#ff534b] text-white",
+    hires: "20 creator hires",
+    cta: "Get started",
+    ctaHref: "/signup",
+  },
+  {
+    name: "Pro",
+    price: "£349.99",
+    unit: "/month",
+    accent: "bg-[#1a54f0] text-white",
+    hires: "50 creator hires",
+    cta: "Get started",
+    ctaHref: "/signup",
+  },
+  {
+    name: "Enterprise",
+    price: "Tailored to you",
+    accent: "bg-[#10141b] text-[#f5f3ee]",
+    hires: "A custom number of hires",
+    cta: "Talk to us",
+    ctaHref: "mailto:hello@realreachagency.com?subject=RealReach%20Enterprise%20enquiry",
+  },
+]
+
+const SHARED_FEATURES = [
+  "Unlimited briefs and unlimited revisions",
+  "Every payment held in escrow until you approve",
+  "Content usage rights transfer to you on release",
+  "AI-assisted brief drafting",
+  "Dispute resolution on any job",
+]
+
 const FAQS = [
   {
-    q: "Is there really no subscription?",
-    a: "Correct. Browsing, posting a brief, messaging, and building a creator profile all cost nothing. You only pay the platform fee on a job that actually completes and gets paid out.",
+    q: "Who pays the subscription — brands or creators?",
+    a: "Brands only. Creators never pay a subscription to use RealReach, and never pay to browse briefs, apply, or build a profile.",
   },
   {
-    q: "What if I post a brief and nobody applies?",
-    a: "You've paid nothing, so there's nothing to refund — you can edit the brief, boost the budget, or reach out to creators directly at no extra cost.",
+    q: `What does the ${CREATOR_FEE_PERCENT}% fee apply to?`,
+    a: `It's deducted from a creator's payout when a job is released — so on a £100 job, the creator receives £${100 - CREATOR_FEE_PERCENT}. That's the only fee a creator ever pays. It's not charged on top of what the brand pays.`,
   },
   {
-    q: "Does the fee change based on job size?",
-    a: `No — it's a flat ${FEE_PERCENT}% on the job's agreed fee, whether that's £50 or £5,000.`,
+    q: "What counts as a hire?",
+    a: "Accepting a creator's application on a brief and paying into escrow. Posting a brief, messaging creators, and browsing profiles don't count against your monthly allowance.",
   },
   {
-    q: "Is Creator Academy priced the same way?",
-    a: `Yes. Teachers set their own lesson price, and RealReach takes the same ${FEE_PERCENT}% on each sale — no separate pricing model to learn.`,
+    q: "Can I cancel whenever I want?",
+    a: "Yes — plans are month-to-month with no minimum term. Any job already in escrow completes normally after you cancel.",
+  },
+  {
+    q: "Is Creator Academy included?",
+    a: `Academy lessons are sold individually by the creators who publish them and aren't part of a brand subscription. The same ${CREATOR_FEE_PERCENT}% fee applies to a teacher's earnings on each sale.`,
   },
 ]
 
@@ -37,72 +97,144 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">Pricing</p>
           <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
-            No subscription. Just a fee on what works.
+            Pick the plan that fits your volume.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
-            Browsing, posting briefs, and messaging are free for everyone. We only get paid when you do.
+            Month-to-month, cancel any time. Everything below is what a <strong className="text-[#f5f3ee]">brand</strong> pays
+            — creators pay nothing to join, and only a flat {CREATOR_FEE_PERCENT}% on what they earn.
           </p>
         </div>
       </section>
 
-      {/* Worked example */}
-      <section className="mx-auto max-w-4xl px-5 py-20 md:px-8">
-        <h2 className="font-display text-3xl font-extrabold sm:text-4xl">How the fee actually works</h2>
-        <p className="mt-3 max-w-xl text-[#595e66]">
-          One flat rate, taken from the job&apos;s fee when it&apos;s paid out — never billed separately, never upfront.
-        </p>
+      {/* Tier grid */}
+      <section className="mx-auto max-w-[1400px] px-5 py-20 md:px-8">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {TIERS.map((tier) => (
+            <div key={tier.name} className="flex flex-col border-2 border-[#10141b] bg-white">
+              <div className={`border-b-2 border-[#10141b] p-6 ${tier.accent}`}>
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] opacity-80">{tier.name}</p>
+                <p className="mt-2 font-display text-4xl font-extrabold tracking-tight">
+                  {tier.price}
+                  {tier.unit ? <span className="text-lg font-bold opacity-70">{tier.unit}</span> : null}
+                </p>
+                <p className="mt-2 text-xs font-bold opacity-80">Month to month. Cancel any time.</p>
+              </div>
 
-        <div className="mt-10 border-2 border-[#10141b] bg-white">
-          <div className="border-b-2 border-[#10141b] bg-[#1a54f0] p-6 text-white">
-            <p className="text-xs font-bold uppercase tracking-wide text-white/70">Example: a £{EXAMPLE_BUDGET} brief</p>
-            <p className="mt-1 font-display text-2xl font-extrabold">A brand hires a creator for £{EXAMPLE_BUDGET}</p>
-          </div>
-          <div className="divide-y-2 divide-[#10141b]/10">
-            <div className="flex items-center justify-between p-6">
-              <div>
-                <p className="font-bold text-[#10141b]">Brand pays</p>
-                <p className="mt-1 text-sm text-[#595e66]">Held in escrow the moment the creator is hired</p>
+              <div className="flex-1 divide-y-2 divide-[#10141b]/10">
+                <div className="p-6">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#8b8f96]">
+                    What the brand pays for
+                  </p>
+                  <ul className="mt-3 space-y-2 text-sm text-[#10141b]">
+                    <li className="flex gap-2">
+                      <span className="text-[#1a54f0]">✓</span>
+                      <span>
+                        Up to <strong>{tier.hires}</strong> per month
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-[#1a54f0]">✓</span>
+                      <span>Unlimited content per hire</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="p-6">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#8b8f96]">
+                    What the creator pays
+                  </p>
+                  <ul className="mt-3 space-y-2 text-sm text-[#10141b]">
+                    <li className="flex gap-2">
+                      <span className="text-[#1a54f0]">✓</span>
+                      <span>
+                        A flat <strong>{CREATOR_FEE_PERCENT}%</strong> on their payout
+                      </span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-[#1a54f0]">✓</span>
+                      <span>No subscription, ever</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="p-6">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#8b8f96]">Included</p>
+                  <ul className="mt-3 space-y-2 text-sm text-[#595e66]">
+                    {SHARED_FEATURES.map((f) => (
+                      <li key={f} className="flex gap-2">
+                        <span className="text-[#1a54f0]">✓</span>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <p className="font-display text-2xl font-extrabold text-[#10141b]">£{EXAMPLE_BUDGET.toLocaleString()}</p>
-            </div>
-            <div className="flex items-center justify-between p-6">
-              <div>
-                <p className="font-bold text-[#10141b]">Platform fee ({FEE_PERCENT}%)</p>
-                <p className="mt-1 text-sm text-[#595e66]">Taken only when the job pays out — never upfront</p>
+
+              <div className="border-t-2 border-[#10141b] p-6">
+                <Link
+                  href={tier.ctaHref}
+                  className="block w-full border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-center text-sm font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  {tier.cta}
+                </Link>
               </div>
-              <p className="font-display text-2xl font-extrabold text-[#ff534b]">–£{EXAMPLE_FEE.toLocaleString()}</p>
             </div>
-            <div className="flex items-center justify-between bg-[#c8f23c]/15 p-6">
-              <div>
-                <p className="font-bold text-[#182704]">Creator receives</p>
-                <p className="mt-1 text-sm text-[#595e66]">Paid out the moment the work is approved</p>
-              </div>
-              <p className="font-display text-2xl font-extrabold text-[#182704]">£{EXAMPLE_PAYOUT.toLocaleString()}</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Comparison-style callout */}
+      {/* Two-sided fee explainer */}
       <section className="bg-white py-20">
-        <div className="mx-auto max-w-[1400px] px-5">
-          <div className="grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 sm:grid-cols-3">
-            <div className="bg-[#f5f3ee] p-7">
-              <p className="font-display text-3xl font-extrabold">£0</p>
-              <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">To browse or post a brief</p>
+        <div className="mx-auto max-w-4xl px-5 md:px-8">
+          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Who pays what</h2>
+          <p className="mt-3 max-w-xl text-[#595e66]">
+            Two sides, two very different bills. Here&apos;s a £{EXAMPLE_BUDGET} job on any plan.
+          </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            <div className="border-2 border-[#10141b] bg-[#f5f3ee]">
+              <div className="border-b-2 border-[#10141b] bg-[#1a54f0] p-5 text-white">
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] opacity-80">The brand</p>
+                <p className="mt-1 font-display text-2xl font-extrabold">Subscription + the job fee</p>
+              </div>
+              <div className="divide-y-2 divide-[#10141b]/10">
+                <div className="flex items-center justify-between p-5">
+                  <p className="text-sm text-[#595e66]">Monthly plan</p>
+                  <p className="font-display text-lg font-extrabold">From £49.99</p>
+                </div>
+                <div className="flex items-center justify-between p-5">
+                  <p className="text-sm text-[#595e66]">This job</p>
+                  <p className="font-display text-lg font-extrabold">£{EXAMPLE_BUDGET}</p>
+                </div>
+                <div className="p-5">
+                  <p className="text-xs text-[#8b8f96]">
+                    No percentage added on top of the job fee — what you agree with the creator is what leaves your account.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="bg-[#f5f3ee] p-7">
-              <p className="font-display text-3xl font-extrabold">£0</p>
-              <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Minimum spend, ever</p>
-            </div>
-            <div className="bg-[#f5f3ee] p-7">
-              <p className="font-display text-3xl font-extrabold">{FEE_PERCENT}%</p>
-              <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Flat fee, only on jobs that pay out</p>
+
+            <div className="border-2 border-[#10141b] bg-[#f5f3ee]">
+              <div className="border-b-2 border-[#10141b] bg-[#c8f23c] p-5 text-[#182704]">
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] opacity-80">The creator</p>
+                <p className="mt-1 font-display text-2xl font-extrabold">A flat {CREATOR_FEE_PERCENT}%. Nothing else.</p>
+              </div>
+              <div className="divide-y-2 divide-[#10141b]/10">
+                <div className="flex items-center justify-between p-5">
+                  <p className="text-sm text-[#595e66]">Job value</p>
+                  <p className="font-display text-lg font-extrabold">£{EXAMPLE_BUDGET}</p>
+                </div>
+                <div className="flex items-center justify-between p-5">
+                  <p className="text-sm text-[#595e66]">RealReach fee ({CREATOR_FEE_PERCENT}%)</p>
+                  <p className="font-display text-lg font-extrabold text-[#ff534b]">–£{EXAMPLE_FEE}</p>
+                </div>
+                <div className="flex items-center justify-between bg-[#c8f23c]/20 p-5">
+                  <p className="text-sm font-bold text-[#182704]">Creator receives</p>
+                  <p className="font-display text-lg font-extrabold text-[#182704]">£{EXAMPLE_PAYOUT}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <p className="mt-8 max-w-2xl text-sm leading-6 text-[#595e66]">
-            Some platforms charge a monthly subscription before you&apos;ve hired anyone — a real cost even if nothing comes of it. RealReach doesn&apos;t: you commit nothing until a job actually completes.
-          </p>
         </div>
       </section>
 
@@ -122,7 +254,10 @@ export default function PricingPage() {
       {/* CTA */}
       <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
-          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Nothing to sign up for except an account.</h2>
+          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Creators join free. Always.</h2>
+          <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
+            If you&apos;re a creator, none of the above applies to you — build a profile and start applying.
+          </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/signup"
@@ -134,7 +269,7 @@ export default function PricingPage() {
               href="/signup"
               className="border-2 border-[#f5f3ee]/40 px-8 py-4 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
             >
-              Join as a creator
+              Join free as a creator
             </Link>
           </div>
         </div>

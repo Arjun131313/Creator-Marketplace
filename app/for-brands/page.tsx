@@ -8,8 +8,8 @@ import { supabase } from "@/lib/supabase"
 
 const VALUE_PROPS = [
   {
-    title: "No subscription",
-    body: "Browse, post a brief, and message creators for free. We only take a fee on jobs that actually get paid out — no monthly cost to access the platform at all.",
+    title: "Plans that match your volume",
+    body: "From £49.99/month for up to 5 hires, scaling to 50 and beyond. Month to month, cancel any time — and browsing creators, posting briefs, and messaging are free before you commit to a plan.",
   },
   {
     title: "Escrow, not trust",
@@ -70,7 +70,7 @@ export default function ForBrandsPage() {
             Hire UK creators without the agency markup.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
-            Post a brief with a real fee attached, get matched with micro-influencers who actually reply, and pay only when the work&apos;s approved. No subscription, no discovery calls.
+            Post a brief with a real fee attached, get matched with micro-influencers who actually reply, and only release payment once the work&apos;s approved. Plans from £49.99/month, no discovery calls.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -161,7 +161,7 @@ export default function ForBrandsPage() {
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Post your first brief, free.</h2>
           <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
-            No subscription to sign up for. See who&apos;s actually out there before you commit to anything.
+            Browse creators and post a brief before you pick a plan. See who&apos;s actually out there first.
           </p>
           <Link
             href="/signup"

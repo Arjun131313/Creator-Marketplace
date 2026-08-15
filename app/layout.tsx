@@ -17,7 +17,7 @@ const bricolage = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   title: "RealReach Agency — Connecting Microinfluencers with Brands",
-  description: "RealReach Agency connects everyday microinfluencers with brands — no agencies, no subscriptions, just real people your customers already follow.",
+  description: "RealReach Agency connects everyday microinfluencers with UK brands — no agencies, no discovery calls, just real people your customers already follow.",
 }
 
 export default function RootLayout({

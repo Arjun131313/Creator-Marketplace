@@ -6,9 +6,10 @@ import Stripe from "stripe"
 // fail loudly with a clear Stripe auth error until a real key is set in .env.local.
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_not_configured")
 
-// Platform fee taken on release, expressed in basis points (500 = 5%).
-// Matches the "platform fee only on completed jobs" pricing shown on the homepage.
-export const PLATFORM_FEE_BPS = 500
+// Platform fee deducted from the creator's payout on release, in basis points
+// (1000 = 10%). This is the only fee a creator pays — brands pay a separate
+// monthly subscription instead (see app/pricing/page.tsx).
+export const PLATFORM_FEE_BPS = 1000
 
 export function platformFeeForAmount(amountInMinorUnits: number): number {
   return Math.round((amountInMinorUnits * PLATFORM_FEE_BPS) / 10_000)

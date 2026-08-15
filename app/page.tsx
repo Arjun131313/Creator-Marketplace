@@ -189,7 +189,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-display text-2xl font-extrabold sm:text-3xl">£0</p>
-                <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">Subscription fees</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-[#595e66]">For creators to join</p>
               </div>
               <div>
                 <p className="font-display text-2xl font-extrabold sm:text-3xl">∞</p>

@@ -49,7 +49,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         <div className="mt-16 border-2 border-[#10141b] bg-white p-8 text-center">
           <h2 className="font-display text-2xl font-extrabold">Ready to try it yourself?</h2>
-          <p className="mx-auto mt-2 max-w-md text-[#595e66]">No subscription — post a brief or build a profile in a few minutes.</p>
+          <p className="mx-auto mt-2 max-w-md text-[#595e66]">Post a brief or build a creator profile in a few minutes.</p>
           <Link
             href="/signup"
             className="mt-6 inline-block border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"

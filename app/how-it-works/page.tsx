@@ -92,7 +92,7 @@ const faqs = [
   },
   {
     q: "Is RealReach free to use?",
-    a: "Yes — genuinely. No subscription to browse, post briefs, or message creators. We only take a fee on jobs that actually get paid out. Compare that to platforms that charge you monthly before you've hired anyone.",
+    a: "Browsing creators, posting a brief, and messaging are free. Hiring runs on a monthly plan from £49.99, sized to how many creators you take on each month. Creators pay no subscription at all — just a flat 10% on what they earn.",
   },
   {
     q: "What types of content can I commission?",
@@ -109,7 +109,7 @@ export default function HowItWorksPage() {
       <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">
-            No subscription. No agency cut. No guessing.
+            No agency cut. No discovery calls. No guessing.
           </p>
           <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
             How RealReach works.
@@ -217,7 +217,7 @@ export default function HowItWorksPage() {
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Ready to get started?</h2>
           <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
-            No subscription to sign up for. Post a brief or build a profile and see who&apos;s actually out there.
+            Post a brief or build a profile and see who&apos;s actually out there — both are free to start.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link

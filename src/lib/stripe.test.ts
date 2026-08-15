@@ -1,13 +1,17 @@
 import { describe, expect, it } from "vitest"
-import { platformFeeForAmount } from "./stripe"
+import { platformFeeForAmount, PLATFORM_FEE_BPS } from "./stripe"
 
 describe("platformFeeForAmount", () => {
-  it("takes 5% of the amount", () => {
-    expect(platformFeeForAmount(10_000)).toBe(500)
+  it("takes 10% of the amount", () => {
+    expect(platformFeeForAmount(10_000)).toBe(1_000)
+  })
+
+  it("matches the configured PLATFORM_FEE_BPS", () => {
+    expect(PLATFORM_FEE_BPS).toBe(1000)
   })
 
   it("rounds to the nearest whole minor unit", () => {
-    expect(platformFeeForAmount(333)).toBe(17) // 16.65 rounded up
+    expect(platformFeeForAmount(333)).toBe(33) // 33.3 rounded down
   })
 
   it("returns 0 for a zero amount", () => {
@@ -15,6 +19,6 @@ describe("platformFeeForAmount", () => {
   })
 
   it("scales linearly with larger amounts", () => {
-    expect(platformFeeForAmount(100_000)).toBe(5_000)
+    expect(platformFeeForAmount(100_000)).toBe(10_000)
   })
 })

@@ -294,7 +294,7 @@ export default function NewJobPage() {
         </button>
 
         <p className="text-center text-xs text-[#8b8f96]">
-          No subscription, no minimum spend — you only pay when you hire.
+          Posting is free. Your plan&apos;s hire allowance only applies once you accept a creator.
         </p>
       </form>
     </div>

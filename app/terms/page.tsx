@@ -71,9 +71,11 @@ export default function TermsPage() {
               When a Brand hires a Creator, the agreed payment is held in escrow by our payment
               processor until the Brand approves the delivered content, or the applicable revision/
               dispute window closes. Funds are only released to the Creator on approval, expiry of the
-              review window, or resolution of a dispute in the Creator&apos;s favor. RealReach Agency charges a
-              platform fee on successfully completed jobs, disclosed before checkout. There is no
-              subscription fee to browse, message, or post a brief.
+              review window, or resolution of a dispute in the Creator&apos;s favor. RealReach Agency deducts a
+              platform fee of 10% from the Creator&apos;s payout on successfully completed jobs, disclosed
+              before checkout. Creators pay no other fee and no subscription. Brands pay a separate
+              monthly subscription based on the number of Creators they hire per month; browsing,
+              messaging, and posting a brief remain free of charge.
             </p>
           </section>
 
