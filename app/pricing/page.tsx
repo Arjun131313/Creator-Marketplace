@@ -2,59 +2,34 @@ import Link from "next/link"
 import PublicNav from "@/components/public-nav"
 import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { PLATFORM_FEE_BPS } from "@/lib/stripe"
+import { PUBLIC_PLANS } from "@/lib/plans"
 
 const CREATOR_FEE_PERCENT = PLATFORM_FEE_BPS / 100
 const EXAMPLE_BUDGET = 300
 const EXAMPLE_FEE = Math.round((EXAMPLE_BUDGET * PLATFORM_FEE_BPS) / 10_000)
 const EXAMPLE_PAYOUT = EXAMPLE_BUDGET - EXAMPLE_FEE
 
-type Tier = {
-  name: string
-  price: string
-  unit?: string
-  accent: string
-  hires: string
-  cta: string
-  ctaHref: string
-}
-
-const TIERS: Tier[] = [
-  {
-    name: "Starter",
-    price: "£49.99",
-    unit: "/month",
-    accent: "bg-[#feb930] text-[#2b1d00]",
-    hires: "5 creator hires",
-    cta: "Get started",
-    ctaHref: "/signup",
-  },
-  {
-    name: "Basic",
-    price: "£149.99",
-    unit: "/month",
-    accent: "bg-[#ff534b] text-white",
-    hires: "20 creator hires",
-    cta: "Get started",
-    ctaHref: "/signup",
-  },
-  {
-    name: "Pro",
-    price: "£349.99",
-    unit: "/month",
-    accent: "bg-[#16255c] text-white",
-    hires: "50 creator hires",
-    cta: "Get started",
-    ctaHref: "/signup",
-  },
-  {
-    name: "Enterprise",
-    price: "Tailored to you",
+// Prices and hire limits come from src/lib/plans.ts — the same module the
+// checkout and the hire gate read — so this page can't advertise a number the
+// product doesn't actually charge or enforce. Only presentation lives here.
+const PRESENTATION: Record<string, { accent: string; cta: string; ctaHref: string }> = {
+  starter: { accent: "bg-[#feb930] text-[#2b1d00]", cta: "Get started", ctaHref: "/brand/billing" },
+  basic: { accent: "bg-[#ff534b] text-white", cta: "Get started", ctaHref: "/brand/billing" },
+  pro: { accent: "bg-[#16255c] text-white", cta: "Get started", ctaHref: "/brand/billing" },
+  enterprise: {
     accent: "bg-[#0d1117] text-[#f1f3f7]",
-    hires: "A custom number of hires",
     cta: "Talk to us",
     ctaHref: "mailto:hello@realreachagency.com?subject=RealReach%20Enterprise%20enquiry",
   },
-]
+}
+
+const TIERS = PUBLIC_PLANS.map((plan) => ({
+  name: plan.name,
+  price: plan.price,
+  unit: plan.priceInPence !== null ? "/month" : undefined,
+  hires: plan.hires,
+  ...PRESENTATION[plan.id],
+}))
 
 const SHARED_FEATURES = [
   "Unlimited briefs and unlimited revisions",

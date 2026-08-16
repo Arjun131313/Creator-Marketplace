@@ -116,6 +116,7 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
   const [reviewingId, setReviewingId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [planBlock, setPlanBlock] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
 
   useEffect(() => {
@@ -294,10 +295,20 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
       body: JSON.stringify({ applicationId }),
     })
 
-    const data = (await response.json()) as { url?: string; error?: string }
+    const data = (await response.json()) as {
+      url?: string
+      error?: string
+      upgradeUrl?: string
+    }
 
     if (!response.ok || !data.url) {
-      setError(data.error ?? "Failed to start payment")
+      // 402 means the plan gate blocked the hire, not that anything went wrong —
+      // surface it as an upgrade prompt with a way through.
+      if (response.status === 402) {
+        setPlanBlock(data.error ?? "Hiring a creator needs an active plan.")
+      } else {
+        setError(data.error ?? "Failed to start payment")
+      }
       setPayingId(null)
       return
     }
@@ -442,6 +453,22 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
   return (
     <div className="space-y-8">
+      {/* Plan gate — the hire was blocked by the subscription, not by an error. */}
+      {planBlock ? (
+        <div className="flex flex-col gap-4 rounded-[12px] bg-[#feb930]/15 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-display text-lg font-extrabold text-[#0d1117]">Hiring needs a plan</p>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-[#5b6472]">{planBlock}</p>
+          </div>
+          <Link
+            href="/brand/billing"
+            className="shrink-0 rounded-[8px] bg-[#16255c] px-5 py-3 text-center text-sm font-bold text-white transition-opacity hover:opacity-90"
+          >
+            See plans
+          </Link>
+        </div>
+      ) : null}
+
       {/* Job header */}
       <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

@@ -70,6 +70,12 @@ export type Database = {
           avatar_url: string | null
           stripe_account_id: string | null
           stripe_payouts_enabled: boolean
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          plan: string | null
+          plan_status: string | null
+          plan_period_start: string | null
+          plan_period_end: string | null
           niche: string | null
           platform_stats: PlatformStats | null
           packages: CreatorPackage[] | null
@@ -86,6 +92,12 @@ export type Database = {
           avatar_url?: string | null
           stripe_account_id?: string | null
           stripe_payouts_enabled?: boolean
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          plan?: string | null
+          plan_status?: string | null
+          plan_period_start?: string | null
+          plan_period_end?: string | null
           niche?: string | null
           platform_stats?: PlatformStats | null
           packages?: CreatorPackage[] | null
@@ -102,6 +114,12 @@ export type Database = {
           avatar_url?: string | null
           stripe_account_id?: string | null
           stripe_payouts_enabled?: boolean
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          plan?: string | null
+          plan_status?: string | null
+          plan_period_start?: string | null
+          plan_period_end?: string | null
           niche?: string | null
           platform_stats?: PlatformStats | null
           packages?: CreatorPackage[] | null
@@ -623,6 +641,10 @@ export type Database = {
       event_application_counts: {
         Args: { event_ids: string[] }
         Returns: { event_id: string; application_count: number }[]
+      }
+      brand_hires_used: {
+        Args: { brand: string; since: string }
+        Returns: number
       }
     }
     Enums: Record<string, never>

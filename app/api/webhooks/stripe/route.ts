@@ -197,6 +197,47 @@ export async function POST(request: NextRequest) {
       break
     }
 
+    case "customer.subscription.created":
+    case "customer.subscription.updated":
+    case "customer.subscription.deleted": {
+      const subscription = event.data.object as Stripe.Subscription
+
+      // A deleted subscription ends entitlement outright. Otherwise Stripe's own
+      // status drives it, so a failed payment (past_due) closes off hiring
+      // without us tracking dunning ourselves.
+      const ended = event.type === "customer.subscription.deleted"
+      const planId = subscription.metadata?.plan ?? null
+      const profileId = subscription.metadata?.profile_id ?? null
+
+      // Current Stripe API versions carry the billing period on the subscription
+      // item rather than the subscription itself.
+      const item = subscription.items?.data?.[0]
+      const toIso = (seconds: number | null | undefined) =>
+        typeof seconds === "number" ? new Date(seconds * 1000).toISOString() : null
+
+      const update = {
+        stripe_subscription_id: ended ? null : subscription.id,
+        plan: ended ? null : planId,
+        plan_status: ended ? "canceled" : subscription.status,
+        plan_period_start: toIso(item?.current_period_start),
+        plan_period_end: toIso(item?.current_period_end),
+      }
+
+      // Match on the metadata profile id when Stripe sends it, and fall back to
+      // the customer id so a subscription created outside our checkout (e.g.
+      // from the Stripe dashboard) still lands on the right brand.
+      const query = adminClient.from("profiles").update(update)
+      const customerId =
+        typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id
+
+      if (profileId) {
+        await query.eq("id", profileId)
+      } else if (customerId) {
+        await query.eq("stripe_customer_id", customerId)
+      }
+      break
+    }
+
     case "account.updated": {
       // Tracks Stripe Connect onboarding progress for creators, so the UI can show
       // "payouts enabled" once Stripe has verified identity + bank details.

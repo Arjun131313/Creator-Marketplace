@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase"
 import { stripe, platformFeeForAmount } from "@/lib/stripe"
+import { checkHireGate, hireGateMessage } from "@/lib/plans"
+
+// Fallback allowance window for hand-granted plans (founding/enterprise), which
+// carry no Stripe billing period to count from.
+function startOfCurrentMonth(): string {
+  const now = new Date()
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
+}
 
 // Creates a Stripe Checkout Session that authorizes (but does not capture) payment
 // for an accepted application. Funds sit held on the brand's card — this is the
@@ -82,6 +90,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { error: `A payment already exists for this application (status: ${existingPayment.status})` },
       { status: 409 },
+    )
+  }
+
+  // Plan gate. Hiring is the metered action /pricing sells, so it's enforced
+  // here — the one route every hire funnels through — rather than in the UI,
+  // where it could be bypassed by calling the API directly.
+  const { data: brandProfile } = await adminClient
+    .from("profiles")
+    .select("plan,plan_status,plan_period_start")
+    .eq("id", user.id)
+    .single()
+
+  const periodStart = brandProfile?.plan_period_start ?? startOfCurrentMonth()
+  const { data: hiresUsed } = await adminClient.rpc("brand_hires_used", {
+    brand: user.id,
+    since: periodStart,
+  })
+
+  const gate = checkHireGate(brandProfile?.plan, brandProfile?.plan_status, hiresUsed ?? 0)
+  if (!gate.allowed) {
+    return NextResponse.json(
+      { error: hireGateMessage(gate), reason: gate.reason, upgradeUrl: "/brand/billing" },
+      { status: 402 },
     )
   }
 

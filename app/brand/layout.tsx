@@ -42,6 +42,12 @@ export default function BrandLayout({ children }: { children: React.ReactNode })
             </Link>
             <MessagesNavLink />
             <Link
+              className="border border-[#0d1117]/[0.12] px-4 py-2 text-[#0d1117] transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
+              href="/brand/billing"
+            >
+              Billing
+            </Link>
+            <Link
               className="rounded-[8px] bg-[#16255c] px-4 py-2 text-white transition-opacity hover:opacity-90"
               href="/brand/jobs/new"
             >
