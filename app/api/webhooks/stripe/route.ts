@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 import { createAdminClient } from "@/lib/supabase"
 import { stripe } from "@/lib/stripe"
+import {
+  notifyCreatorHired,
+  notifyLessonSold,
+  notifyPaymentReleased,
+  notifySubscriptionPastDue,
+} from "@/lib/notifications"
+import { getPlan } from "@/lib/plans"
 
 type AdminClient = ReturnType<typeof createAdminClient>
 
@@ -108,10 +115,28 @@ export async function POST(request: NextRequest) {
 
       const paymentId = session.metadata?.payment_id
       if (paymentId && paymentIntentId) {
-        await adminClient
+        const { data: heldPayment } = await adminClient
           .from("payments")
           .update({ stripe_payment_intent_id: paymentIntentId, status: "held" })
           .eq("id", paymentId)
+          .select("job_id,brand_id,creator_id,amount")
+          .maybeSingle()
+
+        if (heldPayment) {
+          const { data: hiredJob } = await adminClient
+            .from("jobs")
+            .select("title")
+            .eq("id", heldPayment.job_id)
+            .single()
+
+          await notifyCreatorHired(adminClient, {
+            creatorId: heldPayment.creator_id,
+            brandId: heldPayment.brand_id,
+            jobId: heldPayment.job_id,
+            jobTitle: hiredJob?.title ?? "your job",
+            amount: heldPayment.amount,
+          })
+        }
       }
       break
     }
@@ -139,7 +164,7 @@ export async function POST(request: NextRequest) {
           .from("academy_purchases")
           .update({ status: "paid" })
           .eq("stripe_payment_intent_id", intent.id)
-          .select("id,teacher_id,amount,platform_fee,currency")
+          .select("id,lesson_id,teacher_id,amount,platform_fee,currency")
           .maybeSingle()
 
         if (purchase) {
@@ -150,6 +175,19 @@ export async function POST(request: NextRequest) {
             currency: purchase.currency,
             latestCharge: intent.latest_charge,
             logLabel: `Academy purchase ${purchase.id} paid`,
+          })
+
+          const { data: lesson } = await adminClient
+            .from("academy_lessons")
+            .select("title")
+            .eq("id", purchase.lesson_id)
+            .single()
+
+          await notifyLessonSold(adminClient, {
+            teacherId: purchase.teacher_id,
+            lessonTitle: lesson?.title ?? "your lesson",
+            amount: purchase.amount,
+            platformFee: purchase.platform_fee ?? 0,
           })
         }
         break
@@ -175,6 +213,19 @@ export async function POST(request: NextRequest) {
         })
 
         await maybeCompleteJob(adminClient, payment.job_id)
+
+        const { data: releasedJob } = await adminClient
+          .from("jobs")
+          .select("title")
+          .eq("id", payment.job_id)
+          .single()
+
+        await notifyPaymentReleased(adminClient, {
+          creatorId: payment.creator_id,
+          jobTitle: releasedJob?.title ?? "your job",
+          amount: payment.amount,
+          platformFee: payment.platform_fee ?? 0,
+        })
       }
       break
     }
@@ -234,6 +285,27 @@ export async function POST(request: NextRequest) {
         await query.eq("id", profileId)
       } else if (customerId) {
         await query.eq("stripe_customer_id", customerId)
+      }
+
+      // A failed payment silently blocks hiring, so it's the one status change
+      // the brand has to be told about.
+      if (subscription.status === "past_due" || subscription.status === "unpaid") {
+        let brandId: string | null = profileId
+        if (!brandId && customerId) {
+          const { data: byCustomer } = await adminClient
+            .from("profiles")
+            .select("id")
+            .eq("stripe_customer_id", customerId)
+            .maybeSingle()
+          brandId = byCustomer?.id ?? null
+        }
+
+        if (brandId) {
+          await notifySubscriptionPastDue(adminClient, {
+            brandId,
+            planName: getPlan(planId)?.name ?? "RealReach",
+          })
+        }
       }
       break
     }

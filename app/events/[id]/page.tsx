@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import PublicNav from "@/components/public-nav"
 import { supabase } from "@/lib/supabase"
+import { notify } from "@/lib/notify-client"
 
 type EventDetail = {
   id: string
@@ -126,6 +127,8 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       setApplying(false)
       return
     }
+
+    notify({ type: "event_application", eventId: id })
 
     setApplication({ status: "pending" })
     setApplying(false)

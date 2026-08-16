@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase"
+import { notifyDisputeRaised } from "@/lib/notifications"
 
 // Raises a dispute on a job (and, if a payment already exists, freezes it by
 // flipping payments.status to "disputed" — this blocks the brand/creator capture
@@ -104,6 +105,23 @@ export async function POST(request: NextRequest) {
 
   if (payment && payment.status === "held") {
     await adminClient.from("payments").update({ status: "disputed" }).eq("id", payment.id)
+  }
+
+  // Tell the other side their money is frozen. Resolve the counterparty from the
+  // payment where there is one, and fall back to the job's brand otherwise.
+  const counterpartyId = isBrand ? payment?.creator_id ?? null : job.brand_id
+  if (counterpartyId) {
+    const [{ data: raiserProfile }, { data: disputedJob }] = await Promise.all([
+      adminClient.from("profiles").select("display_name").eq("id", user.id).single(),
+      adminClient.from("jobs").select("title").eq("id", jobId).single(),
+    ])
+
+    await notifyDisputeRaised(adminClient, {
+      recipientId: counterpartyId,
+      raisedByName: raiserProfile?.display_name ?? (isBrand ? "The brand" : "The creator"),
+      jobTitle: disputedJob?.title ?? "a job",
+      reason: reason.trim(),
+    })
   }
 
   return NextResponse.json({ dispute })

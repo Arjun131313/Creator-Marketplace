@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { notify } from "@/lib/notify-client"
 
 type ApplicationItem = {
   id: string
@@ -268,6 +269,8 @@ export default function CreatorApplicationsPage() {
       setSubmittingId(null)
       return
     }
+
+    notify({ type: "content_submitted", submissionId: savedRow.id })
 
     setSubmissionsByApplication((prev) => ({
       ...prev,

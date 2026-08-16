@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Suspense, useCallback, useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { PUBLIC_PLANS, getPlan, planIsEntitled, type Plan } from "@/lib/plans"
@@ -43,50 +43,59 @@ function BrandBillingPageInner() {
   const [busy, setBusy] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const load = useCallback(async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    if (!session?.user?.id) {
-      router.push("/login?next=/brand/billing")
-      return
-    }
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("plan,plan_status,plan_period_start,plan_period_end,stripe_customer_id")
-      .eq("id", session.user.id)
-      .single()
-
-    const periodStart = profile?.plan_period_start ?? startOfCurrentMonth()
-    const { data: used } = await supabase.rpc("brand_hires_used", {
-      brand: session.user.id,
-      since: periodStart,
-    })
-
-    setState({
-      plan: getPlan(profile?.plan),
-      status: profile?.plan_status ?? null,
-      periodStart,
-      periodEnd: profile?.plan_period_end ?? null,
-      hiresUsed: typeof used === "number" ? used : 0,
-      hasCustomer: Boolean(profile?.stripe_customer_id),
-    })
-    setLoading(false)
-  }, [router])
+  // Bumped to refetch. Stripe redirects back the instant checkout completes,
+  // which can beat the webhook that writes the plan, so the page reloads itself
+  // once shortly after landing.
+  const [reloadToken, setReloadToken] = useState(0)
 
   useEffect(() => {
-    load()
-  }, [load])
+    let mounted = true
 
-  // Stripe redirects back the instant checkout completes, which can beat the
-  // webhook that writes the plan. One delayed refetch covers that gap.
+    ;(async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+
+      if (!session?.user?.id) {
+        router.push("/login?next=/brand/billing")
+        return
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan,plan_status,plan_period_start,plan_period_end,stripe_customer_id")
+        .eq("id", session.user.id)
+        .single()
+
+      const periodStart = profile?.plan_period_start ?? startOfCurrentMonth()
+      const { data: used } = await supabase.rpc("brand_hires_used", {
+        brand: session.user.id,
+        since: periodStart,
+      })
+
+      if (!mounted) return
+
+      setState({
+        plan: getPlan(profile?.plan),
+        status: profile?.plan_status ?? null,
+        periodStart,
+        periodEnd: profile?.plan_period_end ?? null,
+        hiresUsed: typeof used === "number" ? used : 0,
+        hasCustomer: Boolean(profile?.stripe_customer_id),
+      })
+      setLoading(false)
+    })()
+
+    return () => {
+      mounted = false
+    }
+  }, [router, reloadToken])
+
   useEffect(() => {
     if (!justSubscribed) return
-    const timer = setTimeout(load, 2500)
+    const timer = setTimeout(() => setReloadToken((n) => n + 1), 2500)
     return () => clearTimeout(timer)
-  }, [justSubscribed, load])
+  }, [justSubscribed])
 
   async function startCheckout(planId: string) {
     setBusy(planId)
@@ -111,7 +120,7 @@ function BrandBillingPageInner() {
       setBusy(null)
       return
     }
-    window.location.href = data.url
+    window.location.assign(data.url)
   }
 
   async function openPortal() {
@@ -133,7 +142,7 @@ function BrandBillingPageInner() {
       setBusy(null)
       return
     }
-    window.location.href = data.url
+    window.location.assign(data.url)
   }
 
   if (loading || !state) {

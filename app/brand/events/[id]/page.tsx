@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { notify } from "@/lib/notify-client"
 
 type EventDetail = {
   id: string
@@ -124,6 +125,8 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
       setActioningId(null)
       return
     }
+
+    notify({ type: "event_decision", applicationId })
 
     setApplicants((prev) => prev.map((a) => (a.id === applicationId ? { ...a, status } : a)))
     setActioningId(null)

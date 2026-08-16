@@ -15,7 +15,11 @@ type SendEmailResult =
 // account is set up rather than breaking messaging/applications.
 export async function sendEmail({ to, subject, html }: SendEmailArgs): Promise<SendEmailResult> {
   const apiKey = process.env.RESEND_API_KEY
-  const from = process.env.EMAIL_FROM ?? "RealReach Agency <hello@realreachagency.com>"
+  // Resend rejects an unverified sender domain outright, which would make every
+// notification silently fail. Their shared sender works with no DNS setup (it
+// only delivers to the Resend account owner), so the pipeline is testable now
+// and EMAIL_FROM takes over the moment a domain is verified.
+  const from = process.env.EMAIL_FROM ?? "RealReach Agency <onboarding@resend.dev>"
 
   if (!apiKey) {
     console.warn(`[email] RESEND_API_KEY not set — skipped email to ${to}: ${subject}`)

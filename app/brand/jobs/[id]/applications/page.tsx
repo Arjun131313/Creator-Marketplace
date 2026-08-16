@@ -4,6 +4,7 @@ import { use, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { notify } from "@/lib/notify-client"
 
 type JobDetails = {
   id: string
@@ -257,6 +258,8 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
       current.map((app) => (app.id === applicationId ? { ...app, status } : app)),
     )
 
+    notify({ type: "application_decision", applicationId })
+
     // First accepted creator on a job moves it out of "open" so it stops
     // collecting new applications and drops off public browse listings.
     if (status === "accepted" && job?.status === "open") {
@@ -340,6 +343,8 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
       ...prev,
       [applicationId]: { ...submission, status: action, reviewer_notes: notes },
     }))
+
+    notify({ type: "content_reviewed", submissionId: submission.id })
 
     // Approving releases escrowed funds; rejecting cancels the hold without
     // charging the brand. Revision requests leave the payment untouched.
