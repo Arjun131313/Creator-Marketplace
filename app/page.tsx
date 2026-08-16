@@ -215,7 +215,7 @@ export default function Home() {
           <div className="relative hidden lg:block">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[18px] bg-[#0d1117] shadow-[0_20px_50px_rgba(13,17,23,0.18)]">
               {loading ? (
-                <div className="h-full w-full animate-pulse bg-[#1b2028]" />
+                <div className="h-full w-full animate-pulse bg-[#161b24]" />
               ) : heroCreator?.avatar_url ? (
                 <Link href={`/creators/${heroCreator.id}`} className="block h-full w-full">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -406,7 +406,7 @@ export default function Home() {
                   <Reveal key={job.id} delay={i * 70}>
                     <Link
                       href="/campaigns"
-                      className="flex items-center justify-between gap-4 rounded-[12px] bg-[#161b24] p-6 transition-all hover:-translate-y-0.5 hover:bg-[#1b2230]"
+                      className="flex items-center justify-between gap-4 rounded-[12px] bg-[#161b24] p-6 transition-all hover:-translate-y-0.5 hover:bg-[#1d2430]"
                     >
                       <div className="min-w-0">
                         <p className="truncate font-display text-xl font-extrabold">{job.title}</p>

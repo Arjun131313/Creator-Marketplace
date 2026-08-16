@@ -29,8 +29,8 @@ type EscrowPayment = {
 }
 
 const AVATAR_COLORS = [
-  { bg: "#ff534b", text: "#fff6f5" },
-  { bg: "#16255c", text: "#f2f5fc" },
+  { bg: "#ff534b", text: "#ffffff" },
+  { bg: "#16255c", text: "#ffffff" },
   { bg: "#c8f23c", text: "#101a3d" },
   { bg: "#feb930", text: "#2b1d00" },
 ]
@@ -463,7 +463,7 @@ export default function MessageConversationPage({
                           <div
                             className={`max-w-[70%] rounded-[20px] px-4 py-2.5 text-sm leading-6 ${
                               isMine
-                                ? "rounded-br-md bg-[#16255c] text-[#f2f5fc]"
+                                ? "rounded-br-md bg-[#16255c] text-white"
                                 : "rounded-bl-md bg-[#e4e7ee] text-[#0d1117]"
                             }`}
                           >

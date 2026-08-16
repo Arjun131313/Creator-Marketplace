@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import InboxHeader from "@/components/inbox-header"
 
 type ConversationSummary = {
   id: string
@@ -15,8 +16,8 @@ type ConversationSummary = {
 }
 
 const AVATAR_COLORS = [
-  { bg: "#ff534b", text: "#fff6f5" },
-  { bg: "#16255c", text: "#f2f5fc" },
+  { bg: "#ff534b", text: "#ffffff" },
+  { bg: "#16255c", text: "#ffffff" },
   { bg: "#c8f23c", text: "#101a3d" },
   { bg: "#feb930", text: "#2b1d00" },
 ]
@@ -163,22 +164,9 @@ export default function MessagesPage() {
 
   return (
     <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
-      {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-[#0d1117]/[0.07] bg-[#f1f3f7]/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-4">
-          <Link href="/" className="font-display text-lg font-extrabold text-[#0d1117] transition hover:text-[#16255c]">
-            RealReach.
-          </Link>
-          <Link
-            href="/creators"
-            className="border border-[#0d1117]/[0.12] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#0d1117] transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
-          >
-            Browse creators
-          </Link>
-        </div>
-      </header>
+      <InboxHeader />
 
-      <main className="mx-auto max-w-4xl px-6 py-10">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {/* Header */}
         <div className="mb-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">Inbox</p>
