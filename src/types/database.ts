@@ -61,6 +61,12 @@ export function getPlatformUsername(
 export type Database = {
   public: {
     Tables: {
+      admin_users: {
+        Row: { user_id: string; note: string | null; created_at: string }
+        Insert: { user_id: string; note?: string | null; created_at?: string }
+        Update: { user_id?: string; note?: string | null; created_at?: string }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
@@ -641,6 +647,10 @@ export type Database = {
       event_application_counts: {
         Args: { event_ids: string[] }
         Returns: { event_id: string; application_count: number }[]
+      }
+      is_admin: {
+        Args: Record<string, never>
+        Returns: boolean
       }
       brand_hires_used: {
         Args: { brand: string; since: string }

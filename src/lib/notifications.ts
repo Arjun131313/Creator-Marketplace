@@ -234,6 +234,43 @@ export async function notifyDisputeRaised(
   )
 }
 
+/** A dispute has been decided — both parties are told the same outcome. */
+export async function notifyDisputeResolved(
+  adminClient: AdminClient,
+  opts: {
+    recipientId: string
+    jobTitle: string
+    outcome: "release" | "refund"
+    resolution: string
+    isCreator: boolean
+  },
+) {
+  const to = await emailFor(adminClient, opts.recipientId)
+
+  // Phrase the same decision from the reader's side, so neither party has to
+  // work out what "released" means for them.
+  const inTheirFavour = opts.outcome === "release" ? opts.isCreator : !opts.isCreator
+  const money =
+    opts.outcome === "release"
+      ? opts.isCreator
+        ? "The payment has been released to you and is on its way to your bank."
+        : "The payment has been released to the creator."
+      : opts.isCreator
+        ? "The payment has been refunded to the brand."
+        : "The payment has been refunded to you."
+
+  await deliver(
+    to,
+    `Dispute resolved — "${opts.jobTitle}"`,
+    layout({
+      heading: inTheirFavour ? "The dispute was resolved in your favour" : "The dispute has been resolved",
+      body: `<p style="margin:0 0 12px">We've reviewed the dispute on <strong style="color:#0d1117">${escapeHtml(opts.jobTitle)}</strong>. ${money}</p>
+             <p style="margin:0 0 4px;font-weight:700;color:#0d1117">Our decision</p>
+             <p style="margin:0;padding:14px;background:#f1f3f7;border-radius:8px;color:#0d1117">${escapeHtml(opts.resolution)}</p>`,
+    }),
+  )
+}
+
 // ── Events ───────────────────────────────────────────────────────────────────
 
 /** A brand accepted or declined a creator's request to attend an event. */
