@@ -29,9 +29,9 @@ type Submission = {
 
 const SUBMISSION_BADGE: Record<SubmissionStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  approved: "bg-[#c8f23c] text-[#182704]",
+  approved: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  revision_requested: "bg-[#1a54f0] text-white",
+  revision_requested: "bg-[#16255c] text-white",
 }
 
 const SUBMISSION_LABEL: Record<SubmissionStatus, string> = {
@@ -45,9 +45,9 @@ type PaymentStatus = "pending" | "held" | "released" | "refunded" | "disputed"
 
 const PAYMENT_BADGE: Record<PaymentStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  held: "bg-[#1a54f0] text-white",
-  released: "bg-[#c8f23c] text-[#182704]",
-  refunded: "bg-[#10141b]/10 text-[#595e66]",
+  held: "bg-[#16255c] text-white",
+  released: "bg-[#c8f23c] text-[#101a3d]",
+  refunded: "bg-[#0d1117]/10 text-[#5b6472]",
   disputed: "bg-[#ff534b] text-white",
 }
 
@@ -72,8 +72,8 @@ type Dispute = {
 const DISPUTE_BADGE: Record<DisputeStatus, string> = {
   open: "bg-[#ff534b] text-white",
   under_review: "bg-[#feb930] text-[#2b1d00]",
-  resolved: "bg-[#c8f23c] text-[#182704]",
-  closed: "bg-[#10141b]/10 text-[#595e66]",
+  resolved: "bg-[#c8f23c] text-[#101a3d]",
+  closed: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 const DISPUTE_LABEL: Record<DisputeStatus, string> = {
@@ -354,34 +354,34 @@ export default function CreatorApplicationsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading your applications…</p>
+        <p className="text-[#5b6472]">Loading your applications…</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="border-2 border-[#10141b] bg-white p-8">
+      <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-display text-2xl font-extrabold text-[#10141b]">My applications</h1>
-            <p className="mt-1 text-sm text-[#595e66]">Monitor your job applications and status updates.</p>
+            <h1 className="font-display text-2xl font-extrabold text-[#0d1117]">My applications</h1>
+            <p className="mt-1 text-sm text-[#5b6472]">Monitor your job applications and status updates.</p>
           </div>
-          <Link href="/creator/jobs" className="text-sm font-bold text-[#1a54f0] hover:underline">
+          <Link href="/creator/jobs" className="text-sm font-bold text-[#16255c] hover:underline">
             Browse jobs
           </Link>
         </div>
       </div>
 
       {error ? (
-        <div className="border-2 border-[#ff534b] bg-white p-5 text-sm text-[#ff534b]">
+        <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-5 text-sm text-[#ff534b]">
           {error}
         </div>
       ) : null}
 
       <div className="space-y-4">
         {applications.length === 0 ? (
-          <div className="border-2 border-dashed border-[#10141b]/20 p-8 text-[#595e66]">
+          <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-8 text-[#5b6472]">
             You have not submitted any applications yet.
           </div>
         ) : (
@@ -392,34 +392,34 @@ export default function CreatorApplicationsPage() {
               (!submission || submission.status === "revision_requested")
 
             return (
-              <div key={application.id} className="border-2 border-[#10141b] bg-white p-6">
+              <div key={application.id} className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-lg font-bold text-[#10141b]">{application.job_title}</p>
-                    <p className="mt-1 text-sm text-[#8b8f96]">Submitted {new Date(application.created_at).toLocaleDateString("en-GB")}</p>
+                    <p className="text-lg font-bold text-[#0d1117]">{application.job_title}</p>
+                    <p className="mt-1 text-sm text-[#8b93a3]">Submitted {new Date(application.created_at).toLocaleDateString("en-GB")}</p>
                   </div>
-                  <span className="bg-[#10141b]/10 px-3 py-1 text-sm font-bold uppercase text-[#595e66]">{application.status}</span>
+                  <span className="bg-[#0d1117]/10 px-3 py-1 text-sm font-bold uppercase text-[#5b6472]">{application.status}</span>
                 </div>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   <div>
-                    <p className="text-sm font-bold text-[#10141b]">Pitch</p>
-                    <p className="mt-2 text-sm leading-6 text-[#595e66]">{application.pitch}</p>
+                    <p className="text-sm font-bold text-[#0d1117]">Pitch</p>
+                    <p className="mt-2 text-sm leading-6 text-[#5b6472]">{application.pitch}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-[#10141b]">Proposed rate</p>
-                    <p className="mt-2 text-sm text-[#595e66]">
+                    <p className="text-sm font-bold text-[#0d1117]">Proposed rate</p>
+                    <p className="mt-2 text-sm text-[#5b6472]">
                       {application.proposed_rate ? `£${application.proposed_rate.toFixed(2)}` : "Not specified"}
                     </p>
                   </div>
                 </div>
 
                 {application.status === "accepted" ? (
-                  <div className="mt-5 border-t-2 border-[#10141b]/10 pt-5">
+                  <div className="mt-5 border-t border-[#0d1117]/[0.07] pt-5">
                     {application.requires_shipping ? (
-                      <div className="mb-4 border-2 border-[#feb930]/40 bg-[#feb930]/10 p-4">
+                      <div className="mb-4 rounded-[12px] bg-[#feb930]/15 p-4">
                         <p className="text-sm font-bold text-[#2b1d00]">This job ships a physical product</p>
                         {application.shipping_address ? (
-                          <p className="mt-1 whitespace-pre-line text-sm text-[#10141b]">
+                          <p className="mt-1 whitespace-pre-line text-sm text-[#0d1117]">
                             {application.shipping_address}
                           </p>
                         ) : (
@@ -429,12 +429,12 @@ export default function CreatorApplicationsPage() {
                               placeholder="Your full shipping address"
                               value={shippingAddressInput[application.id] ?? ""}
                               onChange={(e) => setShippingAddressInput((prev) => ({ ...prev, [application.id]: e.target.value }))}
-                              className="w-full border-2 border-[#10141b]/20 bg-white px-3 py-2 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                              className="w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-3 py-2 text-sm text-[#0d1117] outline-none placeholder:text-[#8b93a3] focus:border-[#16255c]"
                             />
                             <button
                               disabled={savingShippingFor === application.id || !shippingAddressInput[application.id]?.trim()}
                               onClick={() => handleSaveShippingAddress(application)}
-                              className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                              className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                             >
                               {savingShippingFor === application.id ? "Saving…" : "Save shipping address"}
                             </button>
@@ -475,24 +475,24 @@ export default function CreatorApplicationsPage() {
                     ) : null}
 
                     {paymentsByApplication[application.id]?.status === "held" ? (
-                      <p className="mb-4 text-xs text-[#8b8f96]">
+                      <p className="mb-4 text-xs text-[#8b93a3]">
                         Paid automatically once the brand approves your work — or automatically within 7 days if they don&apos;t respond. No invoicing needed.
                       </p>
                     ) : null}
 
                     {disputeFormOpenFor === application.id ? (
-                      <div className="mb-4 space-y-2 border-2 border-[#ff534b]/40 bg-[#ff534b]/5 p-4">
+                      <div className="mb-4 space-y-2 rounded-[12px] bg-[#ff534b]/[0.07] p-4">
                         <textarea
                           rows={2}
                           placeholder="Explain what's gone wrong — this is visible to RealReach and freezes this payment until resolved."
                           value={disputeReasons[application.id] ?? ""}
                           onChange={(e) => setDisputeReasons((prev) => ({ ...prev, [application.id]: e.target.value }))}
-                          className="w-full border-2 border-[#10141b]/20 bg-white px-3 py-2 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#ff534b]"
+                          className="w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-3 py-2 text-sm text-[#0d1117] outline-none placeholder:text-[#8b93a3] focus:border-[#ff534b]"
                         />
                         <button
                           disabled={raisingDisputeFor === application.id || !disputeReasons[application.id]?.trim()}
                           onClick={() => handleRaiseDispute(application)}
-                          className="inline-flex items-center justify-center border-2 border-[#ff534b] bg-[#ff534b] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                          className="inline-flex items-center justify-center rounded-[8px] bg-[#ff534b] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {raisingDisputeFor === application.id ? "Submitting…" : "Submit dispute"}
                         </button>
@@ -509,7 +509,7 @@ export default function CreatorApplicationsPage() {
                             href={submission.content_url}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-xs font-bold text-[#1a54f0] underline"
+                            className="text-xs font-bold text-[#16255c] underline"
                           >
                             View submitted content
                           </a>
@@ -518,8 +518,8 @@ export default function CreatorApplicationsPage() {
                     ) : null}
 
                     {submission?.reviewer_notes ? (
-                      <div className="mb-4 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-4 text-sm text-[#10141b]">
-                        <p className="font-bold text-[#10141b]">Feedback from the brand</p>
+                      <div className="mb-4 rounded-[12px] bg-[#f7f8fa] p-4 text-sm text-[#0d1117]">
+                        <p className="font-bold text-[#0d1117]">Feedback from the brand</p>
                         <p className="mt-1">{submission.reviewer_notes}</p>
                       </div>
                     ) : null}
@@ -527,7 +527,7 @@ export default function CreatorApplicationsPage() {
                     {canSubmitWork ? (
                       <div className="space-y-3">
                         <label className="block">
-                          <span className="text-sm font-bold text-[#10141b]">Content link</span>
+                          <span className="text-sm font-bold text-[#0d1117]">Content link</span>
                           <input
                             type="url"
                             required
@@ -539,11 +539,11 @@ export default function CreatorApplicationsPage() {
                                 [application.id]: { ...prev[application.id], content_url: event.target.value, notes: prev[application.id]?.notes ?? "" },
                               }))
                             }
-                            className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-2.5 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+                            className="mt-2 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-2.5 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
                           />
                         </label>
                         <label className="block">
-                          <span className="text-sm font-bold text-[#10141b]">Notes for the brand (optional)</span>
+                          <span className="text-sm font-bold text-[#0d1117]">Notes for the brand (optional)</span>
                           <textarea
                             rows={2}
                             value={formState[application.id]?.notes ?? ""}
@@ -553,13 +553,13 @@ export default function CreatorApplicationsPage() {
                                 [application.id]: { ...prev[application.id], notes: event.target.value, content_url: prev[application.id]?.content_url ?? "" },
                               }))
                             }
-                            className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-2.5 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+                            className="mt-2 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-2.5 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
                           />
                         </label>
                         <button
                           disabled={submittingId === application.id}
                           onClick={() => handleSubmitWork(application)}
-                          className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                          className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {submittingId === application.id
                             ? "Submitting…"

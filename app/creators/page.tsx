@@ -175,7 +175,7 @@ function BrowseCreatorsPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-[1400px] px-5 py-16 pb-24 md:pb-16">
@@ -184,11 +184,11 @@ function BrowseCreatorsPageInner() {
           <h1 className="font-display text-[13vw] font-extrabold leading-[0.95] tracking-[-0.035em] sm:text-6xl lg:text-[80px]">
             Find your creator.
           </h1>
-          <p className="mt-4 max-w-lg text-base text-[#595e66]">
+          <p className="mt-4 max-w-lg text-base text-[#5b6472]">
             {allCreators.length} UK creators, filtered by niche, platform, and rate.
           </p>
           <input
-            className="mt-6 w-full max-w-2xl border-2 border-[#10141b] bg-white px-4 py-3.5 text-sm outline-none placeholder:text-[#8b8f96] focus:bg-[#f5f3ee]"
+            className="mt-6 w-full max-w-2xl rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] px-4 py-3.5 text-sm outline-none placeholder:text-[#8b93a3] focus:bg-[#f1f3f7]"
             placeholder="Search creators, niches, or keywords..."
             type="search"
             value={searchQuery}
@@ -200,8 +200,8 @@ function BrowseCreatorsPageInner() {
         <section className="mb-6 flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedNiche("")}
-            className={`border-2 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
-              !selectedNiche ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]"
+            className={`border px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+              !selectedNiche ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]" : "border-[#0d1117]/20 text-[#5b6472] hover:border-[#0d1117]"
             }`}
           >
             All
@@ -210,8 +210,8 @@ function BrowseCreatorsPageInner() {
             <button
               key={cat.name}
               onClick={() => setSelectedNiche(cat.name)}
-              className={`border-2 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
-                selectedNiche === cat.name ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]"
+              className={`border px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+                selectedNiche === cat.name ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]" : "border-[#0d1117]/20 text-[#5b6472] hover:border-[#0d1117]"
               }`}
             >
               {cat.name}
@@ -244,19 +244,19 @@ function BrowseCreatorsPageInner() {
             <div key={f.key} className="relative">
               <button
                 onClick={(e) => { e.stopPropagation(); setOpenFilter(openFilter === f.key ? null : f.key) }}
-                className={`border-2 px-4 py-2 text-xs font-extrabold uppercase tracking-wide transition-colors ${
-                  openFilter === f.key || (f.value && f.value !== "0") ? "border-[#1a54f0] text-[#1a54f0]" : "border-[#10141b]/20 text-[#10141b] hover:border-[#10141b]"
+                className={`border px-4 py-2 text-xs font-extrabold uppercase tracking-wide transition-colors ${
+                  openFilter === f.key || (f.value && f.value !== "0") ? "border-[#16255c] text-[#16255c]" : "border-[#0d1117]/20 text-[#0d1117] hover:border-[#0d1117]"
                 }`}
               >
                 {f.label} ▾
               </button>
               {openFilter === f.key && (
-                <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 z-50 mt-1 min-w-[180px] border-2 border-[#10141b] bg-white">
+                <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 z-50 mt-1 min-w-[180px] rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05]">
                   {f.options.map((opt) => (
                     <button
                       key={opt.value}
                       onClick={() => { f.set(opt.value); setOpenFilter(null) }}
-                      className={`block w-full px-4 py-2.5 text-left text-sm ${f.value === opt.value ? "bg-[#1a54f0] text-white" : "text-[#10141b] hover:bg-[#eae8e1]"}`}
+                      className={`block w-full px-4 py-2.5 text-left text-sm ${f.value === opt.value ? "bg-[#16255c] text-white" : "text-[#0d1117] hover:bg-[#e4e7ee]"}`}
                     >
                       {opt.label}
                     </button>
@@ -266,7 +266,7 @@ function BrowseCreatorsPageInner() {
             </div>
           ))}
           {(selectedNiche || selectedPlatform || priceRange || minRating > 0 || searchQuery) && (
-            <button onClick={clearAll} className="text-xs font-extrabold uppercase tracking-wide text-[#595e66] underline hover:text-[#10141b]">
+            <button onClick={clearAll} className="text-xs font-extrabold uppercase tracking-wide text-[#5b6472] underline hover:text-[#0d1117]">
               Clear all
             </button>
           )}
@@ -274,7 +274,7 @@ function BrowseCreatorsPageInner() {
 
         {/* ── Results count ──────────────────────────────────────────────── */}
         {!loading && (
-          <p className="mb-4 text-xs font-extrabold uppercase tracking-wide text-[#595e66]">
+          <p className="mb-4 text-xs font-extrabold uppercase tracking-wide text-[#5b6472]">
             {filtered.length} creator{filtered.length !== 1 ? "s" : ""} found
           </p>
         )}
@@ -293,22 +293,22 @@ function BrowseCreatorsPageInner() {
               className="pointer-events-none absolute inset-0 opacity-70"
               style={{
                 backgroundImage:
-                  "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(26,84,240,0.07), transparent 70%)",
+                  "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(22,37,92,0.06), transparent 70%)",
               }}
             />
             <div className="relative">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#10141b]/10 bg-[#f5f3ee] text-[#1a54f0] shadow-[var(--elev-1)]">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#0d1117]/10 bg-[#f1f3f7] text-[#16255c] shadow-[var(--elev-1)]">
                 <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
               </div>
               <h3 className="mt-5 font-display text-xl font-extrabold">Nothing matches those filters</h3>
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#595e66]">
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#5b6472]">
                 Try widening the niche or price range — the roster is still growing, so narrow searches can come up short.
               </p>
               <button
                 onClick={clearAll}
-                className="mt-6 rounded-[var(--radius-sm)] border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white shadow-[var(--elev-1)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--elev-2)]"
+                className="mt-6 rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white shadow-[var(--elev-1)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--elev-2)]"
               >
                 Clear filters
               </button>
@@ -326,7 +326,7 @@ function BrowseCreatorsPageInner() {
               <div className="mt-10 text-center">
                 <button
                   onClick={() => setDisplayCount((c) => c + 12)}
-                  className="border-2 border-[#10141b] px-8 py-3.5 text-sm font-extrabold uppercase tracking-wide transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+                  className="border border-[#0d1117]/[0.12] px-8 py-3.5 text-sm font-extrabold uppercase tracking-wide transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
                 >
                   Load more creators
                 </button>
@@ -353,18 +353,18 @@ function CreatorCard({ creator }: { creator: Creator }) {
 
   return (
     <Link href={`/creators/${creator.id}`} className="surface-card surface-card-hover group block overflow-hidden">
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#eae8e1]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#e4e7ee]">
         <img
           src={creator.avatar_url ?? getNicheImage(creator.niche)}
           alt={creator.display_name ?? "Creator"}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {creator.avgRating !== null && (
-          <span className="absolute left-3 top-3 bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold text-[#182704]">
+          <span className="absolute left-3 top-3 bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold text-[#101a3d]">
             {creator.avgRating.toFixed(1)} ★
           </span>
         )}
-        <span className="absolute right-3 top-3 flex items-center gap-1 bg-[#10141b]/70 px-2 py-1 text-[10px] font-bold uppercase text-white">
+        <span className="absolute right-3 top-3 flex items-center gap-1 bg-[#0d1117]/70 px-2 py-1 text-[10px] font-bold uppercase text-white">
           <span className={`h-1.5 w-1.5 rounded-full ${creator.available ? "bg-[#c8f23c]" : "bg-white/40"}`} />
           {creator.available ? "Available" : "Busy"}
         </span>
@@ -372,13 +372,13 @@ function CreatorCard({ creator }: { creator: Creator }) {
 
       <div className="p-4">
         <p className="font-display text-2xl font-extrabold leading-none">{creator.display_name ?? "Creator"}</p>
-        <p className="mt-2 truncate text-sm text-[#595e66]">
+        <p className="mt-2 truncate text-sm text-[#5b6472]">
           {creator.niche ?? "Content creator"}
           {igFollowers ? ` · ${formatFollowers(igFollowers)} followers` : ttFollowers ? ` · ${formatFollowers(ttFollowers)} followers` : scFollowers ? ` · ${formatFollowers(scFollowers)} followers` : ""}
         </p>
-        <div className="mt-3 flex items-center justify-between border-t border-[#10141b]/10 pt-3">
+        <div className="mt-3 flex items-center justify-between border-t border-[#0d1117]/10 pt-3">
           <span className={`px-2 py-0.5 text-[10px] font-bold uppercase ${tier.className}`}>{tier.label}</span>
-          <span className="font-display text-lg font-extrabold text-[#1a54f0]">
+          <span className="font-display text-lg font-extrabold text-[#16255c]">
             {price != null ? `from £${price.toLocaleString()}` : "Contact"}
           </span>
         </div>
@@ -391,18 +391,18 @@ function CreatorCard({ creator }: { creator: Creator }) {
 
 function PageFooter() {
   return (
-    <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+    <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+          <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
           <p className="mt-1 text-xs">Manchester &amp; London</p>
         </div>
         <div className="flex flex-wrap gap-6 text-sm">
-          <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
-          <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
-          <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
-          <Link href="/terms" className="hover:text-[#f5f3ee]">Terms</Link>
-          <Link href="/privacy" className="hover:text-[#f5f3ee]">Privacy</Link>
+          <Link href="/creators" className="hover:text-[#f1f3f7]">Browse Creators</Link>
+          <Link href="/how-it-works" className="hover:text-[#f1f3f7]">How it Works</Link>
+          <Link href="/help" className="hover:text-[#f1f3f7]">Help Center</Link>
+          <Link href="/terms" className="hover:text-[#f1f3f7]">Terms</Link>
+          <Link href="/privacy" className="hover:text-[#f1f3f7]">Privacy</Link>
         </div>
         <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
       </div>

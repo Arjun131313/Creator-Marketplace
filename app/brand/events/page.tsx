@@ -16,10 +16,10 @@ type EventRow = {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  published: "bg-[#c8f23c] text-[#182704]",
-  draft: "bg-[#10141b]/10 text-[#595e66]",
+  published: "bg-[#c8f23c] text-[#101a3d]",
+  draft: "bg-[#0d1117]/10 text-[#5b6472]",
   cancelled: "bg-[#ff534b] text-white",
-  completed: "bg-[#10141b] text-[#f5f3ee]",
+  completed: "bg-[#0d1117] text-[#f1f3f7]",
 }
 
 export default function BrandEventsPage() {
@@ -83,25 +83,25 @@ export default function BrandEventsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading your events…</p>
+        <p className="text-[#5b6472]">Loading your events…</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="border-2 border-[#10141b] bg-white p-8">
+      <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Brand Portal</p>
-            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#10141b]">Your events</h1>
-            <p className="mt-1 text-sm text-[#595e66]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">Brand Portal</p>
+            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#0d1117]">Your events</h1>
+            <p className="mt-1 text-sm text-[#5b6472]">
               {events.length} event{events.length !== 1 ? "s" : ""} hosted
             </p>
           </div>
           <Link
             href="/brand/events/new"
-            className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex shrink-0 items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Host an event
           </Link>
@@ -109,9 +109,9 @@ export default function BrandEventsPage() {
       </div>
 
       {events.length === 0 ? (
-        <div className="border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-          <p className="text-[#595e66]">You haven&apos;t hosted an event yet.</p>
-          <Link href="/brand/events/new" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
+        <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-16 text-center">
+          <p className="text-[#5b6472]">You haven&apos;t hosted an event yet.</p>
+          <Link href="/brand/events/new" className="mt-3 inline-block text-sm font-bold text-[#16255c] hover:underline">
             Host your first event →
           </Link>
         </div>
@@ -121,16 +121,16 @@ export default function BrandEventsPage() {
             <Link
               key={event.id}
               href={`/brand/events/${event.id}`}
-              className="flex flex-col gap-4 border-2 border-[#10141b] bg-white p-6 transition-colors hover:bg-[#eae8e1]/40 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-4 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6 transition-colors hover:bg-[#e4e7ee]/40 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="text-lg font-bold text-[#10141b]">{event.title}</h2>
-                  <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase ${STATUS_STYLE[event.status] ?? "bg-[#10141b]/10 text-[#595e66]"}`}>
+                  <h2 className="text-lg font-bold text-[#0d1117]">{event.title}</h2>
+                  <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase ${STATUS_STYLE[event.status] ?? "bg-[#0d1117]/10 text-[#5b6472]"}`}>
                     {event.status}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-[#595e66]">
+                <p className="mt-1 text-sm text-[#5b6472]">
                   {new Date(event.starts_at).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
@@ -142,8 +142,8 @@ export default function BrandEventsPage() {
                 </p>
               </div>
               <div className="shrink-0 text-right">
-                <p className="font-display text-2xl font-extrabold text-[#1a54f0]">{event.applicantCount}</p>
-                <p className="text-xs text-[#8b8f96]">applied</p>
+                <p className="font-display text-2xl font-extrabold text-[#16255c]">{event.applicantCount}</p>
+                <p className="text-xs text-[#8b93a3]">applied</p>
               </div>
             </Link>
           ))}

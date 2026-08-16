@@ -103,23 +103,23 @@ export default function AcademyPage() {
   }, [lessons])
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-[1400px] px-5 py-16 pb-24 md:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#16255c]">
               Creator Academy
             </p>
             <h1 className="mt-2 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
               Learn from creators who&apos;ve done it.
             </h1>
-            <p className="mt-3 max-w-lg text-[#595e66]">
+            <p className="mt-3 max-w-lg text-[#5b6472]">
               Paid lessons from real RealReach creators — how to pitch, price, and get hired more.
             </p>
             {!loading && lessons.length > 0 ? (
-              <p className="mt-3 text-sm font-bold text-[#595e66]">
+              <p className="mt-3 text-sm font-bold text-[#5b6472]">
                 {lessons.length} lesson{lessons.length !== 1 ? "s" : ""}
                 {priceRange ? (
                   <> · from £{priceRange.min.toLocaleString()}{priceRange.max !== priceRange.min ? ` to £${priceRange.max.toLocaleString()}` : ""}</>
@@ -130,7 +130,7 @@ export default function AcademyPage() {
 
           <Link
             href="/creator/academy/new"
-            className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex shrink-0 items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Teach a lesson
           </Link>
@@ -138,36 +138,36 @@ export default function AcademyPage() {
 
         {/* Browse by topic */}
         <div className="mt-10">
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">What can be taught</p>
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#5b6472]">What can be taught</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <button
               onClick={() => setCategory("All")}
-              className={`border-2 p-4 text-left transition-colors ${
-                category === "All" ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 bg-white hover:border-[#10141b]"
+              className={`border p-4 text-left transition-colors ${
+                category === "All" ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]" : "border-[#0d1117]/20 bg-white hover:border-[#0d1117]"
               }`}
             >
               <p className="font-display text-lg font-extrabold">All topics</p>
-              <p className={`mt-1 text-xs leading-5 ${category === "All" ? "text-[#a8adb6]" : "text-[#595e66]"}`}>
+              <p className={`mt-1 text-xs leading-5 ${category === "All" ? "text-[#8891a3]" : "text-[#5b6472]"}`}>
                 Every lesson published, no filter
               </p>
-              <p className={`mt-2 text-xs font-bold ${category === "All" ? "text-[#f5f3ee]" : "text-[#8b8f96]"}`}>{lessons.length} lessons</p>
+              <p className={`mt-2 text-xs font-bold ${category === "All" ? "text-[#f1f3f7]" : "text-[#8b93a3]"}`}>{lessons.length} lessons</p>
             </button>
             {CATEGORY_INFO.map((c) => (
               <button
                 key={c.name}
                 onClick={() => setCategory(c.name)}
-                className={`border-2 p-4 text-left transition-colors ${
-                  category === c.name ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]" : "border-[#10141b]/20 bg-white hover:border-[#10141b]"
+                className={`border p-4 text-left transition-colors ${
+                  category === c.name ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]" : "border-[#0d1117]/20 bg-white hover:border-[#0d1117]"
                 }`}
               >
                 <p className="font-display text-lg font-extrabold">
-                  <span className="mr-1.5 text-[#1a54f0]">{c.icon}</span>
+                  <span className="mr-1.5 text-[#16255c]">{c.icon}</span>
                   {c.name}
                 </p>
-                <p className={`mt-1 text-xs leading-5 ${category === c.name ? "text-[#a8adb6]" : "text-[#595e66]"}`}>
+                <p className={`mt-1 text-xs leading-5 ${category === c.name ? "text-[#8891a3]" : "text-[#5b6472]"}`}>
                   {c.description}
                 </p>
-                <p className={`mt-2 text-xs font-bold ${category === c.name ? "text-[#f5f3ee]" : "text-[#8b8f96]"}`}>
+                <p className={`mt-2 text-xs font-bold ${category === c.name ? "text-[#f1f3f7]" : "text-[#8b93a3]"}`}>
                   {categoryCounts.get(c.name) ?? 0} lessons
                 </p>
               </button>
@@ -202,28 +202,28 @@ export default function AcademyPage() {
                 href={`/academy/${lesson.id}`}
                 className="surface-card surface-card-hover flex h-full flex-col overflow-hidden"
               >
-                <div className="flex items-center justify-between border-b-2 border-[#10141b]/10 p-5">
-                  <span className="font-display text-2xl font-extrabold text-[#1a54f0]">£{lesson.price.toLocaleString()}</span>
+                <div className="flex items-center justify-between border-b border-[#0d1117]/[0.07] p-5">
+                  <span className="font-display text-2xl font-extrabold text-[#16255c]">£{lesson.price.toLocaleString()}</span>
                   {lesson.category ? (
-                    <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                    <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#101a3d]">
                       {lesson.category}
                     </span>
                   ) : null}
                 </div>
                 <div className="flex-1 p-5">
                   <h2 className="font-display text-xl font-extrabold tracking-tight">{lesson.title}</h2>
-                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#595e66]">{lesson.description}</p>
+                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#5b6472]">{lesson.description}</p>
                 </div>
-                <div className="flex items-center gap-2 border-t-2 border-[#10141b]/10 p-5">
-                  <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#eae8e1]">
+                <div className="flex items-center gap-2 border-t border-[#0d1117]/[0.07] p-5">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#e4e7ee]">
                     {lesson.teacher_avatar ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={lesson.teacher_avatar} alt={lesson.teacher_name} className="h-full w-full object-cover" />
                     ) : (
-                      <span className="text-[10px] font-bold text-[#595e66]">{lesson.teacher_name[0]?.toUpperCase()}</span>
+                      <span className="text-[10px] font-bold text-[#5b6472]">{lesson.teacher_name[0]?.toUpperCase()}</span>
                     )}
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-wide text-[#8b8f96]">
+                  <span className="text-xs font-bold uppercase tracking-wide text-[#8b93a3]">
                     {lesson.teacher_name}{lesson.teacher_niche ? ` · ${lesson.teacher_niche}` : ""}
                   </span>
                 </div>
@@ -234,17 +234,17 @@ export default function AcademyPage() {
         )}
       </main>
 
-      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
             <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
-            <Link href="/campaigns" className="hover:text-[#f5f3ee]">Campaigns</Link>
-            <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
-            <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
+            <Link href="/creators" className="hover:text-[#f1f3f7]">Browse Creators</Link>
+            <Link href="/campaigns" className="hover:text-[#f1f3f7]">Campaigns</Link>
+            <Link href="/how-it-works" className="hover:text-[#f1f3f7]">How it Works</Link>
+            <Link href="/help" className="hover:text-[#f1f3f7]">Help Center</Link>
           </div>
           <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>

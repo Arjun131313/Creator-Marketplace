@@ -17,52 +17,52 @@
 }
 
 /* ── Tailwind v4 design system ─────────────────────────────────────────────── */
-/* Locked from brit-influencer-connect.lovable.app — see docs/design/DESIGN-SYSTEM.md */
+/* Palette: lime #c8f23c + ink #0d1117 + navy #16255c on a cool ground. */
 @theme {
   /* Background / page */
-  --color-background:                #f5f3ee;
-  --color-on-background:             #10141b;
+  --color-background:                #f1f3f7;
+  --color-on-background:             #0d1117;
 
   /* Surface layers */
-  --color-surface:                   #f5f3ee;
-  --color-on-surface:                #10141b;
-  --color-on-surface-variant:        #595e66;
+  --color-surface:                   #f1f3f7;
+  --color-on-surface:                #0d1117;
+  --color-on-surface-variant:        #5b6472;
   --color-surface-container-lowest:  #ffffff;
-  --color-surface-container-low:     #eae8e1;
-  --color-surface-container:         #eae8e1;
-  --color-surface-container-high:    #ddd9cf;
-  --color-surface-container-highest: #d1ccbf;
+  --color-surface-container-low:     #f7f8fa;
+  --color-surface-container:         #e4e7ee;
+  --color-surface-container-high:    #d8dce6;
+  --color-surface-container-highest: #cbd1de;
 
   /* Ink (dark contrast sections) */
-  --color-ink:                       #10141b;
-  --color-ink-soft:                  #1b2028;
-  --color-on-ink:                    #f5f3ee;
-  --color-on-ink-variant:            #a8adb6;
+  --color-ink:                       #0d1117;
+  --color-ink-soft:                  #161b24;
+  --color-on-ink:                    #f1f3f7;
+  --color-on-ink-variant:            #8891a3;
 
-  /* Outline */
-  --color-outline:                   rgba(16, 20, 27, 0.16);
-  --color-outline-variant:           rgba(16, 20, 27, 0.1);
-  --color-inverse-surface:           #10141b;
-  --color-inverse-on-surface:        #f5f3ee;
+  /* Outline — hairlines only; grouping is done with surface + shadow. */
+  --color-outline:                   rgba(13, 17, 23, 0.12);
+  --color-outline-variant:           rgba(13, 17, 23, 0.07);
+  --color-inverse-surface:           #0d1117;
+  --color-inverse-on-surface:        #f1f3f7;
 
-  /* Primary — flat blue accent */
-  --color-primary:                   #1a54f0;
+  /* Primary — deep navy, used for structure and default actions */
+  --color-primary:                   #16255c;
   --color-on-primary:                #ffffff;
-  --color-primary-container:         #1a54f0;
-  --color-on-primary-container:      #dbe6fe;
+  --color-primary-container:         #16255c;
+  --color-on-primary-container:      #dce3f7;
   --color-on-primary-fixed:          #ffffff;
-  --color-primary-fixed-dim:         #6b8ff5;
-  --color-inverse-primary:           #6b8ff5;
+  --color-primary-fixed-dim:         #7d93d6;
+  --color-inverse-primary:           #7d93d6;
 
-  /* Status — positive (released / booked) */
-  --color-secondary:                 #7a9a1e;
-  --color-on-secondary:              #10141b;
+  /* Secondary — lime, the single high-energy accent */
+  --color-secondary:                 #6f8c14;
+  --color-on-secondary:              #101a3d;
   --color-secondary-container:       #c8f23c;
-  --color-on-secondary-container:    #1c2606;
+  --color-on-secondary-container:    #101a3d;
 
   /* Status — pending (scheduled / awaiting) */
   --color-tertiary:                  #a06c00;
-  --color-on-tertiary:               #10141b;
+  --color-on-tertiary:               #0d1117;
   --color-tertiary-container:        #feb930;
   --color-on-tertiary-container:     #2b1d00;
   --color-tertiary-fixed:            #feb930;
@@ -120,63 +120,150 @@
    with the ink colour (pure black goes muddy over warm paper), and the radius
    is small enough to soften an edge without turning into generic rounded SaaS. */
 :root {
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 14px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Palette: lime + near-black + deep navy on a cool ground. Lime reads as
+     olive over warm cream, so the ground is cooled to let it stay electric. */
+  --c-ground: #f1f3f7;
+  --c-ground-soft: #f7f8fa;
+  --c-surface: #ffffff;
+  --c-surface-alt: #e4e7ee;
+  --c-ink: #0d1117;
+  --c-ink-soft: #161b24;
+  --c-navy: #16255c;
+  --c-navy-hover: #1d3078;
+  --c-lime: #c8f23c;
+  --c-on-lime: #101a3d;
+  --c-muted: #5b6472;
+  --c-muted-light: #8b93a3;
+  --c-on-ink-muted: #8891a3;
+  --c-hairline: rgba(13, 17, 23, 0.07);
 
   --elev-1:
-    0 1px 2px rgba(16, 20, 27, 0.04),
-    0 2px 6px rgba(16, 20, 27, 0.04);
+    0 1px 2px rgba(13, 17, 23, 0.04),
+    0 2px 6px rgba(13, 17, 23, 0.05);
   --elev-2:
-    0 2px 4px rgba(16, 20, 27, 0.05),
-    0 6px 16px rgba(16, 20, 27, 0.07);
+    0 2px 4px rgba(13, 17, 23, 0.05),
+    0 8px 20px rgba(13, 17, 23, 0.07);
   --elev-3:
-    0 4px 8px rgba(16, 20, 27, 0.06),
-    0 14px 34px rgba(16, 20, 27, 0.10);
-  /* Deliberate accent shadow, kept from the original brutalist treatment. */
-  --elev-hard: 6px 6px 0 #10141b;
+    0 4px 10px rgba(13, 17, 23, 0.06),
+    0 18px 44px rgba(13, 17, 23, 0.12);
 }
 
-/* Resting content card: hairline border does the structural work, elevation
-   does the visual work, so it reads as a physical object rather than an outline. */
+/* Elevation carries the structure instead of an outline, so surfaces read as
+   objects on the page rather than boxes drawn onto it. */
 .surface-card {
-  background: #ffffff;
-  border: 1px solid rgba(16, 20, 27, 0.10);
-  border-radius: var(--radius-md);
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
   box-shadow: var(--elev-1);
+  --tw-ring-color: rgba(13, 17, 23, 0.06);
+  box-shadow: var(--elev-1), 0 0 0 1px rgba(13, 17, 23, 0.05);
   transition:
     box-shadow 0.22s cubic-bezier(0.2, 0.6, 0.3, 1),
-    transform 0.22s cubic-bezier(0.2, 0.6, 0.3, 1),
-    border-color 0.22s ease;
+    transform 0.22s cubic-bezier(0.2, 0.6, 0.3, 1);
 }
 
 /* Interactive variant — lifts toward the cursor. */
 .surface-card-hover:hover {
-  box-shadow: var(--elev-3);
+  box-shadow: var(--elev-3), 0 0 0 1px rgba(13, 17, 23, 0.06);
   transform: translateY(-3px);
-  border-color: rgba(16, 20, 27, 0.16);
+}
+
+/* Section panel — a tone shift rather than a border, for grouping without boxing. */
+.panel {
+  background: var(--c-ground-soft);
+  border-radius: var(--radius-lg);
 }
 
 .ink-card {
-  background: #1b2028;
-  border: 1px solid rgba(245, 243, 238, 0.12);
-  border-radius: var(--radius-md);
-  transition: border-color 0.2s ease, transform 0.22s ease;
+  background: var(--c-ink-soft);
+  border-radius: var(--radius-lg);
+  transition: background-color 0.2s ease, transform 0.22s ease;
 }
 .ink-card:hover {
-  border-color: #6b8ff5;
+  background: #1b2230;
+}
+
+/* Buttons */
+.btn-primary {
+  border-radius: var(--radius-sm);
+  background: var(--c-navy);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(22, 37, 92, 0.22);
+  transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+.btn-primary:hover {
+  background: var(--c-navy-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(22, 37, 92, 0.26);
+}
+.btn-primary:disabled {
+  opacity: 0.55;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  border-radius: var(--radius-sm);
+  background: rgba(13, 17, 23, 0.05);
+  color: var(--c-ink);
+  font-weight: 700;
+  transition: background-color 0.18s ease;
+}
+.btn-secondary:hover {
+  background: rgba(13, 17, 23, 0.09);
+}
+
+.btn-lime {
+  border-radius: var(--radius-sm);
+  background: var(--c-lime);
+  color: var(--c-on-lime);
+  font-weight: 700;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+.btn-lime:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+/* Form fields */
+.field {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
+  border: 1px solid rgba(13, 17, 23, 0.12);
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.field:focus {
+  border-color: var(--c-navy);
+  box-shadow: 0 0 0 3px rgba(22, 37, 92, 0.12);
+}
+.field::placeholder {
+  color: var(--c-muted-light);
+}
+
+/* Pill badge — status only, never decorative. */
+.chip {
+  display: inline-block;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 /* Legacy alias — older pages still reference this. */
 .paper-card {
-  background: #ffffff;
-  border: 1px solid rgba(16, 20, 27, 0.10);
-  border-radius: var(--radius-md);
-  box-shadow: var(--elev-1);
-  transition: box-shadow 0.22s ease, border-color 0.22s ease;
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-1), 0 0 0 1px rgba(13, 17, 23, 0.05);
+  transition: box-shadow 0.22s ease;
 }
 .paper-card:hover {
-  box-shadow: var(--elev-2);
+  box-shadow: var(--elev-2), 0 0 0 1px rgba(13, 17, 23, 0.06);
 }
 
 /* ── Scroll reveal ─────────────────────────────────────────────────────────── */
@@ -209,20 +296,14 @@
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: #eae8e1; }
-::-webkit-scrollbar-thumb  { background: #d1ccbf; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #1a54f0; }
+::-webkit-scrollbar-track  { background: var(--c-surface-alt); }
+::-webkit-scrollbar-thumb  { background: #c2c8d4; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-navy); }
 
 /* ── Body defaults ─────────────────────────────────────────────────────────── */
 body {
-  /* A very slight tonal wash rather than one flat fill — stops large empty
-     areas of paper from reading as an unstyled background. */
-  background-color: #f5f3ee;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(26, 84, 240, 0.05), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(200, 242, 60, 0.06), transparent 70%);
-  background-attachment: fixed;
-  color: #10141b;
+  background-color: var(--c-ground);
+  color: var(--c-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

@@ -15,9 +15,9 @@ type JobRow = {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; style: string }> = {
-  open: { label: "Open", style: "bg-[#c8f23c] text-[#182704]" },
-  in_progress: { label: "In progress", style: "bg-[#1a54f0] text-white" },
-  completed: { label: "Completed", style: "bg-[#10141b] text-[#f5f3ee]" },
+  open: { label: "Open", style: "bg-[#c8f23c] text-[#101a3d]" },
+  in_progress: { label: "In progress", style: "bg-[#16255c] text-white" },
+  completed: { label: "Completed", style: "bg-[#0d1117] text-[#f1f3f7]" },
   cancelled: { label: "Cancelled", style: "bg-[#ff534b] text-white" },
 }
 
@@ -88,7 +88,7 @@ export default function BrandJobsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading jobs…</p>
+        <p className="text-[#5b6472]">Loading jobs…</p>
       </div>
     )
   }
@@ -96,20 +96,20 @@ export default function BrandJobsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <section className="border-2 border-[#10141b] bg-white p-8">
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">
               Brand Portal
             </p>
-            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#10141b]">Your jobs</h1>
-            <p className="mt-1 text-sm text-[#595e66]">
+            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#0d1117]">Your jobs</h1>
+            <p className="mt-1 text-sm text-[#5b6472]">
               {jobs.length} job{jobs.length !== 1 ? "s" : ""} posted
             </p>
           </div>
           <Link
             href="/brand/jobs/new"
-            className="inline-flex shrink-0 items-center gap-2 border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[8px] bg-[#16255c] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -124,10 +124,10 @@ export default function BrandJobsPage() {
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`border-2 px-4 py-1.5 text-xs font-bold transition-colors ${
+              className={`border px-4 py-1.5 text-xs font-bold transition-colors ${
                 filter === f.key
-                  ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]"
-                  : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]/50 hover:text-[#10141b]"
+                  ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]"
+                  : "border-[#0d1117]/20 text-[#5b6472] hover:border-[#0d1117]/50 hover:text-[#0d1117]"
               }`}
             >
               {f.label}
@@ -144,21 +144,21 @@ export default function BrandJobsPage() {
       </section>
 
       {error ? (
-        <div className="border-2 border-[#ff534b] bg-white p-4 text-sm text-[#ff534b]">
+        <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-4 text-sm text-[#ff534b]">
           {error}
         </div>
       ) : null}
 
       {/* Job cards */}
       {filteredJobs.length === 0 ? (
-        <div className="border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-          <p className="text-[#595e66]">
+        <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-16 text-center">
+          <p className="text-[#5b6472]">
             {filter === "all" ? "No jobs posted yet." : `No ${filter.replace("_", " ")} jobs.`}
           </p>
           {filter === "all" ? (
             <Link
               href="/brand/jobs/new"
-              className="mt-4 inline-block text-sm font-bold text-[#1a54f0] hover:underline"
+              className="mt-4 inline-block text-sm font-bold text-[#16255c] hover:underline"
             >
               Post your first job →
             </Link>
@@ -169,7 +169,7 @@ export default function BrandJobsPage() {
           {filteredJobs.map((job) => {
             const cfg = STATUS_CONFIG[job.status] ?? {
               label: job.status,
-              style: "bg-[#10141b]/10 text-[#595e66]",
+              style: "bg-[#0d1117]/10 text-[#5b6472]",
             }
             const isOverdue =
               job.deadline && new Date(job.deadline) < new Date() && job.status === "open"
@@ -177,12 +177,12 @@ export default function BrandJobsPage() {
             return (
               <div
                 key={job.id}
-                className="border-2 border-[#10141b] bg-white p-6 transition-colors hover:bg-[#eae8e1]/40"
+                className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6 transition-colors hover:bg-[#e4e7ee]/40"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h2 className="text-lg font-bold text-[#10141b]">
+                      <h2 className="text-lg font-bold text-[#0d1117]">
                         {job.title}
                       </h2>
                       <span
@@ -191,7 +191,7 @@ export default function BrandJobsPage() {
                         {cfg.label}
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-[#595e66]">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-[#5b6472]">
                       <span className="flex items-center gap-1.5">
                         <CalendarIcon />
                         Posted {new Date(job.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}
@@ -203,27 +203,27 @@ export default function BrandJobsPage() {
                           {new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}
                         </span>
                       ) : (
-                        <span className="text-[#8b8f96]">No deadline</span>
+                        <span className="text-[#8b93a3]">No deadline</span>
                       )}
                     </div>
                   </div>
 
                   <div className="flex shrink-0 flex-col items-end gap-2">
-                    <p className="font-display text-2xl font-extrabold text-[#1a54f0]">£{job.budget.toLocaleString()}</p>
-                    <p className="text-xs text-[#8b8f96]">budget</p>
+                    <p className="font-display text-2xl font-extrabold text-[#16255c]">£{job.budget.toLocaleString()}</p>
+                    <p className="text-xs text-[#8b93a3]">budget</p>
                   </div>
                 </div>
 
-                <div className="mt-5 flex flex-wrap items-center gap-3 border-t-2 border-[#10141b]/10 pt-5">
+                <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[#0d1117]/[0.07] pt-5">
                   <Link
                     href={`/brand/jobs/${job.id}`}
-                    className="border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
+                    className="rounded-[8px] bg-[#16255c] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
                   >
                     Job detail
                   </Link>
                   <Link
                     href={`/brand/jobs/${job.id}/applications`}
-                    className="border-2 border-[#10141b]/20 px-4 py-2 text-xs font-bold text-[#10141b] transition-colors hover:border-[#10141b]"
+                    className="border border-[#0d1117]/[0.12] px-4 py-2 text-xs font-bold text-[#0d1117] transition-colors hover:border-[#0d1117]"
                   >
                     View applications
                   </Link>

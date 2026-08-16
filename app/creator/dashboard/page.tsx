@@ -23,9 +23,9 @@ type OpenJobRow = {
 
 const APP_STATUS_STYLE: Record<string, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  accepted: "bg-[#c8f23c] text-[#182704]",
+  accepted: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  withdrawn: "bg-[#10141b]/10 text-[#595e66]",
+  withdrawn: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 export default function CreatorDashboardPage() {
@@ -113,7 +113,7 @@ export default function CreatorDashboardPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading dashboard…</p>
+        <p className="text-[#5b6472]">Loading dashboard…</p>
       </div>
     )
   }
@@ -132,49 +132,49 @@ export default function CreatorDashboardPage() {
           </h1>
           <Link
             href="/creator/jobs"
-            className="inline-flex shrink-0 items-center gap-2 border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[8px] bg-[#16255c] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Find new briefs
           </Link>
         </div>
-        <p className="mt-2 text-[#595e66]">Here&apos;s your creator activity at a glance.</p>
+        <p className="mt-2 text-[#5b6472]">Here&apos;s your creator activity at a glance.</p>
       </section>
 
       {/* ── Stat chips ────────────────────────────────────────────────────── */}
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="border-2 border-[#10141b] bg-[#c8f23c] p-5">
-          <p className="font-display text-3xl font-extrabold text-[#182704]">{jobsWon}</p>
-          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#182704]/70">Jobs won</p>
+        <div className="rounded-[8px] bg-[#c8f23c] p-5">
+          <p className="font-display text-3xl font-extrabold text-[#101a3d]">{jobsWon}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#101a3d]/70">Jobs won</p>
         </div>
-        <div className="border-2 border-[#10141b] bg-[#feb930] p-5">
+        <div className="border border-[#0d1117]/[0.12] bg-[#feb930] p-5">
           <p className="font-display text-3xl font-extrabold text-[#2b1d00]">{pending}</p>
           <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#2b1d00]/70">Awaiting response</p>
         </div>
-        <div className="border-2 border-[#10141b] bg-white p-5">
+        <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-5">
           <p className="font-display text-3xl font-extrabold">{applications.length}</p>
-          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#595e66]">Applications sent</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#5b6472]">Applications sent</p>
         </div>
-        <div className="border-2 border-[#10141b] bg-[#10141b] p-5">
-          <p className="font-display text-3xl font-extrabold text-[#f5f3ee]">{openJobs.length}</p>
-          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#a8adb6]">Open briefs live</p>
+        <div className="rounded-[8px] bg-[#0d1117] p-5">
+          <p className="font-display text-3xl font-extrabold text-[#f1f3f7]">{openJobs.length}</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#8891a3]">Open briefs live</p>
         </div>
       </section>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         {/* ── Recent applications ─────────────────────────────────────────── */}
-        <section className="border-2 border-[#10141b] bg-white p-6">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6">
           <div className="flex items-center justify-between gap-4">
             <h2 className="font-display text-xl font-extrabold">Applications</h2>
-            <Link href="/creator/applications" className="text-sm font-bold text-[#1a54f0] hover:underline">
+            <Link href="/creator/applications" className="text-sm font-bold text-[#16255c] hover:underline">
               View all →
             </Link>
           </div>
 
-          <div className="mt-4 divide-y divide-[#10141b]/10 border-t border-[#10141b]/10">
+          <div className="mt-4 divide-y divide-[#0d1117]/10 border-t border-[#0d1117]/10">
             {applications.length === 0 ? (
               <div className="py-8 text-center">
-                <p className="text-[#595e66]">No applications yet.</p>
-                <Link href="/creator/jobs" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
+                <p className="text-[#5b6472]">No applications yet.</p>
+                <Link href="/creator/jobs" className="mt-3 inline-block text-sm font-bold text-[#16255c] hover:underline">
                   Browse open jobs →
                 </Link>
               </div>
@@ -183,15 +183,15 @@ export default function CreatorDashboardPage() {
                 <Link
                   key={app.id}
                   href={`/creator/jobs/${app.job_id}`}
-                  className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[#eae8e1]/40"
+                  className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[#e4e7ee]/40"
                 >
                   <div className="min-w-0">
                     <p className="truncate font-bold">{app.jobTitle}</p>
-                    <p className="mt-0.5 text-xs text-[#595e66]">
+                    <p className="mt-0.5 text-xs text-[#5b6472]">
                       {new Date(app.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
                     </p>
                   </div>
-                  <span className={`shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase ${APP_STATUS_STYLE[app.status] ?? "bg-[#10141b]/10 text-[#595e66]"}`}>
+                  <span className={`shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase ${APP_STATUS_STYLE[app.status] ?? "bg-[#0d1117]/10 text-[#5b6472]"}`}>
                     {app.status}
                   </span>
                 </Link>
@@ -201,35 +201,35 @@ export default function CreatorDashboardPage() {
         </section>
 
         {/* ── Open jobs ────────────────────────────────────────────────────── */}
-        <section className="border-2 border-[#10141b] bg-white p-6">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6">
           <div className="flex items-center justify-between gap-4">
             <h2 className="font-display text-xl font-extrabold">Open briefs</h2>
-            <Link href="/creator/jobs" className="text-sm font-bold text-[#1a54f0] hover:underline">
+            <Link href="/creator/jobs" className="text-sm font-bold text-[#16255c] hover:underline">
               Browse all →
             </Link>
           </div>
 
-          <div className="mt-4 divide-y divide-[#10141b]/10 border-t border-[#10141b]/10">
+          <div className="mt-4 divide-y divide-[#0d1117]/10 border-t border-[#0d1117]/10">
             {openJobs.length === 0 ? (
               <div className="py-8 text-center">
-                <p className="text-[#595e66]">No open jobs right now.</p>
+                <p className="text-[#5b6472]">No open jobs right now.</p>
               </div>
             ) : (
               openJobs.map((job) => (
                 <Link
                   key={job.id}
                   href={`/creator/jobs/${job.id}`}
-                  className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[#eae8e1]/40"
+                  className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[#e4e7ee]/40"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-bold">{job.title}</p>
                     {job.deadline ? (
-                      <p className="mt-0.5 text-xs text-[#595e66]">
+                      <p className="mt-0.5 text-xs text-[#5b6472]">
                         Deadline {new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
                       </p>
                     ) : null}
                   </div>
-                  <p className="shrink-0 font-display text-lg font-extrabold text-[#1a54f0]">£{job.budget.toLocaleString()}</p>
+                  <p className="shrink-0 font-display text-lg font-extrabold text-[#16255c]">£{job.budget.toLocaleString()}</p>
                 </Link>
               ))
             )}
@@ -237,7 +237,7 @@ export default function CreatorDashboardPage() {
 
           <Link
             href="/creator/profile/setup"
-            className="mt-6 flex items-center justify-center gap-2 border-2 border-[#10141b] py-3 text-sm font-bold transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+            className="mt-6 flex items-center justify-center gap-2 border border-[#0d1117]/[0.12] py-3 text-sm font-bold transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
           >
             Edit your profile
           </Link>
@@ -245,7 +245,7 @@ export default function CreatorDashboardPage() {
       </div>
 
       {error ? (
-        <div className="border-2 border-[#ff534b] bg-white p-4 text-sm text-[#ff534b]">
+        <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-4 text-sm text-[#ff534b]">
           {error}
         </div>
       ) : null}

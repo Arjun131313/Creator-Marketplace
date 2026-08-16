@@ -8,7 +8,7 @@ const CONTENT_TYPES = ["Photo", "Video", "Story", "Reel / Short", "Other"] as co
 const PLATFORMS = ["Instagram", "TikTok", "Snapchat", "Other"] as const
 
 const inputClass =
-  "mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+  "mt-2 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
 
 export default function NewJobPage() {
   const router = useRouter()
@@ -137,14 +137,14 @@ export default function NewJobPage() {
   }
 
   return (
-    <div className="max-w-3xl border-2 border-[#10141b] bg-white p-8">
-      <h1 className="font-display text-2xl font-extrabold text-[#10141b]">Post a new job</h1>
-      <p className="mt-2 text-sm text-[#595e66]">Create a job brief for creators to apply.</p>
+    <div className="max-w-3xl rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+      <h1 className="font-display text-2xl font-extrabold text-[#0d1117]">Post a new job</h1>
+      <p className="mt-2 text-sm text-[#5b6472]">Create a job brief for creators to apply.</p>
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-6">
           <label className="block">
-            <span className="text-sm font-bold text-[#10141b]">Job title</span>
+            <span className="text-sm font-bold text-[#0d1117]">Job title</span>
             <input
               type="text"
               required
@@ -156,7 +156,7 @@ export default function NewJobPage() {
 
           <div className="grid gap-6 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Content type</span>
+              <span className="text-sm font-bold text-[#0d1117]">Content type</span>
               <select
                 value={contentType}
                 onChange={(event) => setContentType(event.target.value)}
@@ -169,7 +169,7 @@ export default function NewJobPage() {
               </select>
             </label>
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Platform</span>
+              <span className="text-sm font-bold text-[#0d1117]">Platform</span>
               <select
                 value={platform}
                 onChange={(event) => setPlatform(event.target.value)}
@@ -185,7 +185,7 @@ export default function NewJobPage() {
 
           <div className="grid gap-6 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Video duration</span>
+              <span className="text-sm font-bold text-[#0d1117]">Video duration</span>
               <input
                 type="text"
                 placeholder="e.g. 30s — leave blank for photo"
@@ -195,7 +195,7 @@ export default function NewJobPage() {
               />
             </label>
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Language</span>
+              <span className="text-sm font-bold text-[#0d1117]">Language</span>
               <input
                 type="text"
                 value={language}
@@ -206,7 +206,7 @@ export default function NewJobPage() {
           </div>
 
           <label className="block">
-            <span className="text-sm font-bold text-[#10141b]">Key talking points (optional)</span>
+            <span className="text-sm font-bold text-[#0d1117]">Key talking points (optional)</span>
             <textarea
               rows={3}
               placeholder="Hooks, must-mentions, tone of voice…"
@@ -218,12 +218,12 @@ export default function NewJobPage() {
 
           <label className="block">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-[#10141b]">Description</span>
+              <span className="text-sm font-bold text-[#0d1117]">Description</span>
               <button
                 type="button"
                 onClick={handleDraftWithAI}
                 disabled={drafting}
-                className="text-xs font-bold text-[#1a54f0] hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                className="text-xs font-bold text-[#16255c] hover:underline disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {drafting ? "Drafting…" : "✨ Draft with AI"}
               </button>
@@ -234,16 +234,16 @@ export default function NewJobPage() {
               onChange={(event) => setDescription(event.target.value)}
               className={inputClass + " min-h-[160px]"}
             />
-            <p className="mt-1 text-xs text-[#8b8f96]">
+            <p className="mt-1 text-xs text-[#8b93a3]">
               Content usage rights transfer to you automatically once payment is released — no separate contract needed.
             </p>
           </label>
 
           <div className="grid gap-6 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Budget (GBP)</span>
+              <span className="text-sm font-bold text-[#0d1117]">Budget (GBP)</span>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#595e66]">£</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5b6472]">£</span>
                 <input
                   required
                   type="number"
@@ -256,7 +256,7 @@ export default function NewJobPage() {
               </div>
             </label>
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Deadline</span>
+              <span className="text-sm font-bold text-[#0d1117]">Deadline</span>
               <input
                 type="date"
                 value={deadline}
@@ -266,21 +266,21 @@ export default function NewJobPage() {
             </label>
           </div>
 
-          <label className="flex cursor-pointer items-start gap-3 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-4">
+          <label className="flex cursor-pointer items-start gap-3 rounded-[12px] bg-[#f7f8fa] p-4">
             <input
               type="checkbox"
               checked={requiresShipping}
               onChange={(event) => setRequiresShipping(event.target.checked)}
-              className="mt-0.5 h-4 w-4 cursor-pointer accent-[#1a54f0]"
+              className="mt-0.5 h-4 w-4 cursor-pointer accent-[#16255c]"
             />
-            <span className="text-sm text-[#10141b]">
+            <span className="text-sm text-[#0d1117]">
               <span className="font-bold">This is a physical product.</span> I&apos;ll need to ship it to the creator once they&apos;re hired — they&apos;ll be asked for a shipping address.
             </span>
           </label>
         </div>
 
         {error ? (
-          <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-4 py-3 text-sm text-[#ff534b]">
             {error}
           </div>
         ) : null}
@@ -288,12 +288,12 @@ export default function NewJobPage() {
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Publishing job…" : "Publish job"}
         </button>
 
-        <p className="text-center text-xs text-[#8b8f96]">
+        <p className="text-center text-xs text-[#8b93a3]">
           Posting is free. Your plan&apos;s hire allowance only applies once you accept a creator.
         </p>
       </form>

@@ -16,8 +16,8 @@ type ConversationSummary = {
 
 const AVATAR_COLORS = [
   { bg: "#ff534b", text: "#fff6f5" },
-  { bg: "#1a54f0", text: "#f2f5fc" },
-  { bg: "#c8f23c", text: "#182704" },
+  { bg: "#16255c", text: "#f2f5fc" },
+  { bg: "#c8f23c", text: "#101a3d" },
   { bg: "#feb930", text: "#2b1d00" },
 ]
 
@@ -162,16 +162,16 @@ export default function MessagesPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       {/* Nav */}
-      <header className="sticky top-0 z-40 border-b-2 border-[#10141b] bg-[#f5f3ee]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-[#0d1117]/[0.07] bg-[#f1f3f7]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-4">
-          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+          <Link href="/" className="font-display text-lg font-extrabold text-[#0d1117] transition hover:text-[#16255c]">
             RealReach.
           </Link>
           <Link
             href="/creators"
-            className="border-2 border-[#10141b] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+            className="border border-[#0d1117]/[0.12] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#0d1117] transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
           >
             Browse creators
           </Link>
@@ -181,9 +181,9 @@ export default function MessagesPage() {
       <main className="mx-auto max-w-4xl px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Inbox</p>
-          <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-[#10141b]">Messages</h1>
-          <p className="mt-1 text-sm text-[#595e66]">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">Inbox</p>
+          <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-[#0d1117]">Messages</h1>
+          <p className="mt-1 text-sm text-[#5b6472]">
             {conversations.length} conversation{conversations.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -191,27 +191,27 @@ export default function MessagesPage() {
         {loading ? (
           <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-24 animate-pulse border-2 border-[#10141b]/10 bg-white" />
+              <div key={i} className="h-24 animate-pulse rounded-[12px] bg-white ring-1 ring-[#0d1117]/[0.05]" />
             ))}
           </div>
         ) : error ? (
-          <div className="border-2 border-[#ff534b] bg-white p-6 text-sm text-[#ff534b]">
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-6 text-sm text-[#ff534b]">
             {error}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#1a54f0]/10 text-[#1a54f0]">
+          <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-16 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#16255c]/10 text-[#16255c]">
               <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
               </svg>
             </div>
-            <p className="mt-4 font-bold text-[#10141b]">No conversations yet</p>
-            <p className="mt-1 text-sm text-[#595e66]">
+            <p className="mt-4 font-bold text-[#0d1117]">No conversations yet</p>
+            <p className="mt-1 text-sm text-[#5b6472]">
               Visit a creator profile to start a conversation.
             </p>
             <Link
               href="/creators"
-              className="mt-6 inline-flex items-center gap-2 border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+              className="mt-6 inline-flex items-center gap-2 rounded-[8px] bg-[#16255c] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Browse creators
             </Link>
@@ -226,7 +226,7 @@ export default function MessagesPage() {
                 <Link
                   key={conv.id}
                   href={`/messages/${conv.id}`}
-                  className="group flex items-center gap-4 border-2 border-[#10141b] bg-white p-5 transition-colors hover:bg-[#eae8e1]/40"
+                  className="group flex items-center gap-4 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-5 transition-colors hover:bg-[#e4e7ee]/40"
                 >
                   {/* Avatar */}
                   <div
@@ -238,17 +238,17 @@ export default function MessagesPage() {
 
                   {/* Content */}
                   <div className="min-w-0 flex-1">
-                    <p className={`truncate text-base ${unread ? "font-extrabold text-[#10141b]" : "font-semibold text-[#10141b]"}`}>
+                    <p className={`truncate text-base ${unread ? "font-extrabold text-[#0d1117]" : "font-semibold text-[#0d1117]"}`}>
                       {conv.otherName}
                     </p>
-                    <p className={`mt-0.5 truncate text-sm ${unread ? "font-semibold text-[#10141b]" : "text-[#595e66]"}`}>
+                    <p className={`mt-0.5 truncate text-sm ${unread ? "font-semibold text-[#0d1117]" : "text-[#5b6472]"}`}>
                       {conv.lastMessage}
                     </p>
                   </div>
 
                   {/* Time + unread badge */}
                   <div className="flex shrink-0 flex-col items-end gap-1.5">
-                    <p className="text-xs text-[#8b8f96]">{timeAgo(conv.updatedAt)}</p>
+                    <p className="text-xs text-[#8b93a3]">{timeAgo(conv.updatedAt)}</p>
                     {unread ? (
                       <span className="grid h-5 min-w-[20px] place-items-center rounded-full bg-[#ff534b] px-1 text-[11px] font-bold text-white">
                         {conv.unreadCount}

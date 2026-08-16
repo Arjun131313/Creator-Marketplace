@@ -29,8 +29,8 @@ const DEFAULT_PACKAGES: [PackageForm, PackageForm, PackageForm] = [
 ]
 
 const PACKAGE_STYLES = [
-  { border: "border-[#10141b]/20", badge: "bg-[#10141b]/10 text-[#595e66]" },
-  { border: "border-[#1a54f0]", badge: "bg-[#1a54f0] text-white" },
+  { border: "border-[#0d1117]/20", badge: "bg-[#0d1117]/10 text-[#5b6472]" },
+  { border: "border-[#16255c]", badge: "bg-[#16255c] text-white" },
   { border: "border-[#feb930]", badge: "bg-[#feb930] text-[#2b1d00]" },
 ]
 
@@ -41,8 +41,8 @@ const PLATFORMS = [
 ]
 
 const inputClass =
-  "w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] placeholder:text-[#8b8f96] outline-none transition-colors focus:border-[#1a54f0]"
-const labelClass = "block text-sm font-bold text-[#10141b] mb-2"
+  "w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] placeholder:text-[#8b93a3] outline-none transition-colors focus:border-[#16255c]"
+const labelClass = "block text-sm font-bold text-[#0d1117] mb-2"
 
 export default function CreatorProfileSetupPage() {
   const router = useRouter()
@@ -270,7 +270,7 @@ export default function CreatorProfileSetupPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading your profile…</p>
+        <p className="text-[#5b6472]">Loading your profile…</p>
       </div>
     )
   }
@@ -278,32 +278,32 @@ export default function CreatorProfileSetupPage() {
   return (
     <div className="py-4">
       <div className="mb-10">
-        <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Creator onboarding</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold text-[#10141b]">Complete your profile</h1>
-        <p className="mt-2 text-[#595e66]">
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">Creator onboarding</p>
+        <h1 className="mt-2 font-display text-3xl font-extrabold text-[#0d1117]">Complete your profile</h1>
+        <p className="mt-2 text-[#5b6472]">
           Help brands discover you by filling in your profile details.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Identity */}
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Your identity</h2>
-          <p className="mt-1 text-sm text-[#595e66]">How you appear to brands on RealReach.</p>
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Your identity</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">How you appear to brands on RealReach.</p>
 
           <div className="mt-6 flex items-center gap-5">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#10141b] bg-[#f5f3ee]">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full rounded-[16px] bg-[#f7f8fa]">
               {form.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={form.avatar_url} alt="Your avatar" className="h-full w-full object-cover" />
               ) : (
-                <span className="text-2xl font-extrabold text-[#8b8f96]">
+                <span className="text-2xl font-extrabold text-[#8b93a3]">
                   {form.display_name ? form.display_name[0]?.toUpperCase() : "?"}
                 </span>
               )}
             </div>
             <div>
-              <label className="inline-flex cursor-pointer items-center border-2 border-[#10141b]/20 px-4 py-2 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b]">
+              <label className="inline-flex cursor-pointer items-center border border-[#0d1117]/[0.12] px-4 py-2 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117]">
                 {uploadingAvatar ? "Uploading…" : "Change photo"}
                 <input
                   type="file"
@@ -313,7 +313,7 @@ export default function CreatorProfileSetupPage() {
                   onChange={handleAvatarChange}
                 />
               </label>
-              <p className="mt-2 text-xs text-[#8b8f96]">JPG or PNG, up to 5MB.</p>
+              <p className="mt-2 text-xs text-[#8b93a3]">JPG or PNG, up to 5MB.</p>
             </div>
           </div>
 
@@ -363,17 +363,17 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Payout account */}
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Payout account</h2>
-          <p className="mt-1 text-sm text-[#595e66]">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Payout account</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">
             Connect a Stripe account so brands can pay you — funds are held in escrow and
             released to this account when a brand approves your work.
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-5">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-[12px] bg-[#f7f8fa] p-5">
             <div>
               {stripePayoutsEnabled ? (
-                <span className="inline-block bg-[#c8f23c] px-3 py-1 text-xs font-bold uppercase text-[#182704]">
+                <span className="inline-block bg-[#c8f23c] px-3 py-1 text-xs font-bold uppercase text-[#101a3d]">
                   Payouts enabled
                 </span>
               ) : stripeAccountId ? (
@@ -381,11 +381,11 @@ export default function CreatorProfileSetupPage() {
                   Onboarding incomplete
                 </span>
               ) : (
-                <span className="inline-block bg-[#10141b]/10 px-3 py-1 text-xs font-bold uppercase text-[#595e66]">
+                <span className="inline-block bg-[#0d1117]/10 px-3 py-1 text-xs font-bold uppercase text-[#5b6472]">
                   Not connected
                 </span>
               )}
-              <p className="mt-2 text-sm text-[#595e66]">
+              <p className="mt-2 text-sm text-[#5b6472]">
                 {stripePayoutsEnabled
                   ? "You're all set to receive payouts."
                   : stripeAccountId
@@ -398,7 +398,7 @@ export default function CreatorProfileSetupPage() {
                 type="button"
                 onClick={handleConnectStripe}
                 disabled={connectingStripe}
-                className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex shrink-0 items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {connectingStripe ? "Redirecting…" : stripeAccountId ? "Finish onboarding" : "Connect Stripe"}
               </button>
@@ -407,9 +407,9 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Platform stats */}
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Platform stats</h2>
-          <p className="mt-1 text-sm text-[#595e66]">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Platform stats</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">
             Add your follower counts so brands can evaluate your reach. There&apos;s no minimum required to join — brands hire based on fit, not just follower count.
           </p>
 
@@ -431,9 +431,9 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Packages */}
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Your packages</h2>
-          <p className="mt-1 text-sm text-[#595e66]">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Your packages</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">
             Define what brands can purchase from you at each tier.
           </p>
 
@@ -443,7 +443,7 @@ export default function CreatorProfileSetupPage() {
               return (
                 <div
                   key={index}
-                  className={`space-y-4 border-2 ${style.border} bg-[#f5f3ee] p-5`}
+                  className={`space-y-4 border ${style.border} bg-[#f1f3f7] p-5`}
                 >
                   <span
                     className={`inline-block px-3 py-1 text-xs font-bold uppercase ${style.badge}`}
@@ -477,7 +477,7 @@ export default function CreatorProfileSetupPage() {
                   <div>
                     <label className={labelClass}>Price (GBP) *</label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#595e66]">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5b6472]">
                         £
                       </span>
                       <input
@@ -499,15 +499,15 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {/* Portfolio */}
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-lg font-extrabold text-[#10141b]">Portfolio (optional)</h2>
-          <p className="mt-1 text-sm text-[#595e66]">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Portfolio (optional)</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">
             Link to your best TikTok or Instagram posts so brands can see your actual work. Up to {MAX_PORTFOLIO_LINKS} links.
           </p>
 
           <div className="mt-6 space-y-4">
             {form.content_urls.map((cu, index) => (
-              <div key={index} className="flex flex-col gap-3 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-4 sm:flex-row sm:items-center">
+              <div key={index} className="flex flex-col gap-3 rounded-[12px] bg-[#f7f8fa] p-4 sm:flex-row sm:items-center">
                 <select
                   value={cu.platform}
                   onChange={(e) => updatePortfolioLink(index, "platform", e.target.value)}
@@ -527,7 +527,7 @@ export default function CreatorProfileSetupPage() {
                 <button
                   type="button"
                   onClick={() => removePortfolioLink(index)}
-                  className="shrink-0 border-2 border-[#10141b]/20 px-4 py-3 text-sm font-bold text-[#ff534b] transition-colors hover:border-[#ff534b]"
+                  className="shrink-0 border border-[#0d1117]/[0.12] px-4 py-3 text-sm font-bold text-[#ff534b] transition-colors hover:border-[#ff534b]"
                 >
                   Remove
                 </button>
@@ -538,7 +538,7 @@ export default function CreatorProfileSetupPage() {
               <button
                 type="button"
                 onClick={addPortfolioLink}
-                className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-5 py-2.5 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b]"
+                className="inline-flex items-center justify-center border border-[#0d1117]/[0.12] px-5 py-2.5 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117]"
               >
                 + Add a link
               </button>
@@ -547,7 +547,7 @@ export default function CreatorProfileSetupPage() {
         </section>
 
         {error ? (
-          <div className="border-2 border-[#ff534b] bg-white px-5 py-4 text-sm text-[#ff534b]">
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-5 py-4 text-sm text-[#ff534b]">
             {error}
           </div>
         ) : null}
@@ -556,14 +556,14 @@ export default function CreatorProfileSetupPage() {
           <button
             type="button"
             onClick={() => router.push("/creator/dashboard")}
-            className="text-sm text-[#595e66] transition hover:text-[#10141b]"
+            className="text-sm text-[#5b6472] transition hover:text-[#0d1117]"
           >
             Skip for now
           </button>
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "Saving your profile…" : "Save and continue"}
           </button>

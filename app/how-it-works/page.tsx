@@ -102,11 +102,11 @@ const faqs = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       {/* ── Hero (ink) ────────────────────────────────────────────────────── */}
-      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
+      <section className="bg-[#0d1117] py-24 text-[#f1f3f7]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">
             No agency cut. No discovery calls. No guessing.
@@ -114,19 +114,19 @@ export default function HowItWorksPage() {
           <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
             How RealReach works.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#8891a3]">
             Four steps, start to finish — no discovery calls, no back-and-forth about budget nobody wants to say out loud. Here&apos;s exactly what happens between posting a brief and paying a creator.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/signup"
-              className="border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+              className="rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Get started free
             </Link>
             <Link
               href="/creators"
-              className="border-2 border-[#f5f3ee]/40 px-6 py-3 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
+              className="border border-white/25 px-6 py-3 text-sm font-bold text-[#f1f3f7] transition-colors hover:border-[#f1f3f7]"
             >
               Browse creators
             </Link>
@@ -135,7 +135,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ── Photo banner (paper) ─────────────────────────────────────────── */}
-      <div className="relative h-64 overflow-hidden border-b-2 border-[#10141b] sm:h-80">
+      <div className="relative h-64 overflow-hidden border-b border-[#0d1117]/[0.07] sm:h-80">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/hero-vlogger.jpg"
@@ -150,16 +150,16 @@ export default function HowItWorksPage() {
           {steps.map((step, i) => (
             <div
               key={step.number}
-              className={`flex flex-col gap-8 border-t-2 border-[#10141b]/10 pt-10 lg:flex-row lg:items-start ${
+              className={`flex flex-col gap-8 border-t border-[#0d1117]/[0.07] pt-10 lg:flex-row lg:items-start ${
                 i % 2 === 1 ? "lg:flex-row-reverse" : ""
               }`}
             >
               {/* Icon + number */}
               <div className="flex shrink-0 flex-col items-start gap-4 lg:w-48">
-                <div className="flex h-14 w-14 items-center justify-center border-2 border-[#10141b] text-[#1a54f0]">
+                <div className="flex h-14 w-14 items-center justify-center border border-[#0d1117]/[0.12] text-[#16255c]">
                   {step.icon}
                 </div>
-                <p className="font-display text-6xl font-extrabold leading-none text-[#10141b]/10">
+                <p className="font-display text-6xl font-extrabold leading-none text-[#0d1117]/10">
                   {step.number}
                 </p>
               </div>
@@ -167,18 +167,18 @@ export default function HowItWorksPage() {
               {/* Content */}
               <div className="flex-1 space-y-4">
                 <div>
-                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">
                     Step {step.number}
                   </p>
                   <h2 className="mt-1 font-display text-2xl font-extrabold">{step.title}</h2>
-                  <p className="mt-0.5 text-sm font-bold text-[#595e66]">{step.subtitle}</p>
+                  <p className="mt-0.5 text-sm font-bold text-[#5b6472]">{step.subtitle}</p>
                 </div>
-                <p className="leading-7 text-[#595e66]">{step.description}</p>
+                <p className="leading-7 text-[#5b6472]">{step.description}</p>
                 <ul className="space-y-2">
                   {step.points.map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-sm text-[#595e66]">
+                    <li key={point} className="flex items-start gap-3 text-sm text-[#5b6472]">
                       <svg
-                        className="mt-0.5 h-4 w-4 shrink-0 text-[#1a54f0]"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#16255c]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -199,36 +199,36 @@ export default function HowItWorksPage() {
       {/* ── FAQ (paper) ───────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-3xl px-6 pb-24 md:px-8">
         <div className="mb-10">
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">FAQ</p>
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">FAQ</p>
           <h2 className="mt-2 font-display text-3xl font-extrabold">Common questions</h2>
         </div>
-        <div className="divide-y-2 divide-[#10141b]/10 border-y-2 border-[#10141b]/10">
+        <div className="divide-y divide-[#0d1117]/[0.07] border-y border-[#0d1117]/[0.07]">
           {faqs.map((faq) => (
             <div key={faq.q} className="py-7">
-              <p className="font-bold text-[#10141b]">{faq.q}</p>
-              <p className="mt-2 text-sm leading-6 text-[#595e66]">{faq.a}</p>
+              <p className="font-bold text-[#0d1117]">{faq.q}</p>
+              <p className="mt-2 text-sm leading-6 text-[#5b6472]">{faq.a}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── CTA (ink) ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
+      <section className="bg-[#0d1117] py-24 text-[#f1f3f7]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Ready to get started?</h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
+          <p className="mx-auto mt-4 max-w-lg text-[#8891a3]">
             Post a brief or build a profile and see who&apos;s actually out there — both are free to start.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/signup"
-              className="border-2 border-[#10141b] bg-[#1a54f0] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
+              className="rounded-[8px] bg-[#16255c] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Sign up as a brand
             </Link>
             <Link
               href="/signup"
-              className="border-2 border-[#f5f3ee]/40 px-8 py-4 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
+              className="border border-white/25 px-8 py-4 text-sm font-bold text-[#f1f3f7] transition-colors hover:border-[#f1f3f7]"
             >
               Join as a creator
             </Link>
@@ -236,17 +236,17 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
             <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
-            <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
-            <Link href="/terms" className="hover:text-[#f5f3ee]">Terms</Link>
-            <Link href="/privacy" className="hover:text-[#f5f3ee]">Privacy</Link>
+            <Link href="/creators" className="hover:text-[#f1f3f7]">Browse Creators</Link>
+            <Link href="/help" className="hover:text-[#f1f3f7]">Help Center</Link>
+            <Link href="/terms" className="hover:text-[#f1f3f7]">Terms</Link>
+            <Link href="/privacy" className="hover:text-[#f1f3f7]">Privacy</Link>
           </div>
           <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>

@@ -119,14 +119,14 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading job details…</p>
+        <p className="text-[#5b6472]">Loading job details…</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="border-2 border-[#ff534b] bg-white p-10 text-[#ff534b]">
+      <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-10 text-[#ff534b]">
         {error}
       </div>
     )
@@ -134,13 +134,13 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-8">
-      <section className="border-2 border-[#10141b] bg-white p-8">
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#1a54f0]">Job details</p>
-            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#10141b]">{job?.title}</h1>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#16255c]">Job details</p>
+            <h1 className="mt-2 font-display text-3xl font-extrabold text-[#0d1117]">{job?.title}</h1>
           </div>
-          <div className="text-right text-sm text-[#595e66]">
+          <div className="text-right text-sm text-[#5b6472]">
             <p>Status: {job?.status}</p>
             <p>Budget: £{job?.budget.toFixed(2)}</p>
             <p>{job?.deadline ? `Deadline ${new Date(job.deadline).toLocaleDateString("en-GB")}` : "No deadline"}</p>
@@ -150,16 +150,16 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
         {job?.content_type || job?.platform || job?.video_duration || job?.language || job?.requires_shipping ? (
           <div className="mt-6 flex flex-wrap gap-2">
             {job.platform ? (
-              <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{job.platform}</span>
+              <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#101a3d]">{job.platform}</span>
             ) : null}
             {job.content_type ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.content_type}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.content_type}</span>
             ) : null}
             {job.video_duration ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.video_duration}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.video_duration}</span>
             ) : null}
             {job.language ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.language}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.language}</span>
             ) : null}
             {job.requires_shipping ? (
               <span className="bg-[#feb930] px-2.5 py-1 text-[11px] font-bold uppercase text-[#2b1d00]">Ships product</span>
@@ -167,35 +167,35 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
           </div>
         ) : null}
 
-        <div className="mt-6 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
-          <p className="text-sm leading-7 text-[#10141b]">{job?.description}</p>
+        <div className="mt-6 rounded-[12px] bg-[#f7f8fa] p-6">
+          <p className="text-sm leading-7 text-[#0d1117]">{job?.description}</p>
         </div>
 
         {job?.talking_points ? (
           <div className="mt-4">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">Key talking points</p>
-            <p className="mt-2 text-sm leading-6 text-[#10141b]">{job.talking_points}</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">Key talking points</p>
+            <p className="mt-2 text-sm leading-6 text-[#0d1117]">{job.talking_points}</p>
           </div>
         ) : null}
       </section>
 
-      <section className="border-2 border-[#10141b] bg-white p-8">
-        <h2 className="font-display text-xl font-extrabold text-[#10141b]">Submit your application</h2>
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+        <h2 className="font-display text-xl font-extrabold text-[#0d1117]">Submit your application</h2>
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Pitch</span>
+              <span className="text-sm font-bold text-[#0d1117]">Pitch</span>
               <textarea
                 required
                 value={pitch}
                 onChange={(event) => setPitch(event.target.value)}
-                className="mt-2 min-h-[160px] w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+                className="mt-2 min-h-[160px] w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-bold text-[#10141b]">Proposed rate (GBP)</span>
+              <span className="text-sm font-bold text-[#0d1117]">Proposed rate (GBP)</span>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#595e66]">£</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5b6472]">£</span>
                 <input
                   type="number"
                   min="0"
@@ -203,21 +203,21 @@ export default function CreatorJobDetailPage({ params }: { params: Promise<{ id:
                   placeholder="Optional"
                   value={rate}
                   onChange={(event) => setRate(event.target.value)}
-                  className="mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] py-3 pl-8 pr-4 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+                  className="mt-2 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white py-3 pl-8 pr-4 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
                 />
               </div>
             </label>
           </div>
 
           {error ? (
-            <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
+            <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-4 py-3 text-sm text-[#ff534b]">
               {error}
             </div>
           ) : null}
 
           <button
             disabled={submitting}
-            className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? "Submitting application…" : "Submit application"}
           </button>

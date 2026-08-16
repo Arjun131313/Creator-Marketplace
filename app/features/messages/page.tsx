@@ -30,23 +30,23 @@ const CAPABILITIES = [
 
 export default function MessagesFeaturePage() {
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       {/* Hero */}
-      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
+      <section className="bg-[#0d1117] py-24 text-[#f1f3f7]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#c8f23c]">Messages</p>
           <h1 className="mt-4 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
             Every conversation, and the money, in one place.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#a8adb6]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#8891a3]">
             Brief, negotiate, deliver, and get paid without the thread scattering across four apps. Escrow status shows up
             right inside the conversation it belongs to.
           </p>
           <Link
             href="/signup"
-            className="mt-10 inline-block border-2 border-[#10141b] bg-[#1a54f0] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="mt-10 inline-block rounded-[8px] bg-[#16255c] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Get started
           </Link>
@@ -60,22 +60,22 @@ export default function MessagesFeaturePage() {
             <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
               Stop running a campaign out of four different apps.
             </h2>
-            <p className="mt-4 max-w-lg leading-7 text-[#595e66]">
+            <p className="mt-4 max-w-lg leading-7 text-[#5b6472]">
               Most creator work falls apart in the admin, not the content. A rate agreed in a DM, a revision requested over
               email, an invoice chased on WhatsApp — then someone leaves and nobody can reconstruct what was agreed.
             </p>
-            <p className="mt-4 max-w-lg leading-7 text-[#595e66]">
+            <p className="mt-4 max-w-lg leading-7 text-[#5b6472]">
               On RealReach the conversation and the transaction are the same record.
             </p>
           </div>
 
-          <div className="border-2 border-[#10141b] bg-white">
-            <p className="border-b-2 border-[#10141b] bg-[#ff534b] p-5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-white">
+          <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05]">
+            <p className="border-b border-[#0d1117]/[0.07] bg-[#ff534b] p-5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-white">
               What this replaces
             </p>
-            <ul className="divide-y-2 divide-[#10141b]/10">
+            <ul className="divide-y divide-[#0d1117]/[0.07]">
               {REPLACES.map((r) => (
-                <li key={r} className="flex items-center gap-3 p-5 text-sm text-[#595e66]">
+                <li key={r} className="flex items-center gap-3 p-5 text-sm text-[#5b6472]">
                   <span className="font-display text-lg font-extrabold text-[#ff534b]">✕</span>
                   <span>{r}</span>
                 </li>
@@ -89,11 +89,11 @@ export default function MessagesFeaturePage() {
       <section className="bg-white py-20">
         <div className="mx-auto max-w-[1400px] px-5 md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">What&apos;s in the inbox</h2>
-          <div className="mt-10 grid gap-px border border-[#10141b]/10 bg-[#10141b]/10 sm:grid-cols-2">
+          <div className="mt-10 grid gap-px border border-[#0d1117]/10 bg-[#0d1117]/10 sm:grid-cols-2">
             {CAPABILITIES.map((c) => (
               <div key={c.title} className="bg-white p-7">
                 <h3 className="font-display text-xl font-extrabold">{c.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#595e66]">{c.body}</p>
+                <p className="mt-3 text-sm leading-6 text-[#5b6472]">{c.body}</p>
               </div>
             ))}
           </div>
@@ -102,39 +102,39 @@ export default function MessagesFeaturePage() {
 
       {/* Escrow callout */}
       <section className="mx-auto max-w-[1400px] px-5 py-20 md:px-8">
-        <div className="border-2 border-[#10141b] bg-[#c8f23c]/15 p-10">
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#182704]">Why it matters</p>
+        <div className="rounded-[8px] bg-[#c8f23c]/15 p-10">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#101a3d]">Why it matters</p>
           <h2 className="mt-3 max-w-3xl font-display text-2xl font-extrabold sm:text-3xl">
             The most common argument in creator work is &ldquo;when am I getting paid?&rdquo; — so we put the answer in the thread.
           </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#595e66]">
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5b6472]">
             Once a brand hires a creator, the escrowed amount appears as a banner in their conversation and updates the
             moment it&apos;s released. Both sides are looking at the same status, in the same place they&apos;re already talking.
             No screenshots of payment confirmations, no chasing.
           </p>
-          <Link href="/how-it-works" className="mt-6 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
+          <Link href="/how-it-works" className="mt-6 inline-block text-sm font-bold text-[#16255c] hover:underline">
             See how escrow works →
           </Link>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-[#10141b] py-24 text-[#f5f3ee]">
+      <section className="bg-[#0d1117] py-24 text-[#f1f3f7]">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
           <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Start a conversation.</h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#a8adb6]">
+          <p className="mx-auto mt-4 max-w-lg text-[#8891a3]">
             Message a creator before you hire, or reply to a brand before you apply. Free either way.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/creators"
-              className="border-2 border-[#10141b] bg-[#1a54f0] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
+              className="rounded-[8px] bg-[#16255c] px-8 py-4 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Browse creators
             </Link>
             <Link
               href="/signup"
-              className="border-2 border-[#f5f3ee]/40 px-8 py-4 text-sm font-bold text-[#f5f3ee] transition-colors hover:border-[#f5f3ee]"
+              className="border border-white/25 px-8 py-4 text-sm font-bold text-[#f1f3f7] transition-colors hover:border-[#f1f3f7]"
             >
               Create an account
             </Link>
@@ -142,16 +142,16 @@ export default function MessagesFeaturePage() {
         </div>
       </section>
 
-      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
             <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
-            <Link href="/pricing" className="hover:text-[#f5f3ee]">Pricing</Link>
-            <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
+            <Link href="/how-it-works" className="hover:text-[#f1f3f7]">How it Works</Link>
+            <Link href="/pricing" className="hover:text-[#f1f3f7]">Pricing</Link>
+            <Link href="/help" className="hover:text-[#f1f3f7]">Help Center</Link>
           </div>
           <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>

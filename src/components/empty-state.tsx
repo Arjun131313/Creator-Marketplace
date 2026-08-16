@@ -37,22 +37,22 @@ export default function EmptyState({ title, body, icon, action, secondary }: Emp
         className="pointer-events-none absolute inset-0 opacity-70"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(26,84,240,0.07), transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(22,37,92,0.06), transparent 70%)",
         }}
       />
 
       <div className="relative">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#10141b]/10 bg-[#f5f3ee] text-[#1a54f0] shadow-[var(--elev-1)]">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[var(--radius-md)] border border-[#0d1117]/10 bg-[#f1f3f7] text-[#16255c] shadow-[var(--elev-1)]">
           {icon ?? <DefaultIcon />}
         </div>
 
-        <h3 className="mt-5 font-display text-xl font-extrabold text-[#10141b]">{title}</h3>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#595e66]">{body}</p>
+        <h3 className="mt-5 font-display text-xl font-extrabold text-[#0d1117]">{title}</h3>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#5b6472]">{body}</p>
 
         {action ? (
           <Link
             href={action.href}
-            className="mt-6 inline-flex items-center justify-center rounded-[var(--radius-sm)] border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white shadow-[var(--elev-1)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--elev-2)]"
+            className="mt-6 inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white shadow-[var(--elev-1)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--elev-2)]"
           >
             {action.label}
           </Link>
@@ -60,7 +60,7 @@ export default function EmptyState({ title, body, icon, action, secondary }: Emp
 
         {secondary ? (
           <p className="mt-4 text-sm">
-            <Link href={secondary.href} className="font-bold text-[#1a54f0] hover:underline">
+            <Link href={secondary.href} className="font-bold text-[#16255c] hover:underline">
               {secondary.label}
             </Link>
           </p>

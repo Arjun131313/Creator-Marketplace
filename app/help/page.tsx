@@ -74,15 +74,15 @@ const SECTIONS = [
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">Help Center</p>
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#16255c]">Help Center</p>
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
           How can we help?
         </h1>
-        <p className="mt-4 max-w-xl text-lg leading-8 text-[#595e66]">
+        <p className="mt-4 max-w-xl text-lg leading-8 text-[#5b6472]">
           Answers to common questions for brands and creators. Can&apos;t find what you need? Reach
           out and we&apos;ll get back to you.
         </p>
@@ -91,11 +91,11 @@ export default function HelpPage() {
           {SECTIONS.map((section) => (
             <div key={section.title}>
               <h2 className="mb-5 font-display text-2xl font-extrabold">{section.title}</h2>
-              <div className="divide-y-2 divide-[#10141b]/10 border-y-2 border-[#10141b]/10">
+              <div className="divide-y divide-[#0d1117]/[0.07] border-y border-[#0d1117]/[0.07]">
                 {section.items.map((item) => (
                   <div key={item.q} className="py-6">
-                    <p className="font-bold text-[#10141b]">{item.q}</p>
-                    <p className="mt-2 leading-7 text-[#595e66]">{item.a}</p>
+                    <p className="font-bold text-[#0d1117]">{item.q}</p>
+                    <p className="mt-2 leading-7 text-[#5b6472]">{item.a}</p>
                   </div>
                 ))}
               </div>
@@ -103,34 +103,34 @@ export default function HelpPage() {
           ))}
         </div>
 
-        <div className="mt-16 border-2 border-[#10141b] bg-white p-8 text-center">
+        <div className="mt-16 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8 text-center">
           <h2 className="font-display text-2xl font-extrabold">Still need help?</h2>
-          <p className="mx-auto mt-2 max-w-md text-[#595e66]">
+          <p className="mx-auto mt-2 max-w-md text-[#5b6472]">
             Email us and we&apos;ll get back to you as soon as we can.
           </p>
           <a
             href="mailto:hello@realreachagency.com"
-            className="mt-6 inline-block border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="mt-6 inline-block rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             hello@realreachagency.com
           </a>
         </div>
 
         <p className="mt-10 text-sm">
-          <Link href="/how-it-works" className="font-bold text-[#1a54f0] hover:underline">
+          <Link href="/how-it-works" className="font-bold text-[#16255c] hover:underline">
             See the full how-it-works guide →
           </Link>
         </p>
       </main>
 
-      <footer className="border-t-2 border-[#10141b]/10 bg-[#f5f3ee] px-6 py-10 text-[#595e66]">
+      <footer className="border-t border-[#0d1117]/[0.07] bg-[#f1f3f7] px-6 py-10 text-[#5b6472]">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-6">
-          <Link href="/" className="font-display text-lg font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+          <Link href="/" className="font-display text-lg font-extrabold text-[#0d1117] transition hover:text-[#16255c]">
             RealReach.
           </Link>
           <div className="flex flex-wrap items-center gap-6 text-sm">
-            <Link href="/terms" className="transition hover:text-[#10141b]">Terms</Link>
-            <Link href="/privacy" className="transition hover:text-[#10141b]">Privacy</Link>
+            <Link href="/terms" className="transition hover:text-[#0d1117]">Terms</Link>
+            <Link href="/privacy" className="transition hover:text-[#0d1117]">Privacy</Link>
           </div>
         </div>
       </footer>

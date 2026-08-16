@@ -146,10 +146,10 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f5f3ee]">
+      <div className="min-h-screen bg-[#f1f3f7]">
         <PublicNav />
         <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-[#595e66]">Loading lesson…</p>
+          <p className="text-[#5b6472]">Loading lesson…</p>
         </div>
       </div>
     )
@@ -157,10 +157,10 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
 
   if (error || !lesson) {
     return (
-      <div className="min-h-screen bg-[#f5f3ee]">
+      <div className="min-h-screen bg-[#f1f3f7]">
         <PublicNav />
         <div className="mx-auto max-w-2xl px-6 py-16">
-          <div className="border-2 border-[#ff534b] bg-white p-8 text-[#ff534b]">{error ?? "Lesson not found."}</div>
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-8 text-[#ff534b]">{error ?? "Lesson not found."}</div>
         </div>
       </div>
     )
@@ -169,104 +169,104 @@ export default function AcademyLessonPage({ params }: { params: Promise<{ id: st
   const isOwnLesson = lesson.creator_id === userId
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <Link href="/academy" className="text-sm font-bold text-[#1a54f0] hover:underline">
+        <Link href="/academy" className="text-sm font-bold text-[#16255c] hover:underline">
           ← Back to Academy
         </Link>
 
         <div className="mt-6 flex flex-wrap items-center gap-2">
           {lesson.category ? (
-            <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{lesson.category}</span>
+            <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#101a3d]">{lesson.category}</span>
           ) : null}
         </div>
 
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight">{lesson.title}</h1>
 
-        <div className="mt-6 border-2 border-[#10141b]/10 bg-white p-6">
-          <p className="whitespace-pre-line text-sm leading-7 text-[#10141b]">{lesson.description}</p>
+        <div className="mt-6 rounded-[12px] bg-white ring-1 ring-[#0d1117]/[0.05] p-6">
+          <p className="whitespace-pre-line text-sm leading-7 text-[#0d1117]">{lesson.description}</p>
         </div>
 
         {/* About the teacher */}
         <Link
           href={`/creators/${lesson.creator_id}`}
-          className="mt-6 flex items-start gap-4 border-2 border-[#10141b]/10 bg-white p-6 transition-colors hover:bg-[#eae8e1]/40"
+          className="mt-6 flex items-start gap-4 rounded-[12px] bg-white ring-1 ring-[#0d1117]/[0.05] p-6 transition-colors hover:bg-[#e4e7ee]/40"
         >
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#eae8e1]">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#e4e7ee]">
             {lesson.teacher_avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={lesson.teacher_avatar} alt={lesson.teacher_name} className="h-full w-full object-cover" />
             ) : (
-              <span className="text-lg font-bold text-[#595e66]">{lesson.teacher_name[0]?.toUpperCase()}</span>
+              <span className="text-lg font-bold text-[#5b6472]">{lesson.teacher_name[0]?.toUpperCase()}</span>
             )}
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="font-display text-lg font-extrabold text-[#10141b]">{lesson.teacher_name}</p>
+              <p className="font-display text-lg font-extrabold text-[#0d1117]">{lesson.teacher_name}</p>
               <span className={`px-2 py-0.5 text-[10px] font-bold uppercase ${getCreatorTier(lesson.teacher_review_count, lesson.teacher_avg_rating).className}`}>
                 {getCreatorTier(lesson.teacher_review_count, lesson.teacher_avg_rating).label}
               </span>
             </div>
-            <p className="mt-0.5 text-xs font-bold uppercase tracking-wide text-[#8b8f96]">
+            <p className="mt-0.5 text-xs font-bold uppercase tracking-wide text-[#8b93a3]">
               {lesson.teacher_niche ?? "Content creator"}
               {lesson.teacher_review_count > 0 ? ` · ${lesson.teacher_avg_rating?.toFixed(1)} ★ (${lesson.teacher_review_count} review${lesson.teacher_review_count !== 1 ? "s" : ""})` : ""}
             </p>
             {lesson.teacher_bio ? (
-              <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#595e66]">{lesson.teacher_bio}</p>
+              <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#5b6472]">{lesson.teacher_bio}</p>
             ) : null}
-            <p className="mt-2 text-xs font-bold text-[#1a54f0]">View full profile →</p>
+            <p className="mt-2 text-xs font-bold text-[#16255c]">View full profile →</p>
           </div>
         </Link>
 
         {purchaseStatus === "success" && !hasAccess ? (
-          <div className="mt-6 border-2 border-[#feb930] bg-[#feb930]/10 p-4 text-sm text-[#2b1d00]">
+          <div className="mt-6 rounded-[12px] bg-[#feb930]/15 p-4 text-sm text-[#2b1d00]">
             Payment received — this can take a few seconds to confirm. Refresh in a moment to unlock the lesson.
           </div>
         ) : null}
 
-        <div className="mt-6 border-2 border-[#10141b] bg-white p-6">
+        <div className="mt-6 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6">
           {isOwnLesson ? (
             <>
-              <p className="text-sm font-bold text-[#10141b]">This is your lesson</p>
+              <p className="text-sm font-bold text-[#0d1117]">This is your lesson</p>
               {contentUrl ? (
-                <a href={contentUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-sm font-bold text-[#1a54f0] underline">
+                <a href={contentUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-sm font-bold text-[#16255c] underline">
                   View content link
                 </a>
               ) : (
-                <p className="mt-2 text-sm text-[#595e66]">No content link set yet.</p>
+                <p className="mt-2 text-sm text-[#5b6472]">No content link set yet.</p>
               )}
             </>
           ) : hasAccess ? (
             <>
-              <p className="text-sm font-bold text-[#182704]">You own this lesson</p>
+              <p className="text-sm font-bold text-[#101a3d]">You own this lesson</p>
               {contentUrl ? (
                 <a
                   href={contentUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-3 inline-flex items-center justify-center border-2 border-[#10141b] bg-[#c8f23c] px-5 py-2.5 text-sm font-bold text-[#182704] transition-opacity hover:opacity-90"
+                  className="mt-3 inline-flex items-center justify-center rounded-[8px] bg-[#c8f23c] px-5 py-2.5 text-sm font-bold text-[#101a3d] transition-opacity hover:opacity-90"
                 >
                   Open lesson content
                 </a>
               ) : (
-                <p className="mt-2 text-sm text-[#595e66]">Content link unavailable — contact support.</p>
+                <p className="mt-2 text-sm text-[#5b6472]">Content link unavailable — contact support.</p>
               )}
             </>
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="font-display text-3xl font-extrabold text-[#1a54f0]">£{lesson.price.toLocaleString()}</span>
+                <span className="font-display text-3xl font-extrabold text-[#16255c]">£{lesson.price.toLocaleString()}</span>
                 <button
                   onClick={handleBuy}
                   disabled={buying}
-                  className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {buying ? "Redirecting…" : "Buy this lesson"}
                 </button>
               </div>
-              <p className="mt-3 text-xs text-[#8b8f96]">
+              <p className="mt-3 text-xs text-[#8b93a3]">
                 Instant access once payment goes through — no escrow wait, this isn&apos;t a delivered job.
               </p>
             </>

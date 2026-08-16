@@ -40,7 +40,7 @@ export default function MessagesNavLink() {
   return (
     <Link
       href="/messages"
-      className="relative border-2 border-[#10141b] px-4 py-2 text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+      className="relative border border-[#0d1117]/[0.12] px-4 py-2 text-[#0d1117] transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
     >
       Messages
       {unreadCount > 0 ? (

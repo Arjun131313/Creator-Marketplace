@@ -31,9 +31,9 @@ type PaymentStatus = "pending" | "held" | "released" | "refunded" | "disputed"
 
 const PAYMENT_BADGE: Record<PaymentStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  held: "bg-[#1a54f0] text-white",
-  released: "bg-[#c8f23c] text-[#182704]",
-  refunded: "bg-[#10141b]/10 text-[#595e66]",
+  held: "bg-[#16255c] text-white",
+  released: "bg-[#c8f23c] text-[#101a3d]",
+  refunded: "bg-[#0d1117]/10 text-[#5b6472]",
   disputed: "bg-[#ff534b] text-white",
 }
 
@@ -47,9 +47,9 @@ const PAYMENT_LABEL: Record<PaymentStatus, string> = {
 
 const STATUS_BADGE: Record<string, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  accepted: "bg-[#c8f23c] text-[#182704]",
+  accepted: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  withdrawn: "bg-[#10141b]/10 text-[#595e66]",
+  withdrawn: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 type SubmissionStatus = "pending" | "approved" | "rejected" | "revision_requested"
@@ -64,9 +64,9 @@ type Submission = {
 
 const SUBMISSION_BADGE: Record<SubmissionStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  approved: "bg-[#c8f23c] text-[#182704]",
+  approved: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  revision_requested: "bg-[#1a54f0] text-white",
+  revision_requested: "bg-[#16255c] text-white",
 }
 
 const SUBMISSION_LABEL: Record<SubmissionStatus, string> = {
@@ -89,8 +89,8 @@ type Dispute = {
 const DISPUTE_BADGE: Record<DisputeStatus, string> = {
   open: "bg-[#ff534b] text-white",
   under_review: "bg-[#feb930] text-[#2b1d00]",
-  resolved: "bg-[#c8f23c] text-[#182704]",
-  closed: "bg-[#10141b]/10 text-[#595e66]",
+  resolved: "bg-[#c8f23c] text-[#101a3d]",
+  closed: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 const DISPUTE_LABEL: Record<DisputeStatus, string> = {
@@ -427,14 +427,14 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading applications…</p>
+        <p className="text-[#5b6472]">Loading applications…</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="border-2 border-[#ff534b] bg-white p-8 text-[#ff534b]">
+      <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-8 text-[#ff534b]">
         {error}
       </div>
     )
@@ -443,33 +443,33 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
   return (
     <div className="space-y-8">
       {/* Job header */}
-      <section className="border-2 border-[#10141b] bg-white p-8">
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             <Link
               href="/brand/jobs"
-              className="text-sm font-bold text-[#1a54f0] transition hover:underline"
+              className="text-sm font-bold text-[#16255c] transition hover:underline"
             >
               ← Back to jobs
             </Link>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#5b6472]">
               Applications
             </p>
-            <h1 className="font-display text-3xl font-extrabold text-[#10141b]">{job?.title}</h1>
+            <h1 className="font-display text-3xl font-extrabold text-[#0d1117]">{job?.title}</h1>
           </div>
-          <div className="flex flex-col items-end gap-2 text-sm text-[#595e66]">
+          <div className="flex flex-col items-end gap-2 text-sm text-[#5b6472]">
             <p>
               Status:{" "}
-              <span className="font-bold text-[#10141b]">{job?.status?.replace("_", " ")}</span>
+              <span className="font-bold text-[#0d1117]">{job?.status?.replace("_", " ")}</span>
             </p>
             <p>
               Budget:{" "}
-              <span className="font-bold text-[#10141b]">£{job?.budget.toLocaleString()}</span>
+              <span className="font-bold text-[#0d1117]">£{job?.budget.toLocaleString()}</span>
             </p>
             {job?.deadline ? (
               <p>
                 Deadline:{" "}
-                <span className="font-bold text-[#10141b]">
+                <span className="font-bold text-[#0d1117]">
                   {new Date(job.deadline).toLocaleDateString("en-GB")}
                 </span>
               </p>
@@ -479,16 +479,16 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
         {/* Review CTA */}
         {hasAccepted ? (
-          <div className="mt-6 flex items-center gap-4 border-2 border-[#c8f23c] bg-[#c8f23c]/15 px-5 py-4">
+          <div className="mt-6 flex items-center gap-4 rounded-[12px] bg-[#c8f23c]/20 px-5 py-4">
             <div className="flex-1">
-              <p className="text-sm font-bold text-[#182704]">Ready to leave a review?</p>
-              <p className="mt-0.5 text-xs text-[#595e66]">
+              <p className="text-sm font-bold text-[#101a3d]">Ready to leave a review?</p>
+              <p className="mt-0.5 text-xs text-[#5b6472]">
                 You have accepted creators on this job. Share your experience to help the community.
               </p>
             </div>
             <Link
               href={`/brand/jobs/${jobId}`}
-              className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
+              className="inline-flex shrink-0 items-center justify-center rounded-[8px] bg-[#16255c] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
             >
               Leave a review
             </Link>
@@ -498,35 +498,35 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
       {/* Applications + summary */}
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-        <section className="border-2 border-[#10141b] bg-white p-8">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="font-display text-xl font-extrabold text-[#10141b]">Applications</h2>
-            <p className="text-sm text-[#595e66]">{statusSummary.total} total</p>
+            <h2 className="font-display text-xl font-extrabold text-[#0d1117]">Applications</h2>
+            <p className="text-sm text-[#5b6472]">{statusSummary.total} total</p>
           </div>
 
           <div className="mt-6 space-y-4">
             {applications.length === 0 ? (
-              <div className="border-2 border-dashed border-[#10141b]/20 p-8 text-center text-[#595e66]">
+              <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-8 text-center text-[#5b6472]">
                 No applications yet for this job.
               </div>
             ) : (
               applications.map((application) => (
                 <div
                   key={application.id}
-                  className="border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6"
+                  className="rounded-[12px] bg-[#f7f8fa] p-6"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-lg font-bold text-[#10141b]">
+                      <p className="text-lg font-bold text-[#0d1117]">
                         {application.creator_name || "Creator"}
                       </p>
-                      <p className="mt-1 text-sm text-[#8b8f96]">
+                      <p className="mt-1 text-sm text-[#8b93a3]">
                         {new Date(application.created_at).toLocaleDateString("en-GB")}
                       </p>
                     </div>
                     <span
                       className={`inline-block px-3 py-1 text-xs font-bold uppercase ${
-                        STATUS_BADGE[application.status] ?? "bg-[#10141b]/10 text-[#595e66]"
+                        STATUS_BADGE[application.status] ?? "bg-[#0d1117]/10 text-[#5b6472]"
                       }`}
                     >
                       {application.status}
@@ -535,16 +535,16 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
 
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <div>
-                      <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">
+                      <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">
                         Pitch
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-[#10141b]">{application.pitch}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#0d1117]">{application.pitch}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">
+                      <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">
                         Proposed rate
                       </p>
-                      <p className="mt-2 text-sm text-[#10141b]">
+                      <p className="mt-2 text-sm text-[#0d1117]">
                         {application.proposed_rate
                           ? `£${application.proposed_rate.toLocaleString()}`
                           : "Not specified"}
@@ -557,14 +557,14 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                       <button
                         disabled={actionLoading === application.id}
                         onClick={() => handleApplicationAction(application.id, "accepted")}
-                        className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#182704] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center justify-center rounded-[8px] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#101a3d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         Accept
                       </button>
                       <button
                         disabled={actionLoading === application.id}
                         onClick={() => handleApplicationAction(application.id, "rejected")}
-                        className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-4 py-2 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b] disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center justify-center border border-[#0d1117]/[0.12] px-4 py-2 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117] disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         Reject
                       </button>
@@ -572,12 +572,12 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                   ) : null}
 
                   {application.status === "accepted" && job?.requires_shipping ? (
-                    <div className="mt-5 border-2 border-[#feb930]/40 bg-[#feb930]/10 p-4">
+                    <div className="mt-5 rounded-[12px] bg-[#feb930]/15 p-4">
                       <p className="text-sm font-bold text-[#2b1d00]">Shipping address</p>
                       {application.shipping_address ? (
-                        <p className="mt-1 whitespace-pre-line text-sm text-[#10141b]">{application.shipping_address}</p>
+                        <p className="mt-1 whitespace-pre-line text-sm text-[#0d1117]">{application.shipping_address}</p>
                       ) : (
-                        <p className="mt-1 text-sm text-[#595e66]">Waiting for the creator to add their shipping address.</p>
+                        <p className="mt-1 text-sm text-[#5b6472]">Waiting for the creator to add their shipping address.</p>
                       )}
                     </div>
                   ) : null}
@@ -597,7 +597,7 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                           <button
                             disabled={payingId === application.id}
                             onClick={() => handlePay(application.id)}
-                            className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             {payingId === application.id ? "Redirecting to payment…" : "Pay & hire"}
                           </button>
@@ -627,18 +627,18 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                       </div>
 
                       {disputeFormOpenFor === application.id ? (
-                        <div className="space-y-2 border-2 border-[#ff534b]/40 bg-[#ff534b]/5 p-4">
+                        <div className="space-y-2 rounded-[12px] bg-[#ff534b]/[0.07] p-4">
                           <textarea
                             rows={2}
                             placeholder="Explain what's gone wrong — this is visible to RealReach and freezes this payment until resolved."
                             value={disputeReasons[application.id] ?? ""}
                             onChange={(e) => setDisputeReasons((prev) => ({ ...prev, [application.id]: e.target.value }))}
-                            className="w-full border-2 border-[#10141b]/20 bg-white px-3 py-2 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#ff534b]"
+                            className="w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-3 py-2 text-sm text-[#0d1117] outline-none placeholder:text-[#8b93a3] focus:border-[#ff534b]"
                           />
                           <button
                             disabled={raisingDisputeFor === application.id || !disputeReasons[application.id]?.trim()}
                             onClick={() => handleRaiseDispute(application.id)}
-                            className="inline-flex items-center justify-center border-2 border-[#ff534b] bg-[#ff534b] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="inline-flex items-center justify-center rounded-[8px] bg-[#ff534b] px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             {raisingDisputeFor === application.id ? "Submitting…" : "Submit dispute"}
                           </button>
@@ -648,13 +648,13 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                   ) : null}
 
                   {application.status === "accepted" && submissionsByApplication[application.id] ? (
-                    <div className="mt-5 border-2 border-[#10141b]/10 bg-white p-5">
+                    <div className="mt-5 rounded-[12px] bg-white ring-1 ring-[#0d1117]/[0.05] p-5">
                       {(() => {
                         const submission = submissionsByApplication[application.id]
                         return (
                           <>
                             <div className="flex flex-wrap items-center justify-between gap-3">
-                              <p className="text-sm font-bold text-[#10141b]">Submitted content</p>
+                              <p className="text-sm font-bold text-[#0d1117]">Submitted content</p>
                               <span
                                 className={`inline-block px-3 py-1 text-xs font-bold uppercase ${SUBMISSION_BADGE[submission.status]}`}
                               >
@@ -665,13 +665,13 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                               href={submission.content_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="mt-2 inline-block text-sm text-[#1a54f0] underline"
+                              className="mt-2 inline-block text-sm text-[#16255c] underline"
                             >
                               View submitted content
                             </a>
                             {submission.notes ? (
-                              <p className="mt-2 text-sm text-[#595e66]">
-                                <span className="font-bold text-[#10141b]">Creator notes: </span>
+                              <p className="mt-2 text-sm text-[#5b6472]">
+                                <span className="font-bold text-[#0d1117]">Creator notes: </span>
                                 {submission.notes}
                               </p>
                             ) : null}
@@ -685,35 +685,35 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
                                   onChange={(event) =>
                                     setReviewNotes((prev) => ({ ...prev, [application.id]: event.target.value }))
                                   }
-                                  className="w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-2.5 text-sm text-[#10141b] outline-none placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                                  className="w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-2.5 text-sm text-[#0d1117] outline-none placeholder:text-[#8b93a3] focus:border-[#16255c]"
                                 />
                                 <div className="flex flex-wrap gap-3">
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "approved")}
-                                    className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#182704] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center rounded-[8px] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#101a3d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Approve &amp; release payment
                                   </button>
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "revision_requested")}
-                                    className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Request revision
                                   </button>
                                   <button
                                     disabled={reviewingId === application.id}
                                     onClick={() => handleReview(application.id, "rejected")}
-                                    className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-4 py-2 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b] disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center justify-center border border-[#0d1117]/[0.12] px-4 py-2 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117] disabled:cursor-not-allowed disabled:opacity-60"
                                   >
                                     Reject
                                   </button>
                                 </div>
                               </div>
                             ) : submission.reviewer_notes ? (
-                              <p className="mt-3 text-sm text-[#595e66]">
-                                <span className="font-bold text-[#10141b]">Your feedback: </span>
+                              <p className="mt-3 text-sm text-[#5b6472]">
+                                <span className="font-bold text-[#0d1117]">Your feedback: </span>
                                 {submission.reviewer_notes}
                               </p>
                             ) : null}
@@ -728,8 +728,8 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
           </div>
         </section>
 
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h3 className="font-display text-xl font-extrabold text-[#10141b]">Summary</h3>
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h3 className="font-display text-xl font-extrabold text-[#0d1117]">Summary</h3>
           <div className="mt-6 space-y-3">
             {[
               { label: "Pending", value: statusSummary.pending },
@@ -738,18 +738,18 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
             ].map(({ label, value }) => (
               <div
                 key={label}
-                className="flex items-center justify-between border-2 border-[#10141b]/10 px-5 py-4"
+                className="flex items-center justify-between border border-[#0d1117]/[0.07] px-5 py-4"
               >
-                <p className="text-sm text-[#595e66]">{label}</p>
-                <p className="font-bold text-[#10141b]">{value}</p>
+                <p className="text-sm text-[#5b6472]">{label}</p>
+                <p className="font-bold text-[#0d1117]">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 border-t-2 border-[#10141b]/10 pt-6">
+          <div className="mt-6 border-t border-[#0d1117]/[0.07] pt-6">
             <Link
               href={`/brand/jobs/${jobId}`}
-              className="block w-full border-2 border-[#10141b]/20 px-4 py-3 text-center text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b]"
+              className="block w-full border border-[#0d1117]/[0.12] px-4 py-3 text-center text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117]"
             >
               View job detail
             </Link>

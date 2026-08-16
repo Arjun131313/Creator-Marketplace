@@ -30,8 +30,8 @@ type EscrowPayment = {
 
 const AVATAR_COLORS = [
   { bg: "#ff534b", text: "#fff6f5" },
-  { bg: "#1a54f0", text: "#f2f5fc" },
-  { bg: "#c8f23c", text: "#182704" },
+  { bg: "#16255c", text: "#f2f5fc" },
+  { bg: "#c8f23c", text: "#101a3d" },
   { bg: "#feb930", text: "#2b1d00" },
 ]
 
@@ -308,16 +308,16 @@ export default function MessageConversationPage({
   const otherColor = avatarColor(otherName)
 
   return (
-    <div className="flex h-screen flex-col bg-[#f5f3ee] text-[#10141b]">
+    <div className="flex h-screen flex-col bg-[#f1f3f7] text-[#0d1117]">
       {/* Top nav */}
-      <header className="shrink-0 border-b-2 border-[#10141b] bg-[#f5f3ee]/95 backdrop-blur-md">
+      <header className="shrink-0 border-b border-[#0d1117]/[0.07] bg-[#f1f3f7]/95 backdrop-blur-md">
         <div className="flex items-center justify-between gap-4 px-4 py-3">
-          <Link href="/" className="font-display text-base font-extrabold text-[#10141b] transition hover:text-[#1a54f0]">
+          <Link href="/" className="font-display text-base font-extrabold text-[#0d1117] transition hover:text-[#16255c]">
             RealReach.
           </Link>
           <Link
             href="/messages"
-            className="flex items-center gap-1.5 border-2 border-[#10141b] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#10141b] transition-colors hover:bg-[#10141b] hover:text-[#f5f3ee]"
+            className="flex items-center gap-1.5 border border-[#0d1117]/[0.12] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#0d1117] transition-colors hover:bg-[#0d1117] hover:text-[#f1f3f7]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -330,13 +330,13 @@ export default function MessageConversationPage({
       {/* Body: sidebar + chat */}
       <div className="flex min-h-0 flex-1">
         {/* Sidebar — hidden on mobile */}
-        <aside className="hidden w-[336px] shrink-0 flex-col border-r-2 border-[#10141b] bg-white lg:flex">
-          <div className="shrink-0 border-b-2 border-[#10141b]/10 px-5 py-4">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">
+        <aside className="hidden w-[336px] shrink-0 flex-col border-r border-[#0d1117]/[0.07] bg-white lg:flex">
+          <div className="shrink-0 border-b border-[#0d1117]/[0.07] px-5 py-4">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#5b6472]">
               Conversations
             </p>
           </div>
-          <div className="flex-1 divide-y-2 divide-[#10141b]/10 overflow-y-auto">
+          <div className="flex-1 divide-y divide-[#0d1117]/[0.07] overflow-y-auto">
             {convList.map((c) => {
               const isActive = c.id === conversationId
               const initials = getInitials(c.otherName)
@@ -346,7 +346,7 @@ export default function MessageConversationPage({
                   key={c.id}
                   href={`/messages/${c.id}`}
                   className={`flex items-center gap-3 px-4 py-3.5 transition-colors ${
-                    isActive ? "bg-[#1a54f0]/10" : "hover:bg-[#eae8e1]/40"
+                    isActive ? "bg-[#16255c]/10" : "hover:bg-[#e4e7ee]/40"
                   }`}
                 >
                   <div className="relative shrink-0">
@@ -361,12 +361,12 @@ export default function MessageConversationPage({
                     ) : null}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className={`truncate text-sm ${isActive ? "font-extrabold text-[#1a54f0]" : "font-semibold text-[#10141b]"}`}>
+                    <p className={`truncate text-sm ${isActive ? "font-extrabold text-[#16255c]" : "font-semibold text-[#0d1117]"}`}>
                       {c.otherName}
                     </p>
-                    <p className="truncate text-xs text-[#595e66]">{c.lastMessage || "No messages"}</p>
+                    <p className="truncate text-xs text-[#5b6472]">{c.lastMessage || "No messages"}</p>
                   </div>
-                  <p className="shrink-0 text-xs text-[#8b8f96]">{timeAgo(c.updatedAt)}</p>
+                  <p className="shrink-0 text-xs text-[#8b93a3]">{timeAgo(c.updatedAt)}</p>
                 </Link>
               )
             })}
@@ -377,18 +377,18 @@ export default function MessageConversationPage({
         <div className="flex min-w-0 flex-1 flex-col">
           {loading ? (
             <div className="flex flex-1 items-center justify-center">
-              <p className="text-[#595e66]">Loading conversation…</p>
+              <p className="text-[#5b6472]">Loading conversation…</p>
             </div>
           ) : error ? (
             <div className="flex flex-1 items-center justify-center p-8">
-              <div className="border-2 border-[#ff534b] bg-white p-6 text-sm text-[#ff534b]">
+              <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-6 text-sm text-[#ff534b]">
                 {error}
               </div>
             </div>
           ) : (
             <>
               {/* Chat header */}
-              <div className="shrink-0 border-b-2 border-[#10141b] bg-white px-6 py-4">
+              <div className="shrink-0 border-b border-[#0d1117]/[0.07] bg-white px-6 py-4">
                 <div className="flex items-center gap-3">
                   <div
                     className="flex h-10 w-10 items-center justify-center rounded-full font-display text-sm font-extrabold"
@@ -397,15 +397,15 @@ export default function MessageConversationPage({
                     {getInitials(otherName)}
                   </div>
                   <div>
-                    <p className="font-bold text-[#10141b]">{otherName}</p>
-                    <p className="text-xs text-[#595e66]">Direct message</p>
+                    <p className="font-bold text-[#0d1117]">{otherName}</p>
+                    <p className="text-xs text-[#5b6472]">Direct message</p>
                   </div>
                 </div>
               </div>
 
               {/* Escrow status banner */}
               {escrow ? (
-                <div className="shrink-0 border-b-2 border-[#10141b] bg-[#c8f23c] px-6 py-3 text-[#182704]">
+                <div className="shrink-0 border-b border-[#0d1117]/[0.07] bg-[#c8f23c] px-6 py-3 text-[#101a3d]">
                   <p className="text-[11px] font-extrabold uppercase tracking-[0.12em]">
                     {escrow.status === "released" ? "Payment released" : "Offer accepted"}
                   </p>
@@ -420,15 +420,15 @@ export default function MessageConversationPage({
                 {messages.length === 0 ? (
                   <div className="flex h-full items-center justify-center">
                     <div className="text-center">
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#1a54f0]/10 text-[#1a54f0]">
+                      <div className="mx-auto flex h-16 w-16 items-center justify-center bg-[#16255c]/10 text-[#16255c]">
                         <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                         </svg>
                       </div>
-                      <p className="mt-4 font-bold text-[#10141b]">
+                      <p className="mt-4 font-bold text-[#0d1117]">
                         Start the conversation
                       </p>
-                      <p className="mt-1 text-sm text-[#595e66]">
+                      <p className="mt-1 text-sm text-[#5b6472]">
                         Say hello to {otherName}
                       </p>
                     </div>
@@ -447,7 +447,7 @@ export default function MessageConversationPage({
                       <div key={msg.id}>
                         {showTime ? (
                           <div className="my-4 flex items-center justify-center">
-                            <span className="rounded-full bg-[#10141b]/5 px-3 py-1 text-xs text-[#595e66]">
+                            <span className="rounded-full bg-[#0d1117]/5 px-3 py-1 text-xs text-[#5b6472]">
                               {new Date(msg.created_at).toLocaleString("en-GB", {
                                 month: "short",
                                 day: "numeric",
@@ -463,8 +463,8 @@ export default function MessageConversationPage({
                           <div
                             className={`max-w-[70%] rounded-[20px] px-4 py-2.5 text-sm leading-6 ${
                               isMine
-                                ? "rounded-br-md bg-[#1a54f0] text-[#f2f5fc]"
-                                : "rounded-bl-md bg-[#eae8e1] text-[#10141b]"
+                                ? "rounded-br-md bg-[#16255c] text-[#f2f5fc]"
+                                : "rounded-bl-md bg-[#e4e7ee] text-[#0d1117]"
                             }`}
                           >
                             {msg.content}
@@ -478,7 +478,7 @@ export default function MessageConversationPage({
               </div>
 
               {/* Input */}
-              <div className="shrink-0 border-t-2 border-[#10141b] bg-white px-6 py-4">
+              <div className="shrink-0 border-t border-[#0d1117]/[0.07] bg-white px-6 py-4">
                 <div className="flex items-end gap-3">
                   <textarea
                     rows={1}
@@ -490,19 +490,19 @@ export default function MessageConversationPage({
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder={`Message ${otherName}…`}
-                    className="flex-1 resize-none overflow-hidden border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                    className="flex-1 resize-none overflow-hidden rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors placeholder:text-[#8b93a3] focus:border-[#16255c]"
                     style={{ minHeight: "48px" }}
                   />
                   <button
                     type="button"
                     onClick={handleSend}
                     disabled={!newMessage.trim() || sending}
-                    className="flex h-12 shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#10141b] px-4 font-display text-sm font-extrabold text-[#f5f3ee] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-12 shrink-0 items-center justify-center rounded-[8px] bg-[#0d1117] px-4 font-display text-sm font-extrabold text-[#f1f3f7] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     Send
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-[#8b8f96]">Press Enter to send · Shift+Enter for new line</p>
+                <p className="mt-2 text-xs text-[#8b93a3]">Press Enter to send · Shift+Enter for new line</p>
               </div>
             </>
           )}

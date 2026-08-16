@@ -82,13 +82,13 @@ export default function CampaignsPage() {
   }, [jobs, sort])
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-[1400px] px-5 py-16 pb-24 md:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#16255c]">
               Live campaigns
             </p>
             <h1 className="mt-2 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
@@ -101,10 +101,10 @@ export default function CampaignsPage() {
               <button
                 key={s.key}
                 onClick={() => setSort(s.key)}
-                className={`border-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] transition-colors ${
+                className={`border px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] transition-colors ${
                   sort === s.key
-                    ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]"
-                    : "border-[#10141b]/20 text-[#595e66] hover:border-[#10141b]/50 hover:text-[#10141b]"
+                    ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]"
+                    : "border-[#0d1117]/20 text-[#5b6472] hover:border-[#0d1117]/50 hover:text-[#0d1117]"
                 }`}
               >
                 {s.label}
@@ -134,14 +134,14 @@ export default function CampaignsPage() {
               <Reveal key={job.id} delay={Math.min(i, 5) * 60} className="h-full">
               <article className="surface-card surface-card-hover flex h-full flex-col overflow-hidden">
                 {job.platform || job.content_type ? (
-                  <div className="flex flex-wrap gap-1.5 border-b-2 border-[#10141b]/10 p-5 pb-0">
+                  <div className="flex flex-wrap gap-1.5 border-b border-[#0d1117]/[0.07] p-5 pb-0">
                     {job.platform ? (
-                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#101a3d]">
                         {job.platform}
                       </span>
                     ) : null}
                     {job.content_type ? (
-                      <span className="bg-[#10141b]/10 px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#595e66]">
+                      <span className="bg-[#0d1117]/10 px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#5b6472]">
                         {job.content_type}
                       </span>
                     ) : null}
@@ -152,17 +152,17 @@ export default function CampaignsPage() {
                     ) : null}
                   </div>
                 ) : null}
-                <div className="flex items-center justify-between border-b-2 border-[#10141b]/10 p-5">
-                  <span className="font-display text-3xl font-extrabold text-[#1a54f0]">
+                <div className="flex items-center justify-between border-b border-[#0d1117]/[0.07] p-5">
+                  <span className="font-display text-3xl font-extrabold text-[#16255c]">
                     £{job.budget.toLocaleString()}
                   </span>
                   <div className="flex items-center gap-2">
                     {applicantCounts[job.id] ? (
-                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                      <span className="bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#101a3d]">
                         {applicantCounts[job.id]} applied
                       </span>
                     ) : null}
-                    <span className="bg-[#10141b] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#f5f3ee]">
+                    <span className="bg-[#0d1117] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#f1f3f7]">
                       {new Date(job.created_at).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}
                     </span>
                   </div>
@@ -170,18 +170,18 @@ export default function CampaignsPage() {
 
                 <div className="flex-1 p-5">
                   <h2 className="font-display text-2xl font-extrabold tracking-tight">{job.title}</h2>
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#595e66]">{job.description}</p>
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#5b6472]">{job.description}</p>
                 </div>
 
-                <div className="flex items-center justify-between border-t-2 border-[#10141b]/10 p-5">
-                  <span className="text-sm text-[#595e66]">
+                <div className="flex items-center justify-between border-t border-[#0d1117]/[0.07] p-5">
+                  <span className="text-sm text-[#5b6472]">
                     {job.deadline
                       ? `Closes ${new Date(job.deadline).toLocaleDateString("en-GB", { month: "short", day: "numeric" })}`
                       : "No deadline"}
                   </span>
                   <Link
                     href={`/creator/jobs/${job.id}`}
-                    className="rounded-[var(--radius-sm)] border-2 border-[#10141b] bg-[#10141b] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#f5f3ee] transition-opacity hover:opacity-90"
+                    className="rounded-[8px] bg-[#0d1117] px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] text-[#f1f3f7] transition-opacity hover:opacity-90"
                   >
                     Apply
                   </Link>
@@ -193,18 +193,18 @@ export default function CampaignsPage() {
         )}
       </main>
 
-      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
             <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/creators" className="hover:text-[#f5f3ee]">Browse Creators</Link>
-            <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
-            <Link href="/help" className="hover:text-[#f5f3ee]">Help Center</Link>
-            <Link href="/terms" className="hover:text-[#f5f3ee]">Terms</Link>
-            <Link href="/privacy" className="hover:text-[#f5f3ee]">Privacy</Link>
+            <Link href="/creators" className="hover:text-[#f1f3f7]">Browse Creators</Link>
+            <Link href="/how-it-works" className="hover:text-[#f1f3f7]">How it Works</Link>
+            <Link href="/help" className="hover:text-[#f1f3f7]">Help Center</Link>
+            <Link href="/terms" className="hover:text-[#f1f3f7]">Terms</Link>
+            <Link href="/privacy" className="hover:text-[#f1f3f7]">Privacy</Link>
           </div>
           <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>

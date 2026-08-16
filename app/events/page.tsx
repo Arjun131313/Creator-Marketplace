@@ -101,21 +101,21 @@ export default function EventsPage() {
   }, [events, city])
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-[1400px] px-5 py-16 pb-24 md:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1a54f0]">Events</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#16255c]">Events</p>
             <h1 className="mt-2 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
               Get in the room.
             </h1>
-            <p className="mt-3 max-w-lg text-[#595e66]">
+            <p className="mt-3 max-w-lg text-[#5b6472]">
               Launches, press days, and shoots hosted by UK brands. Apply to attend — no follower minimum.
             </p>
             {!loading && events.length > 0 ? (
-              <p className="mt-3 text-sm font-bold text-[#595e66]">
+              <p className="mt-3 text-sm font-bold text-[#5b6472]">
                 {events.length} upcoming event{events.length !== 1 ? "s" : ""} across {cities.length - 1} location
                 {cities.length - 1 !== 1 ? "s" : ""}
               </p>
@@ -124,7 +124,7 @@ export default function EventsPage() {
 
           <Link
             href="/brand/events/new"
-            className="inline-flex shrink-0 items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex shrink-0 items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             Host an event
           </Link>
@@ -133,16 +133,16 @@ export default function EventsPage() {
         {/* Location filter */}
         {!loading && cities.length > 1 ? (
           <div className="mt-10">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">Filter by location</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#5b6472]">Filter by location</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {cities.map((c) => (
                 <button
                   key={c}
                   onClick={() => setCity(c)}
-                  className={`border-2 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] transition-colors ${
+                  className={`border px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.06em] transition-colors ${
                     city === c
-                      ? "border-[#10141b] bg-[#10141b] text-[#f5f3ee]"
-                      : "border-[#10141b]/20 bg-white text-[#595e66] hover:border-[#10141b] hover:text-[#10141b]"
+                      ? "border-[#0d1117] bg-[#0d1117] text-[#f1f3f7]"
+                      : "border-[#0d1117]/20 bg-white text-[#5b6472] hover:border-[#0d1117] hover:text-[#0d1117]"
                   }`}
                 >
                   {c}
@@ -192,28 +192,28 @@ export default function EventsPage() {
                 href={`/events/${event.id}`}
                 className="surface-card surface-card-hover flex h-full flex-col overflow-hidden"
               >
-                <div className="flex items-start justify-between gap-3 border-b-2 border-[#10141b]/10 p-5">
+                <div className="flex items-start justify-between gap-3 border-b border-[#0d1117]/[0.07] p-5">
                   <div>
-                    <p className="font-display text-xl font-extrabold text-[#1a54f0]">
+                    <p className="font-display text-xl font-extrabold text-[#16255c]">
                       {formatEventDate(event.starts_at)}
                     </p>
-                    <p className="mt-0.5 text-xs font-bold text-[#8b8f96]">{formatEventTime(event.starts_at)}</p>
+                    <p className="mt-0.5 text-xs font-bold text-[#8b93a3]">{formatEventTime(event.starts_at)}</p>
                   </div>
-                  <span className="shrink-0 bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">
+                  <span className="shrink-0 bg-[#c8f23c] px-2 py-1 text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#101a3d]">
                     {event.city}
                   </span>
                 </div>
 
                 <div className="flex-1 p-5">
                   <h2 className="font-display text-xl font-extrabold tracking-tight">{event.title}</h2>
-                  <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#8b8f96]">{event.brand_name}</p>
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#595e66]">{event.description}</p>
+                  <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#8b93a3]">{event.brand_name}</p>
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#5b6472]">{event.description}</p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 border-t-2 border-[#10141b]/10 p-5 text-xs font-bold text-[#8b8f96]">
+                <div className="flex flex-wrap items-center gap-2 border-t border-[#0d1117]/[0.07] p-5 text-xs font-bold text-[#8b93a3]">
                   {event.capacity ? <span>{event.capacity} spaces</span> : null}
                   {applicantCounts[event.id] ? (
-                    <span className="bg-[#10141b] px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-[#f5f3ee]">
+                    <span className="bg-[#0d1117] px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-[#f1f3f7]">
                       {applicantCounts[event.id]} applied
                     </span>
                   ) : null}
@@ -226,16 +226,16 @@ export default function EventsPage() {
         )}
       </main>
 
-      <footer className="border-t border-[#10141b]/10 bg-[#10141b] px-5 py-12 text-[#a8adb6]">
+      <footer className="border-t border-[#0d1117]/10 bg-[#0d1117] px-5 py-12 text-[#8891a3]">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-lg font-extrabold text-[#f5f3ee]">RealReach.</p>
+            <p className="font-display text-lg font-extrabold text-[#f1f3f7]">RealReach.</p>
             <p className="mt-1 text-xs">Manchester &amp; London</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="/campaigns" className="hover:text-[#f5f3ee]">Campaigns</Link>
-            <Link href="/academy" className="hover:text-[#f5f3ee]">Academy</Link>
-            <Link href="/how-it-works" className="hover:text-[#f5f3ee]">How it Works</Link>
+            <Link href="/campaigns" className="hover:text-[#f1f3f7]">Campaigns</Link>
+            <Link href="/academy" className="hover:text-[#f1f3f7]">Academy</Link>
+            <Link href="/how-it-works" className="hover:text-[#f1f3f7]">How it Works</Link>
           </div>
           <p className="text-xs">© 2026 RealReach Agency. All rights reserved.</p>
         </div>

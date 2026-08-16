@@ -53,7 +53,7 @@ function StarPicker({
           onClick={() => onChange(star)}
           aria-label={`Rate ${star} star${star !== 1 ? "s" : ""}`}
           className={`text-3xl leading-none transition-transform hover:scale-110 ${
-            (hovered || value) >= star ? "text-[#1a54f0]" : "text-[#10141b]/20"
+            (hovered || value) >= star ? "text-[#16255c]" : "text-[#0d1117]/20"
           }`}
         >
           ★
@@ -69,7 +69,7 @@ function StarDisplay({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={`text-lg leading-none ${star <= rating ? "text-[#1a54f0]" : "text-[#10141b]/20"}`}
+          className={`text-lg leading-none ${star <= rating ? "text-[#16255c]" : "text-[#0d1117]/20"}`}
         >
           ★
         </span>
@@ -79,9 +79,9 @@ function StarDisplay({ rating }: { rating: number }) {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  open: "bg-[#c8f23c] text-[#182704]",
-  in_progress: "bg-[#1a54f0] text-white",
-  completed: "bg-[#10141b] text-[#f5f3ee]",
+  open: "bg-[#c8f23c] text-[#101a3d]",
+  in_progress: "bg-[#16255c] text-white",
+  completed: "bg-[#0d1117] text-[#f1f3f7]",
   cancelled: "bg-[#ff534b] text-white",
 }
 
@@ -253,38 +253,38 @@ export default function BrandJobDetailPage({
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading job details…</p>
+        <p className="text-[#5b6472]">Loading job details…</p>
       </div>
     )
   }
 
   if (error || !job) {
     return (
-      <div className="border-2 border-[#ff534b] bg-white p-8 text-[#ff534b]">
+      <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-8 text-[#ff534b]">
         {error ?? "Job not found."}
       </div>
     )
   }
 
-  const statusStyle = STATUS_STYLES[job.status] ?? "bg-[#10141b]/10 text-[#595e66]"
+  const statusStyle = STATUS_STYLES[job.status] ?? "bg-[#0d1117]/10 text-[#5b6472]"
   const hasAcceptedCreator = acceptedCreators.length > 0
 
   return (
     <div className="space-y-8">
       {/* Job header */}
-      <section className="border-2 border-[#10141b] bg-white p-8">
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-3">
             <Link
               href="/brand/jobs"
-              className="text-sm font-bold text-[#1a54f0] transition hover:underline"
+              className="text-sm font-bold text-[#16255c] transition hover:underline"
             >
               ← Back to jobs
             </Link>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#595e66]">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#5b6472]">
               Job detail
             </p>
-            <h1 className="font-display text-3xl font-extrabold text-[#10141b]">{job.title}</h1>
+            <h1 className="font-display text-3xl font-extrabold text-[#0d1117]">{job.title}</h1>
           </div>
           <div className="flex flex-col items-end gap-3">
             <span
@@ -292,14 +292,14 @@ export default function BrandJobDetailPage({
             >
               {job.status.replace("_", " ")}
             </span>
-            <p className="text-sm text-[#595e66]">
+            <p className="text-sm text-[#5b6472]">
               Budget:{" "}
-              <span className="font-bold text-[#10141b]">£{job.budget.toLocaleString()}</span>
+              <span className="font-bold text-[#0d1117]">£{job.budget.toLocaleString()}</span>
             </p>
             {job.deadline ? (
-              <p className="text-sm text-[#595e66]">
+              <p className="text-sm text-[#5b6472]">
                 Deadline:{" "}
-                <span className="font-bold text-[#10141b]">
+                <span className="font-bold text-[#0d1117]">
                   {new Date(job.deadline).toLocaleDateString("en-GB", {
                     month: "short",
                     day: "numeric",
@@ -314,16 +314,16 @@ export default function BrandJobDetailPage({
         {job.content_type || job.platform || job.video_duration || job.language || job.requires_shipping ? (
           <div className="mt-6 flex flex-wrap gap-2">
             {job.platform ? (
-              <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{job.platform}</span>
+              <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#101a3d]">{job.platform}</span>
             ) : null}
             {job.content_type ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.content_type}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.content_type}</span>
             ) : null}
             {job.video_duration ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.video_duration}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.video_duration}</span>
             ) : null}
             {job.language ? (
-              <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">{job.language}</span>
+              <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">{job.language}</span>
             ) : null}
             {job.requires_shipping ? (
               <span className="bg-[#feb930] px-2.5 py-1 text-[11px] font-bold uppercase text-[#2b1d00]">Ships product</span>
@@ -331,21 +331,21 @@ export default function BrandJobDetailPage({
           </div>
         ) : null}
 
-        <div className="mt-6 border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
-          <p className="text-sm leading-7 text-[#10141b]">{job.description}</p>
+        <div className="mt-6 rounded-[12px] bg-[#f7f8fa] p-6">
+          <p className="text-sm leading-7 text-[#0d1117]">{job.description}</p>
         </div>
 
         {job.talking_points ? (
           <div className="mt-4">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">Key talking points</p>
-            <p className="mt-2 text-sm leading-6 text-[#10141b]">{job.talking_points}</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">Key talking points</p>
+            <p className="mt-2 text-sm leading-6 text-[#0d1117]">{job.talking_points}</p>
           </div>
         ) : null}
 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href={`/brand/jobs/${job.id}/applications`}
-            className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
           >
             View applications
           </Link>
@@ -354,7 +354,7 @@ export default function BrandJobDetailPage({
               type="button"
               onClick={handleCancelJob}
               disabled={cancelling}
-              className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-5 py-2.5 text-sm font-bold text-[#10141b] transition-colors hover:border-[#ff534b] hover:text-[#ff534b] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center border border-[#0d1117]/[0.12] px-5 py-2.5 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#ff534b] hover:text-[#ff534b] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {cancelling ? "Cancelling…" : "Cancel job"}
             </button>
@@ -364,21 +364,21 @@ export default function BrandJobDetailPage({
 
       {/* Review section — only shown when there's an accepted creator */}
       {hasAcceptedCreator ? (
-        <section className="border-2 border-[#10141b] bg-white p-8">
-          <h2 className="font-display text-xl font-extrabold text-[#10141b]">Leave a review</h2>
-          <p className="mt-1 text-sm text-[#595e66]">
+        <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+          <h2 className="font-display text-xl font-extrabold text-[#0d1117]">Leave a review</h2>
+          <p className="mt-1 text-sm text-[#5b6472]">
             Share your experience working with{" "}
             {acceptedCreators.map((c) => c.creatorName).join(", ")}.
           </p>
 
           {existingReview ? (
-            <div className="mt-6 border-2 border-[#c8f23c] bg-[#c8f23c]/15 p-6">
+            <div className="mt-6 rounded-[12px] bg-[#c8f23c]/20 p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
-                  <p className="text-sm font-bold text-[#182704]">Review submitted</p>
+                  <p className="text-sm font-bold text-[#101a3d]">Review submitted</p>
                   <StarDisplay rating={existingReview.rating} />
                 </div>
-                <p className="shrink-0 text-xs text-[#8b8f96]">
+                <p className="shrink-0 text-xs text-[#8b93a3]">
                   {new Date(existingReview.created_at).toLocaleDateString("en-GB", {
                     month: "short",
                     day: "numeric",
@@ -386,7 +386,7 @@ export default function BrandJobDetailPage({
                   })}
                 </p>
               </div>
-              <p className="mt-4 text-sm leading-6 text-[#10141b]">{existingReview.comment}</p>
+              <p className="mt-4 text-sm leading-6 text-[#0d1117]">{existingReview.comment}</p>
             </div>
           ) : (
             <div className="mt-6 space-y-6">
@@ -396,17 +396,17 @@ export default function BrandJobDetailPage({
                 return (
                   <div className="space-y-5">
                     {acceptedCreators.length > 1 ? (
-                      <p className="text-sm font-bold text-[#10141b]">
+                      <p className="text-sm font-bold text-[#0d1117]">
                         Reviewing:{" "}
-                        <span className="text-[#10141b]">{creator.creatorName}</span>
+                        <span className="text-[#0d1117]">{creator.creatorName}</span>
                       </p>
                     ) : null}
 
                     <div>
-                      <p className="mb-3 text-sm font-bold text-[#10141b]">Rating *</p>
+                      <p className="mb-3 text-sm font-bold text-[#0d1117]">Rating *</p>
                       <StarPicker value={rating} onChange={setRating} />
                       {rating > 0 ? (
-                        <p className="mt-2 text-xs text-[#8b8f96]">
+                        <p className="mt-2 text-xs text-[#8b93a3]">
                           {["", "Poor", "Fair", "Good", "Very good", "Excellent"][rating]}
                         </p>
                       ) : null}
@@ -415,7 +415,7 @@ export default function BrandJobDetailPage({
                     <div>
                       <label
                         htmlFor="review-comment"
-                        className="mb-2 block text-sm font-bold text-[#10141b]"
+                        className="mb-2 block text-sm font-bold text-[#0d1117]"
                       >
                         Comment *
                       </label>
@@ -425,12 +425,12 @@ export default function BrandJobDetailPage({
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="Describe your experience working with this creator…"
-                        className="w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                        className="w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors placeholder:text-[#8b93a3] focus:border-[#16255c]"
                       />
                     </div>
 
                     {submitError ? (
-                      <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">
+                      <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-4 py-3 text-sm text-[#ff534b]">
                         {submitError}
                       </div>
                     ) : null}
@@ -439,7 +439,7 @@ export default function BrandJobDetailPage({
                       type="button"
                       onClick={() => handleSubmitReview(creator.creatorId)}
                       disabled={submitting || !rating || !comment.trim()}
-                      className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {submitting ? "Submitting…" : "Submit review"}
                     </button>

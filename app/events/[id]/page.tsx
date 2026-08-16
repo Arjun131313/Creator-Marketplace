@@ -24,9 +24,9 @@ type ApplicationStatus = "pending" | "accepted" | "rejected" | "withdrawn"
 
 const STATUS_STYLE: Record<ApplicationStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  accepted: "bg-[#c8f23c] text-[#182704]",
+  accepted: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  withdrawn: "bg-[#10141b]/10 text-[#595e66]",
+  withdrawn: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 const STATUS_LABEL: Record<ApplicationStatus, string> = {
@@ -133,10 +133,10 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f5f3ee]">
+      <div className="min-h-screen bg-[#f1f3f7]">
         <PublicNav />
         <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-[#595e66]">Loading event…</p>
+          <p className="text-[#5b6472]">Loading event…</p>
         </div>
       </div>
     )
@@ -144,10 +144,10 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-[#f5f3ee]">
+      <div className="min-h-screen bg-[#f1f3f7]">
         <PublicNav />
         <div className="mx-auto max-w-2xl px-6 py-16">
-          <div className="border-2 border-[#ff534b] bg-white p-8 text-[#ff534b]">{error ?? "Event not found."}</div>
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-8 text-[#ff534b]">{error ?? "Event not found."}</div>
         </div>
       </div>
     )
@@ -156,68 +156,68 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
   const startsAt = new Date(event.starts_at)
 
   return (
-    <div className="min-h-screen bg-[#f5f3ee] text-[#10141b]">
+    <div className="min-h-screen bg-[#f1f3f7] text-[#0d1117]">
       <PublicNav />
 
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <Link href="/events" className="text-sm font-bold text-[#1a54f0] hover:underline">
+        <Link href="/events" className="text-sm font-bold text-[#16255c] hover:underline">
           ← All events
         </Link>
 
         <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#182704]">{event.city}</span>
+          <span className="bg-[#c8f23c] px-2.5 py-1 text-[11px] font-bold uppercase text-[#101a3d]">{event.city}</span>
           {event.status === "cancelled" ? (
             <span className="bg-[#ff534b] px-2.5 py-1 text-[11px] font-bold uppercase text-white">Cancelled</span>
           ) : null}
           {isPast ? (
-            <span className="bg-[#10141b]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#595e66]">Past event</span>
+            <span className="bg-[#0d1117]/10 px-2.5 py-1 text-[11px] font-bold uppercase text-[#5b6472]">Past event</span>
           ) : null}
-          <span className="text-xs font-bold uppercase tracking-wide text-[#8b8f96]">Hosted by {event.brand_name}</span>
+          <span className="text-xs font-bold uppercase tracking-wide text-[#8b93a3]">Hosted by {event.brand_name}</span>
         </div>
 
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{event.title}</h1>
 
-        <div className="mt-6 grid gap-px border-2 border-[#10141b] bg-[#10141b]/10 sm:grid-cols-3">
+        <div className="mt-6 grid gap-px rounded-[8px] bg-[#0d1117]/10 sm:grid-cols-3">
           <div className="bg-white p-5">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">When</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">When</p>
             <p className="mt-1 font-display text-lg font-extrabold">
               {startsAt.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
             </p>
-            <p className="text-sm text-[#595e66]">
+            <p className="text-sm text-[#5b6472]">
               {startsAt.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
             </p>
           </div>
           <div className="bg-white p-5">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">Where</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">Where</p>
             <p className="mt-1 font-display text-lg font-extrabold">{event.city}</p>
-            {event.venue ? <p className="text-sm text-[#595e66]">{event.venue}</p> : null}
+            {event.venue ? <p className="text-sm text-[#5b6472]">{event.venue}</p> : null}
           </div>
           <div className="bg-white p-5">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b8f96]">Spaces</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#8b93a3]">Spaces</p>
             <p className="mt-1 font-display text-lg font-extrabold">{event.capacity ?? "—"}</p>
-            <p className="text-sm text-[#595e66]">{event.capacity ? "Limited" : "Not specified"}</p>
+            <p className="text-sm text-[#5b6472]">{event.capacity ? "Limited" : "Not specified"}</p>
           </div>
         </div>
 
-        <div className="mt-6 border-2 border-[#10141b]/10 bg-white p-6">
-          <p className="whitespace-pre-line text-sm leading-7 text-[#10141b]">{event.description}</p>
+        <div className="mt-6 rounded-[12px] bg-white ring-1 ring-[#0d1117]/[0.05] p-6">
+          <p className="whitespace-pre-line text-sm leading-7 text-[#0d1117]">{event.description}</p>
         </div>
 
         {event.perks ? (
-          <div className="mt-4 border-2 border-[#c8f23c] bg-[#c8f23c]/15 p-6">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#182704]">What&apos;s included</p>
-            <p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#10141b]">{event.perks}</p>
+          <div className="mt-4 rounded-[12px] bg-[#c8f23c]/20 p-6">
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#101a3d]">What&apos;s included</p>
+            <p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#0d1117]">{event.perks}</p>
           </div>
         ) : null}
 
         {/* Apply */}
-        <div className="mt-6 border-2 border-[#10141b] bg-white p-6">
+        <div className="mt-6 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6">
           {isHost ? (
             <>
-              <p className="text-sm font-bold text-[#10141b]">This is your event</p>
+              <p className="text-sm font-bold text-[#0d1117]">This is your event</p>
               <Link
                 href={`/brand/events/${event.id}`}
-                className="mt-3 inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+                className="mt-3 inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
               >
                 Review applications
               </Link>
@@ -227,7 +227,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
               <span className={`inline-block px-3 py-1 text-xs font-bold uppercase ${STATUS_STYLE[application.status]}`}>
                 {STATUS_LABEL[application.status]}
               </span>
-              <p className="mt-3 text-sm text-[#595e66]">
+              <p className="mt-3 text-sm text-[#5b6472]">
                 {application.status === "accepted"
                   ? "The brand will be in touch with the details — keep an eye on your inbox."
                   : application.status === "pending"
@@ -236,15 +236,15 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
               </p>
             </>
           ) : isPast || event.status !== "published" ? (
-            <p className="text-sm text-[#595e66]">Applications are closed for this event.</p>
+            <p className="text-sm text-[#5b6472]">Applications are closed for this event.</p>
           ) : role === "brand" ? (
-            <p className="text-sm text-[#595e66]">
+            <p className="text-sm text-[#5b6472]">
               You&apos;re signed in as a brand — only creator accounts can apply to attend.
             </p>
           ) : (
             <>
-              <p className="text-sm font-bold text-[#10141b]">Apply to attend</p>
-              <p className="mt-1 text-sm text-[#595e66]">
+              <p className="text-sm font-bold text-[#0d1117]">Apply to attend</p>
+              <p className="mt-1 text-sm text-[#5b6472]">
                 Tell the brand why you&apos;d be a good fit. Optional, but it helps.
               </p>
               <textarea
@@ -252,16 +252,16 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
                 placeholder="A line or two about you and why this event fits your audience…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="mt-3 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors placeholder:text-[#8b8f96] focus:border-[#1a54f0]"
+                className="mt-3 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors placeholder:text-[#8b93a3] focus:border-[#16255c]"
               />
               <button
                 onClick={handleApply}
                 disabled={applying}
-                className="mt-3 inline-flex items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-3 inline-flex items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {applying ? "Sending…" : "Apply to attend"}
               </button>
-              <p className="mt-3 text-xs text-[#8b8f96]">
+              <p className="mt-3 text-xs text-[#8b93a3]">
                 Free to apply. No follower minimum — brands pick on fit.
               </p>
             </>

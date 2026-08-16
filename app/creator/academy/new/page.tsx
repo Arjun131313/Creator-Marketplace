@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase"
 const CATEGORIES = ["Pitching", "Content creation", "Negotiation", "Growth", "Other"]
 
 const inputClass =
-  "mt-2 w-full border-2 border-[#10141b]/20 bg-[#f5f3ee] px-4 py-3 text-sm text-[#10141b] outline-none transition-colors focus:border-[#1a54f0]"
+  "mt-2 w-full rounded-[8px] border border-[#0d1117]/[0.12] bg-white px-4 py-3 text-sm text-[#0d1117] outline-none transition-colors focus:border-[#16255c]"
 
 export default function NewLessonPage() {
   const router = useRouter()
@@ -91,15 +91,15 @@ export default function NewLessonPage() {
   }
 
   return (
-    <div className="max-w-3xl border-2 border-[#10141b] bg-white p-8">
-      <h1 className="font-display text-2xl font-extrabold text-[#10141b]">Teach a lesson</h1>
-      <p className="mt-2 text-sm text-[#595e66]">
+    <div className="max-w-3xl rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+      <h1 className="font-display text-2xl font-extrabold text-[#0d1117]">Teach a lesson</h1>
+      <p className="mt-2 text-sm text-[#5b6472]">
         Share what you know — pitching, pricing, content, whatever&apos;s made a difference for you.
       </p>
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <label className="block">
-          <span className="text-sm font-bold text-[#10141b]">Title</span>
+          <span className="text-sm font-bold text-[#0d1117]">Title</span>
           <input
             type="text"
             required
@@ -110,7 +110,7 @@ export default function NewLessonPage() {
         </label>
 
         <label className="block">
-          <span className="text-sm font-bold text-[#10141b]">Description</span>
+          <span className="text-sm font-bold text-[#0d1117]">Description</span>
           <textarea
             required
             rows={5}
@@ -123,7 +123,7 @@ export default function NewLessonPage() {
 
         <div className="grid gap-6 sm:grid-cols-2">
           <label className="block">
-            <span className="text-sm font-bold text-[#10141b]">Category</span>
+            <span className="text-sm font-bold text-[#0d1117]">Category</span>
             <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputClass + " cursor-pointer"}>
               <option value="">Select a category (optional)</option>
               {CATEGORIES.map((c) => (
@@ -132,9 +132,9 @@ export default function NewLessonPage() {
             </select>
           </label>
           <label className="block">
-            <span className="text-sm font-bold text-[#10141b]">Price (GBP)</span>
+            <span className="text-sm font-bold text-[#0d1117]">Price (GBP)</span>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#595e66]">£</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5b6472]">£</span>
               <input
                 required
                 type="number"
@@ -149,7 +149,7 @@ export default function NewLessonPage() {
         </div>
 
         <label className="block">
-          <span className="text-sm font-bold text-[#10141b]">Content link</span>
+          <span className="text-sm font-bold text-[#0d1117]">Content link</span>
           <input
             type="url"
             required
@@ -158,20 +158,20 @@ export default function NewLessonPage() {
             onChange={(e) => setContentUrl(e.target.value)}
             className={inputClass}
           />
-          <p className="mt-1 text-xs text-[#8b8f96]">
+          <p className="mt-1 text-xs text-[#8b93a3]">
             Only shown to buyers after purchase and to you. Anyone with the link could still view it — treat it as
             unlisted, not fully private.
           </p>
         </label>
 
         {error ? (
-          <div className="border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">{error}</div>
+          <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-4 py-3 text-sm text-[#ff534b]">{error}</div>
         ) : null}
 
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex w-full items-center justify-center border-2 border-[#10141b] bg-[#1a54f0] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-[8px] bg-[#16255c] px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Publishing…" : "Publish lesson"}
         </button>

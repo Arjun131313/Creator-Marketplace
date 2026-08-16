@@ -14,7 +14,7 @@ export default function MobileBottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 w-full z-50 bg-surface/95 backdrop-blur-xl border-t border-[#10141b]/10 flex justify-around items-center px-4 pt-2 pb-4">
+    <nav className="md:hidden fixed bottom-0 w-full z-50 bg-surface/95 backdrop-blur-xl border-t border-[#0d1117]/10 flex justify-around items-center px-4 pt-2 pb-4">
       {NAV_ITEMS.map((item) => {
         const isActive =
           item.href === "/"

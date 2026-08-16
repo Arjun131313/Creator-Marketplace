@@ -20,9 +20,9 @@ type EventApplication = {
 
 const STATUS_STYLE: Record<ApplicationStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  accepted: "bg-[#c8f23c] text-[#182704]",
+  accepted: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  withdrawn: "bg-[#10141b]/10 text-[#595e66]",
+  withdrawn: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 const STATUS_LABEL: Record<ApplicationStatus, string> = {
@@ -101,29 +101,29 @@ export default function CreatorEventsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading your events…</p>
+        <p className="text-[#5b6472]">Loading your events…</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="border-2 border-[#10141b] bg-white p-8">
+      <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-display text-2xl font-extrabold text-[#10141b]">My events</h1>
-            <p className="mt-1 text-sm text-[#595e66]">Brand events you&apos;ve applied to attend.</p>
+            <h1 className="font-display text-2xl font-extrabold text-[#0d1117]">My events</h1>
+            <p className="mt-1 text-sm text-[#5b6472]">Brand events you&apos;ve applied to attend.</p>
           </div>
-          <Link href="/events" className="text-sm font-bold text-[#1a54f0] hover:underline">
+          <Link href="/events" className="text-sm font-bold text-[#16255c] hover:underline">
             Browse upcoming events
           </Link>
         </div>
       </div>
 
       {applications.length === 0 ? (
-        <div className="border-2 border-dashed border-[#10141b]/20 p-16 text-center">
-          <p className="text-[#595e66]">You haven&apos;t applied to any events yet.</p>
-          <Link href="/events" className="mt-3 inline-block text-sm font-bold text-[#1a54f0] hover:underline">
+        <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-16 text-center">
+          <p className="text-[#5b6472]">You haven&apos;t applied to any events yet.</p>
+          <Link href="/events" className="mt-3 inline-block text-sm font-bold text-[#16255c] hover:underline">
             See what&apos;s coming up →
           </Link>
         </div>
@@ -131,7 +131,7 @@ export default function CreatorEventsPage() {
         <>
           {upcoming.length > 0 ? (
             <section>
-              <h2 className="font-display text-lg font-extrabold text-[#10141b]">Upcoming</h2>
+              <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Upcoming</h2>
               <div className="mt-4 space-y-4">
                 {upcoming.map((a) => (
                   <EventApplicationCard key={a.id} application={a} />
@@ -142,7 +142,7 @@ export default function CreatorEventsPage() {
 
           {past.length > 0 ? (
             <section>
-              <h2 className="font-display text-lg font-extrabold text-[#10141b]">Past</h2>
+              <h2 className="font-display text-lg font-extrabold text-[#0d1117]">Past</h2>
               <div className="mt-4 space-y-4 opacity-70">
                 {past.map((a) => (
                   <EventApplicationCard key={a.id} application={a} />
@@ -160,11 +160,11 @@ function EventApplicationCard({ application }: { application: EventApplication }
   return (
     <Link
       href={`/events/${application.event_id}`}
-      className="flex flex-col gap-3 border-2 border-[#10141b] bg-white p-6 transition-colors hover:bg-[#eae8e1]/40 sm:flex-row sm:items-center sm:justify-between"
+      className="flex flex-col gap-3 rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-6 transition-colors hover:bg-[#e4e7ee]/40 sm:flex-row sm:items-center sm:justify-between"
     >
       <div>
-        <p className="text-lg font-bold text-[#10141b]">{application.title}</p>
-        <p className="mt-1 text-sm text-[#595e66]">
+        <p className="text-lg font-bold text-[#0d1117]">{application.title}</p>
+        <p className="mt-1 text-sm text-[#5b6472]">
           {new Date(application.starts_at).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "short",

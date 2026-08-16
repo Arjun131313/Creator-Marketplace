@@ -31,9 +31,9 @@ type Applicant = {
 
 const STATUS_STYLE: Record<ApplicantStatus, string> = {
   pending: "bg-[#feb930] text-[#2b1d00]",
-  accepted: "bg-[#c8f23c] text-[#182704]",
+  accepted: "bg-[#c8f23c] text-[#101a3d]",
   rejected: "bg-[#ff534b] text-white",
-  withdrawn: "bg-[#10141b]/10 text-[#595e66]",
+  withdrawn: "bg-[#0d1117]/10 text-[#5b6472]",
 }
 
 export default function BrandEventDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -132,14 +132,14 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-[#595e66]">Loading event…</p>
+        <p className="text-[#5b6472]">Loading event…</p>
       </div>
     )
   }
 
   if (!event) {
     return (
-      <div className="border-2 border-[#ff534b] bg-white p-8 text-[#ff534b]">{error ?? "Event not found."}</div>
+      <div className="rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 p-8 text-[#ff534b]">{error ?? "Event not found."}</div>
     )
   }
 
@@ -148,12 +148,12 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-8">
-      <section className="border-2 border-[#10141b] bg-white p-8">
-        <Link href="/brand/events" className="text-sm font-bold text-[#1a54f0] hover:underline">
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+        <Link href="/brand/events" className="text-sm font-bold text-[#16255c] hover:underline">
           ← Back to events
         </Link>
-        <h1 className="mt-3 font-display text-3xl font-extrabold text-[#10141b]">{event.title}</h1>
-        <p className="mt-2 text-sm text-[#595e66]">
+        <h1 className="mt-3 font-display text-3xl font-extrabold text-[#0d1117]">{event.title}</h1>
+        <p className="mt-2 text-sm text-[#5b6472]">
           {new Date(event.starts_at).toLocaleDateString("en-GB", {
             weekday: "long",
             day: "numeric",
@@ -168,55 +168,55 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
         </p>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="border-2 border-[#10141b] bg-[#feb930] p-5">
+          <div className="border border-[#0d1117]/[0.12] bg-[#feb930] p-5">
             <p className="font-display text-3xl font-extrabold text-[#2b1d00]">{pendingCount}</p>
             <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#2b1d00]/70">To review</p>
           </div>
-          <div className="border-2 border-[#10141b] bg-[#c8f23c] p-5">
-            <p className="font-display text-3xl font-extrabold text-[#182704]">{acceptedCount}</p>
-            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#182704]/70">On the list</p>
+          <div className="rounded-[8px] bg-[#c8f23c] p-5">
+            <p className="font-display text-3xl font-extrabold text-[#101a3d]">{acceptedCount}</p>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#101a3d]/70">On the list</p>
           </div>
-          <div className="border-2 border-[#10141b] bg-white p-5">
+          <div className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-5">
             <p className="font-display text-3xl font-extrabold">{applicants.length}</p>
-            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#595e66]">Total applied</p>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#5b6472]">Total applied</p>
           </div>
-          <div className="border-2 border-[#10141b] bg-[#10141b] p-5">
-            <p className="font-display text-3xl font-extrabold text-[#f5f3ee]">{event.capacity ?? "—"}</p>
-            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#a8adb6]">Spaces</p>
+          <div className="rounded-[8px] bg-[#0d1117] p-5">
+            <p className="font-display text-3xl font-extrabold text-[#f1f3f7]">{event.capacity ?? "—"}</p>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#8891a3]">Spaces</p>
           </div>
         </div>
 
         <Link
           href={`/events/${event.id}`}
-          className="mt-6 inline-block text-sm font-bold text-[#1a54f0] hover:underline"
+          className="mt-6 inline-block text-sm font-bold text-[#16255c] hover:underline"
         >
           View public event page →
         </Link>
       </section>
 
-      <section className="border-2 border-[#10141b] bg-white p-8">
-        <h2 className="font-display text-xl font-extrabold text-[#10141b]">Applications</h2>
+      <section className="rounded-[16px] bg-white shadow-[0_1px_3px_rgba(13,17,23,0.05),0_8px_24px_rgba(13,17,23,0.06)] ring-1 ring-[#0d1117]/[0.05] p-8">
+        <h2 className="font-display text-xl font-extrabold text-[#0d1117]">Applications</h2>
 
         {error ? (
-          <div className="mt-4 border-2 border-[#ff534b] bg-white px-4 py-3 text-sm text-[#ff534b]">{error}</div>
+          <div className="mt-4 rounded-[12px] bg-[#ff534b]/[0.06] ring-1 ring-[#ff534b]/30 px-4 py-3 text-sm text-[#ff534b]">{error}</div>
         ) : null}
 
         <div className="mt-6 space-y-4">
           {applicants.length === 0 ? (
-            <div className="border-2 border-dashed border-[#10141b]/20 p-8 text-center text-[#595e66]">
+            <div className="rounded-[16px] border border-dashed border-[#0d1117]/[0.14] p-8 text-center text-[#5b6472]">
               No applications yet.
             </div>
           ) : (
             applicants.map((applicant) => (
-              <div key={applicant.id} className="border-2 border-[#10141b]/10 bg-[#f5f3ee] p-6">
+              <div key={applicant.id} className="rounded-[12px] bg-[#f7f8fa] p-6">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#eae8e1]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#e4e7ee]">
                       {applicant.creator_avatar ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={applicant.creator_avatar} alt={applicant.creator_name} className="h-full w-full object-cover" />
                       ) : (
-                        <span className="text-sm font-bold text-[#595e66]">
+                        <span className="text-sm font-bold text-[#5b6472]">
                           {applicant.creator_name[0]?.toUpperCase()}
                         </span>
                       )}
@@ -224,11 +224,11 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
                     <div>
                       <Link
                         href={`/creators/${applicant.creator_id}`}
-                        className="font-bold text-[#10141b] hover:text-[#1a54f0] hover:underline"
+                        className="font-bold text-[#0d1117] hover:text-[#16255c] hover:underline"
                       >
                         {applicant.creator_name}
                       </Link>
-                      <p className="text-xs text-[#8b8f96]">
+                      <p className="text-xs text-[#8b93a3]">
                         {applicant.creator_niche ?? "Content creator"} ·{" "}
                         {new Date(applicant.created_at).toLocaleDateString("en-GB")}
                       </p>
@@ -240,7 +240,7 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
                 </div>
 
                 {applicant.message ? (
-                  <p className="mt-4 text-sm leading-6 text-[#595e66]">{applicant.message}</p>
+                  <p className="mt-4 text-sm leading-6 text-[#5b6472]">{applicant.message}</p>
                 ) : null}
 
                 {applicant.status === "pending" ? (
@@ -248,14 +248,14 @@ export default function BrandEventDetailPage({ params }: { params: Promise<{ id:
                     <button
                       disabled={actioningId === applicant.id}
                       onClick={() => handleDecision(applicant.id, "accepted")}
-                      className="inline-flex items-center justify-center border-2 border-[#10141b] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#182704] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex items-center justify-center rounded-[8px] bg-[#c8f23c] px-4 py-2 text-sm font-bold text-[#101a3d] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       Add to list
                     </button>
                     <button
                       disabled={actioningId === applicant.id}
                       onClick={() => handleDecision(applicant.id, "rejected")}
-                      className="inline-flex items-center justify-center border-2 border-[#10141b]/20 px-4 py-2 text-sm font-bold text-[#10141b] transition-colors hover:border-[#10141b] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex items-center justify-center border border-[#0d1117]/[0.12] px-4 py-2 text-sm font-bold text-[#0d1117] transition-colors hover:border-[#0d1117] disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       Decline
                     </button>
